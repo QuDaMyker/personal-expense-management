@@ -1,8 +1,10 @@
-package com.learning.personal_expense_management;
+package com.learning.personal_expense_management.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.learning.personal_expense_management.R;
 
 public class MainActivity extends AppCompatActivity {
 
