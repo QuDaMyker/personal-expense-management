@@ -1,4 +1,4 @@
-package com.learning.personal_expense_management.controller;
+package com.learning.personal_expense_management.controller.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
