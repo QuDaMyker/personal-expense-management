@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "237132905209",
+    "project_id": "manage-money-66e10",
+    "storage_bucket": "manage-money-66e10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237132905209:android:a7e322e21e70d66dda4028",
+        "android_client_info": {
+          "package_name": "com.learning.personal_expense_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnxzlBMLR_FdJAPEVcWV7MuNJhchsqTz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
