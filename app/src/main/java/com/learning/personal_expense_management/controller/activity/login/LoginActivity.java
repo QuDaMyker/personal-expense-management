@@ -40,7 +40,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.activity.RootActivity;
 import com.learning.personal_expense_management.databinding.ActivityLoginBinding;
-import com.learning.personal_expense_management.model.HoSoNguoiDung;
+import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.utilities.Constants;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 
@@ -152,18 +152,27 @@ public class LoginActivity extends AppCompatActivity {
                                             Date now = new Date();
                                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             String formattedDate = dateFormat.format(now);
-                                            HoSoNguoiDung hoSoNguoiDung = new HoSoNguoiDung(personalID, personName, personEmail, "VND", "Vietnamese", "PIN", false, false, false);
+                                            UserProfile hoSoNguoiDung = new UserProfile(
+                                                    personalID,
+                                                    personName,
+                                                    personEmail,
+                                                    "VND",
+                                                    "Vietnamese",
+                                                    "PIN",
+                                                    false,
+                                                    false,
+                                                    false);
                                             String emailToCheck = personEmail;
 
 
-                                            preferenceManager.putString(Constants.KEY_EMAIL, hoSoNguoiDung.getGmail());
-                                            preferenceManager.putString(Constants.KEY_FULLNAME, hoSoNguoiDung.getTen());
+                                            preferenceManager.putString(Constants.KEY_EMAIL, hoSoNguoiDung.getEmail());
+                                            preferenceManager.putString(Constants.KEY_FULLNAME, hoSoNguoiDung.getName());
 
                                             preferenceManager.putString(Constants.KEY_DATECREATEDACCOUNT, formattedDate);
 
                                             DatabaseReference accountsRef = reference.child(KEY_PREFERENCE_ACCOUNTS);
 
-                                            Query emailQuery = accountsRef.orderByChild("gmail").equalTo(emailToCheck);
+                                            Query emailQuery = accountsRef.orderByChild(Constants.KEY_EMAIL).equalTo(emailToCheck);
 
                                             emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -181,14 +190,14 @@ public class LoginActivity extends AppCompatActivity {
                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                         if (task.isSuccessful()) {
                                                                             // Data successfully saved
-                                                                            preferenceManager.putString(Constants.KEY_FULLNAME, hoSoNguoiDung.getTen());
-                                                                            preferenceManager.putString(Constants.KEY_EMAIL, hoSoNguoiDung.getGmail());
-                                                                            preferenceManager.putString(Constants.KEY_DON_VI_TIEN_MAC_DINH, hoSoNguoiDung.getDonViTienMacDinh());
-                                                                            preferenceManager.putString(Constants.KEY_NGON_NGU, hoSoNguoiDung.getNgonNgu());
-                                                                            preferenceManager.putString(Constants.KEY_PHUONG_THUC_BAO_MAT, hoSoNguoiDung.getPhuongThucBaoMat());
-                                                                            preferenceManager.putBoolean(Constants.KEY_MEO_TIEU_VAT, hoSoNguoiDung.isMeoTieuVat());
-                                                                            preferenceManager.putBoolean(Constants.KEY_CANH_BAO_CAN_VI_TIEN, hoSoNguoiDung.isCanhBaoCanViTien());
-                                                                            preferenceManager.putBoolean(Constants.KEY_NHAC_NHO_HANG_NGAY, hoSoNguoiDung.isNhacNhoHangNgay());
+                                                                            preferenceManager.putString(Constants.KEY_FULLNAME, hoSoNguoiDung.getName());
+                                                                            preferenceManager.putString(Constants.KEY_EMAIL, hoSoNguoiDung.getEmail());
+                                                                            preferenceManager.putString(Constants.KEY_DON_VI_TIEN_MAC_DINH, hoSoNguoiDung.getDefaultCurrency());
+                                                                            preferenceManager.putString(Constants.KEY_NGON_NGU, hoSoNguoiDung.getLanguage());
+                                                                            preferenceManager.putString(Constants.KEY_PHUONG_THUC_BAO_MAT, hoSoNguoiDung.getSecurityMethod());
+                                                                            preferenceManager.putBoolean(Constants.KEY_MEO_TIEU_VAT, hoSoNguoiDung.isTip());
+                                                                            preferenceManager.putBoolean(Constants.KEY_CANH_BAO_CAN_VI_TIEN, hoSoNguoiDung.isLowBalanceAlert());
+                                                                            preferenceManager.putBoolean(Constants.KEY_NHAC_NHO_HANG_NGAY, hoSoNguoiDung.isDailyReminders());
                                                                             preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                                                                             preferenceManager.putBoolean(Constants.KEY_FIRST_INSTALL, true);
 
