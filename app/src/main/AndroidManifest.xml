@@ -13,27 +13,31 @@
         android:theme="@style/Theme.Personalexpensemanagement"
         tools:targetApi="31">
         <activity
-            android:name=".controller.activity.loan.NewLoanActivity"
+            android:name=".controller.activity.transaction.activity.TransactionAddActivity_SelectionWallet"
             android:exported="false" />
         <activity
-            android:name=".controller.activity.loan.LoanActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".controller.activity.transaction.activity.TransactionAddActivity_SelectionAccount"
+            android:exported="false" />
         <activity
-            android:name=".controller.HomeActivity"
+            android:name=".controller.activity.transaction.activity.TransactionAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.activity.transaction.activity.TransactionFilterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.activity.RootActivity"
             android:exported="false" />
         <activity
             android:name=".controller.activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.activity.RootActivity"
+            android:name=".controller.activity.login.LoginActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
