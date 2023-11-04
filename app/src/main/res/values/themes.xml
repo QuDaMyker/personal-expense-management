@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Personalexpensemanagement" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.Personalexpensemanagement" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/primary40</item>
@@ -21,5 +21,9 @@
     </style>
     <style name="CustomChipStyle" parent="Widget.Material3.Chip.Filter">
 
+    </style>
+
+    <style name="Spinner.DropDown" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/background_spinner</item>
     </style>
 </resources>
