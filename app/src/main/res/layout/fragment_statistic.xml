@@ -3,12 +3,347 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.fragment.StatisticFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".controller.fragment.StatisticFragment"
+    android:background="@drawable/background_color_main"
+    android:layout_gravity="center">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="312dp"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_gravity="center"
+        >
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="Thống kê"
+                android:textColor="@color/primary40"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/btnToTransaction"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                app:srcCompat="@drawable/clipboard_full_24px"
+                android:scaleType="center"
+                android:background="@drawable/custom_button_bg"
+                app:iconGravity="textTop" />
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:id="@+id/lnFilterTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/background_color_secondary80_outline"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lystatistics"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_color_white_outline"
+                    android:elevation="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvText"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="Số dư"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:textColor="@color/secondary40"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvBalanceMoney"
+                        app:layout_constraintTop_toBottomOf="@id/tvText"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="18.000.000đ"
+                        android:textSize="32sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textColor="@color/primary40"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="139dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/lyIncome"
+                        android:background="@drawable/background_color_secondary80_outline"
+                        app:layout_constraintTop_toBottomOf="@id/tvBalanceMoney"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="20dp"
+                        >
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/icon1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            >
+
+                            <ImageView
+                                android:layout_width="23dp"
+                                android:layout_height="23dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/background_green"
+                                app:srcCompat="@drawable/icon_income"
+                                android:scaleType="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintLeft_toRightOf="@+id/icon1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Thu nhập"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/quicksand_medium"
+                                android:textSize="12sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tvIncomeNum"
+                                android:layout_marginBottom="10dp"
+                                android:maxLines="1"
+                                android:ellipsize="marquee"
+                                android:text="+20.000.000.000 vnd"
+                                android:fontFamily="@font/quicksand_bold"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+                        
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="139dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/lyOutcome"
+                        android:background="@drawable/background_color_secondary80_outline"
+                        app:layout_constraintTop_toBottomOf="@id/tvBalanceMoney"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginBottom="20dp"
+                        >
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/icon2"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            >
+
+                            <ImageView
+                                android:layout_width="23dp"
+                                android:layout_height="23dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/background_green"
+                                android:backgroundTint="@color/primary40"
+                                app:srcCompat="@drawable/icon_outcome"
+                                android:scaleType="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintLeft_toRightOf="@+id/icon2"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Chi tiêu"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/quicksand_medium"
+                                android:textSize="12sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tvOutcomeNum"
+                                android:layout_marginBottom="10dp"
+                                android:maxLines="1"
+                                android:ellipsize="marquee"
+                                android:text="-5.000.000.000 vnd"
+                                android:fontFamily="@font/quicksand_bold"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/icon_sliders"
+                        android:scaleType="center"
+                        />
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/filterCol"
+                        android:spinnerMode="dropdown"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyTotalDiagram"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/background_color_white_outline"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_color_white_outline"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvThu"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="Thu nhập"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvTongCong"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:text="Tổng cộng"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvTotalIncomeMoney"
+                        app:layout_constraintTop_toBottomOf= "@id/tvTongCong"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:text="20.000.000 vnd"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_color_white_outline"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvChi"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="Chi tiêu"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvTongCongChi"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:text="Tổng cộng"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvTotalOutcomeMoney"
+                        app:layout_constraintTop_toBottomOf= "@id/tvTongCongChi"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:text="5.000.000 vnd"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
