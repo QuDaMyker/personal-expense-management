@@ -13,16 +13,13 @@
         android:theme="@style/Theme.Personalexpensemanagement"
         tools:targetApi="31">
         <activity
-            android:name=".controller.activity.login.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".controller.HomeActivity"
+            android:name=".controller.activity.RootActivity"
             android:exported="false" />
         <activity
             android:name=".controller.activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.activity.RootActivity"
+            android:name=".controller.activity.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
