@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "237132905209",
+    "firebase_url": "https://manage-money-66e10-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "manage-money-66e10",
     "storage_bucket": "manage-money-66e10.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.learning.personal_expense_management"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "237132905209-tt804s85ug5npsccgvthalon79ruftqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.learning.personal_expense_management",
+            "certificate_hash": "01d77ae5e5007b3478d7063461696f4f39167504"
+          }
+        },
+        {
+          "client_id": "237132905209-sjasig3tnqjjstf43em7h0bv55751794.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBnxzlBMLR_FdJAPEVcWV7MuNJhchsqTz4"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237132905209-sjasig3tnqjjstf43em7h0bv55751794.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
