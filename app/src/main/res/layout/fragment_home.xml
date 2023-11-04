@@ -130,7 +130,7 @@
                         android:layout_height="75dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:src="@drawable/ic_example"
+                        android:src="@drawable/ic_your_account"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -169,11 +169,11 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="65dp"
+                        android:layout_width="80dp"
                         android:layout_height="75dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:src="@drawable/ic_example"
+                        android:src="@drawable/ic_your_wallet"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

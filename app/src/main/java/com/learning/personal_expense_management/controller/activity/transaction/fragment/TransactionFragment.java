@@ -1,5 +1,6 @@
 package com.learning.personal_expense_management.controller.activity.transaction.fragment;
 
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 
@@ -14,6 +15,9 @@ import android.widget.Toast;
 
 import com.google.type.DateTime;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.activity.transaction.activity.TransactionAddActivity_SelectionAccount;
+import com.learning.personal_expense_management.controller.activity.transaction.activity.TransactionAddActivity_SelectionWallet;
+import com.learning.personal_expense_management.controller.activity.transaction.activity.TransactionFilterActivity;
 import com.learning.personal_expense_management.databinding.FragmentTransactionBinding;
 
 import java.time.Year;
@@ -49,7 +53,8 @@ public class TransactionFragment extends Fragment {
 
     private void setListeners() {
         binding.imgFilter.setOnClickListener(v -> {
-
+            Intent intent = new Intent(getContext(), TransactionAddActivity_SelectionWallet.class);
+            startActivity(intent);
         });
 
         binding.imgPreYear.setOnClickListener(v -> {
