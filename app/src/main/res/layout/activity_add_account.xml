@@ -70,7 +70,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/visa_logo"/>
+                    android:src="@drawable/ic_money_2"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     android:textFontWeight="600"
                     android:textColor="@color/secondary20"
                     android:textSize="16sp"
-                    android:text="Thẻ thanh toán quốc tế"
+                    android:text="Tiền mặt"
                     android:layout_marginStart="20dp"/>
 
                 <ImageView
@@ -94,6 +94,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginBottom="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wallet_bg"
+                    android:scaleType="centerCrop"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="30dp">
+                    <TextView
+                        android:id="@+id/labelBalanceWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="32sp"
+                        android:textColor="@color/white"
+                        android:text="18,000,000₫"/>
+
+                    <TextView
+                        android:id="@+id/tvBalanceWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toTopOf="@id/labelBalanceWallet"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:text="Số dư tài khoản"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/cardLayout"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -155,72 +196,79 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </FrameLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textFontWeight="600"
-                android:textSize="16sp"
-                android:textColor="@color/secondary20"
-                android:text="Tên thẻ"
-                android:layout_marginBottom="10dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
+                android:id="@+id/cardFormSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nhập tên thẻ"
-                app:errorEnabled="true">
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary20"
+                    android:text="Tên thẻ"
+                    android:layout_marginBottom="10dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textFontWeight="400"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="Nhập tên thẻ"
+                    app:errorEnabled="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textFontWeight="600"
-                android:textSize="16sp"
-                android:textColor="@color/secondary20"
-                android:text="Số thẻ"
-                android:layout_marginBottom="10dp"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textFontWeight="400"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nhập số thẻ"
-                app:errorEnabled="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary20"
+                    android:text="Số thẻ"
+                    android:layout_marginBottom="10dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textFontWeight="400"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="Nhập số thẻ"
+                    app:errorEnabled="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textFontWeight="600"
-                android:textSize="16sp"
-                android:textColor="@color/secondary20"
-                android:text="Ngày hết hạn"
-                android:layout_marginBottom="10dp"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textFontWeight="400"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:endIconDrawable="@drawable/ic_date_picker"
-                app:endIconMode="custom"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary20"
+                    android:text="Ngày hết hạn"
+                    android:layout_marginBottom="10dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:inputType="none"
-                    android:hint="Bấm để chọn ngày hết hạn"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginBottom="20dp"
+                    app:endIconDrawable="@drawable/ic_date_picker"
+                    app:endIconMode="custom"
+                    app:hintEnabled="false">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:hint="Bấm để chọn ngày hết hạn"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
