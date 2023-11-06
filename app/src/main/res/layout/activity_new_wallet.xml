@@ -168,7 +168,7 @@
                 android:hint="Ngày"
                 android:inputType="date"
                 android:textAlignment="textStart"
-                android:drawableRight="@drawable/ic_trailing"/>
+                android:drawableRight="@drawable/ic_calendar"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

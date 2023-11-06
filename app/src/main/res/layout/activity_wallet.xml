@@ -34,24 +34,34 @@
             android:layout_marginRight="30dp"/>
     </com.google.android.material.appbar.MaterialToolbar>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_wallet"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/top_app_bar" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/new_loan_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/custom_button_bg"
             android:padding="8dp"
             android:text="Tạo ví tiền mới"
-            android:textSize="20sp"
             android:textFontWeight="700"
+            android:textSize="20sp"
+            app:backgroundTint="@null"
             app:icon="@drawable/ic_plus_square"
             app:iconGravity="textStart"
-            app:backgroundTint="@null"
-            android:background="@drawable/custom_button_bg"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
