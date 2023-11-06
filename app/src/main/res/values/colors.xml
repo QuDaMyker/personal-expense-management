@@ -19,6 +19,15 @@
     <color name="secondary80">#f4f4f4</color>
 
     <color name="green">#00a86b</color>
+    <color name="colorItem1">#BDDCFF</color>
+    <color name="colorItem2">#FDD4D7</color>
+    <color name="colorItem3">#FDDED4</color>
+    <color name="colorItem4">#FCEED4</color>
+    <color name="colorItem5">#EEE5FF</color>
+    <color name="colorItem6">#DEFCD4</color>
+    <color name="colorItem7">#FCD4E5</color>
+    <color name="colorItem8">#CFFAEA</color>
+
 
 
 </resources>

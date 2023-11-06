@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".controller.fragment.CategoryFragment"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/background_color_main">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageButton
+                android:id="@+id/btn_Back"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_left"
+                app:tint="@color/secondary40" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="Danh mục"
+                android:textFontWeight="700"
+                android:textColor="@color/primary40"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/btnToTransaction"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                app:srcCompat="@drawable/icon_search"
+                android:background="@drawable/custom_button_bg"
+                app:iconGravity="textTop" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlFilterTime"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:background="@drawable/background_color_secondary80_outline"
+            app:tabBackground="@drawable/background_tab_selector"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="@color/black"
+            app:tabTextColor="@color/secondary60"
+            >
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Chi tiêu"
+                android:id="@+id/itemOut"
+                />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Thu nhập"
+                android:id="@+id/itemIn"/>
+
+        </com.google.android.material.tabs.TabLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rcvCategories"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Tạo danh mục mới"
+            android:textSize="20sp"
+            android:textFontWeight="700"
+            app:backgroundTint="@null"
+            android:background="@drawable/custom_button_bg"
+            app:icon="@drawable/ic_plus_square"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconSize="23dp"
+
+            />
+    </LinearLayout>
+
+</FrameLayout>
