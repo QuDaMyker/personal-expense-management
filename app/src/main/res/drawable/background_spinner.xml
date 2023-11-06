@@ -10,7 +10,12 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:gravity="center|right"  android:src="@drawable/ic_chevron_down"/>
+                <inset
+                    android:drawable="@drawable/ic_chevron_down"
+                    android:insetRight="15dp"
+                    android:insetLeft="335dp"
+                    android:insetBottom="22dp"
+                    android:insetTop="22dp"/>
             </item>
         </layer-list>
     </item>

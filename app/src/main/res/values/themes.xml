@@ -23,4 +23,14 @@
     <style name="Spinner.DropDown" parent="Widget.AppCompat.Spinner">
         <item name="android:background">@drawable/background_spinner</item>
     </style>
+
+    <style name="AppCompat.CompoundButtonRadioButton" parent="android:Widget">
+        <item name="android:background">@drawable/background_radio_button</item>
+        <item name="android:button">@drawable/button_radio</item>
+    </style>
+
+    <style name="Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:trackTint">@color/primary60</item>
+        <item name="android:thumbTint">@drawable/thumb_switch</item>
+    </style>
 </resources>

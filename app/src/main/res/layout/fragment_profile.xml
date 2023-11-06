@@ -121,7 +121,8 @@
                 android:text="Chế độ tối"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                style="@style/Switch"/>
 
         </LinearLayout>
 
