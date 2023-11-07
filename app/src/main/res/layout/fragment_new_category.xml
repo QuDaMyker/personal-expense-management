@@ -43,168 +43,654 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên danh mục"
-            android:textFontWeight="600"
-            android:textSize="16dp"
-
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="Nhập số tiền cho vay"
-            app:errorEnabled="true"
-            app:suffixText="₫">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textFontWeight="400" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Màu sắc"
-            android:textFontWeight="600"
-            android:textSize="16dp" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/background_color_secondary80_outline"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="5dp"
-            app:chipSpacingVertical="0dp"
-            app:singleSelection="true">
-
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:outlineProvider="none"
-                android:paddingStart="0dp">
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên danh mục"
+                    android:textFontWeight="600"
+                    android:textSize="16dp"
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem1"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    android:checked="false"
-                    app:chipBackgroundColor="@color/colorItem1"
-                    app:chipCornerRadius="25dp"
-                    app:chipEndPadding="0dp"
-                    app:chipIconSize="30dp"
-                    app:chipStartPadding="18dp"
-                    app:chipStrokeWidth="0dp"
-                    app:iconEndPadding="0dp"
                     />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem2"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem2"
-                    app:chipCornerRadius="25dp"
-                    app:chipStrokeWidth="0dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Nhập tên danh mục"
+                    app:errorEnabled="true"
+                    app:suffixText="₫">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem3"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem3"
-                    app:chipCornerRadius="25dp"
-                    app:chipStrokeWidth="0dp" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textFontWeight="400" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem4"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem4"
-                    app:chipCornerRadius="35dp"
-                    app:chipStrokeWidth="0dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Màu sắc"
+                    android:textFontWeight="600"
+                    android:textSize="16dp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/background_color_secondary80_outline"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="5dp"
+                    app:chipSpacingVertical="0dp"
+                    app:singleSelection="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:outlineProvider="none"
+                        android:paddingStart="0dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem1"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_weight="1"
+                            android:checked="false"
+                            app:chipBackgroundColor="@color/colorItem1"
+                            app:chipCornerRadius="25dp"
+                            app:chipEndPadding="0dp"
+                            app:chipIconSize="30dp"
+                            app:chipStartPadding="18dp"
+                            app:chipStrokeWidth="0dp"
+                            app:iconEndPadding="0dp"
+                            />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem2"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem2"
+                            app:chipCornerRadius="25dp"
+                            app:chipStrokeWidth="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem3"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem3"
+                            app:chipCornerRadius="25dp"
+                            app:chipStrokeWidth="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem4"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem4"
+                            app:chipCornerRadius="35dp"
+                            app:chipStrokeWidth="0dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:outlineProvider="none">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem5"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem5"
+                            app:chipCornerRadius="25dp"
+                            app:chipEndPadding="0dp"
+                            app:chipIconSize="30dp"
+                            app:chipStartPadding="18dp"
+                            app:chipStrokeWidth="0dp"
+                            app:iconEndPadding="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem6"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem6"
+                            app:chipCornerRadius="25dp"
+                            app:chipStrokeWidth="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem7"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem7"
+                            app:chipCornerRadius="25dp"
+                            app:chipStrokeWidth="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/clItem8"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="0dp"
+                            android:layout_height="65dp"
+                            android:layout_weight="1"
+                            app:chipBackgroundColor="@color/colorItem8"
+                            app:chipCornerRadius="35dp"
+                            app:chipStrokeWidth="0dp" />
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.chip.ChipGroup>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Biểu tượng"
+                    android:textFontWeight="600"
+                    android:textSize="16dp" />
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:background="@drawable/background_color_secondary80_outline"
+                    >
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+                            <RadioButton
+
+                                android:id="@+id/icMoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_money"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icBeauty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_beauty_heart"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icPlane"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_airplane"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icAtm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_atm"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icRepair"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_repair"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+                            >
+                            <RadioButton
+                                android:id="@+id/icCaseTravel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_case_travel"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:layout_marginRight="20dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icMetro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_train_metro"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icFeeTax"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_fee_tax"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icLetter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_envelope"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icShopping"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/icon_shopping"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+                            >
+                            <RadioButton
+                                android:id="@+id/icGear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_gear"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icSafeSaving"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_safe_saving"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icWallet"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/icon_wallet_earnings"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icFork"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_restaurant_fork"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icMedicine"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/icon_drugs"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+                            >
+                            <RadioButton
+                                android:id="@+id/icClock"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_pending_time_wait_transaction_clock"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icWater"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_water_tap"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icCash"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_interest"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icSnow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_snow"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icTag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_label_price"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+                            >
+                            <RadioButton
+                                android:id="@+id/icKid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_kid_care_stroller"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icSheld"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_insurance_shield"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icHome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/outline_home_24"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icKite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_kite_hobby"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icHospotal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_hospital"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+                            >
+                            <RadioButton
+                                android:id="@+id/icGym"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_sport_gym"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icGift"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_gift_box"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icFuel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_station_fuel"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icApple"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_apple"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icMask"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_mask"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp"
+
+                            >
+                            <RadioButton
+                                android:id="@+id/icComputer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_computer"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icHeartCalender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_social_heart_donation_care_calendar"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icTshirt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_tshirt"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+
+                                />
+                            <RadioButton
+                                android:id="@+id/icCar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_car_drive"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                            <RadioButton
+                                android:id="@+id/icDrink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@android:color/transparent"
+                                android:drawableStart="@drawable/ic_coffee_bistro"
+                                android:drawableTint="@color/primary40"
+                                android:padding="10dp"
+                                android:background="@drawable/ic_background_selector"
+                                />
+                        </LinearLayout>
+                    </RadioGroup>
+                </ScrollView>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Tạo danh mục mới"
+                    android:textSize="20sp"
+                    android:textFontWeight="700"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/custom_button_bg"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:outlineProvider="none">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem5"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem5"
-                    app:chipCornerRadius="25dp"
-                    app:chipEndPadding="0dp"
-                    app:chipIconSize="30dp"
-                    app:chipStartPadding="18dp"
-                    app:chipStrokeWidth="0dp"
-                    app:iconEndPadding="0dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem6"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem6"
-                    app:chipCornerRadius="25dp"
-                    app:chipStrokeWidth="0dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem7"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem7"
-                    app:chipCornerRadius="25dp"
-                    app:chipStrokeWidth="0dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/clItem8"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="0dp"
-                    android:layout_height="65dp"
-                    android:layout_weight="1"
-                    app:chipBackgroundColor="@color/colorItem8"
-                    app:chipCornerRadius="35dp"
-                    app:chipStrokeWidth="0dp" />
-
-
-            </LinearLayout>
-
-
-        </com.google.android.material.chip.ChipGroup>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Biểu tượng"
-            android:textFontWeight="600"
-            android:textSize="16dp" />
-
+        </ScrollView>
 
     </LinearLayout>
 
