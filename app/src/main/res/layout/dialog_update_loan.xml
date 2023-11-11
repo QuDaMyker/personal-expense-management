@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:padding="20dp"
+    android:background="@drawable/background_color_white_outline">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trả tiền khoản vay"
+        android:textFontWeight="700"
+        android:textSize="24sp"
+        android:textColor="@color/primary40"
+        android:layout_marginBottom="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        android:textColor="@color/secondary20"
+        android:text="Số tiền trả"
+        android:layout_marginBottom="10dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="Nhập số tiền trả">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textFontWeight="400"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trả toàn bộ tiền còn lại"
+        android:textSize="14sp"
+        android:textFontWeight="600"
+        android:textColor="@color/secondary40"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/secondary80"
+            android:textFontWeight="700"
+            android:text="Hủy"
+            android:textColor="@color/secondary40"
+            android:textSize="16sp"
+            android:layout_marginEnd="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/primary90"
+            android:textFontWeight="700"
+            android:text="OK"
+            android:textColor="@color/primary40"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

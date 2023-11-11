@@ -19,6 +19,9 @@
     <style name="Widget.Button" parent="android:Widget">
         <item name="android:background">@color/primary40</item>
     </style>
+    <style name="CustomChipStyle" parent="Widget.Material3.Chip.Filter">
+
+    </style>
     <style name="Spinner.DropDown" parent="Widget.AppCompat.Spinner">
         <item name="android:background">@drawable/background_spinner</item>
     </style>
