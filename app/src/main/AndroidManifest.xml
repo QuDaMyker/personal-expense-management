@@ -20,17 +20,6 @@
             android:exported="false" />
         <activity
             android:name=".controller.activity.login.LoginActivity"
-            android:exported="false" />
-
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-
-
-        <activity android:name=".controller.activity.wallet.NewWalletActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +27,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".controller.activity.wallet.NewWalletActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.NotifyActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.PolicyActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.SecurityActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.CurrencyUnitActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.LanguageActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.wallet.WalletActivity"
+            android:exported="false"/>
 
     </application>
 

@@ -7,6 +7,7 @@
     android:background="@drawable/background_color_main"
     tools:context=".controller.fragment.ProfileFragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.appbar.MaterialToolbar
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
             android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="15dp">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/tv_user_name"
@@ -112,11 +113,11 @@
                     app:srcCompat="@drawable/ic_night_mode" />
             </FrameLayout>
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_night_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
@@ -124,7 +125,8 @@
                 android:textColor="@color/black"
                 android:textFontWeight="600"
                 android:textSize="18sp"
-                style="@style/Switch"/>
+                android:checked="true"
+                style="@style/Theme.Switch"/>
 
         </LinearLayout>
 
@@ -132,17 +134,18 @@
             android:id="@+id/line_currency_unit"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:background="@drawable/background_color_white_outline">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_color_white_outline"
+            android:clickable="true"
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -153,8 +156,8 @@
             <TextView
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Đơn vị tiền tệ"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
@@ -183,8 +186,9 @@
             android:id="@+id/line_language"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
+            android:clickable="true"
             android:background="@drawable/background_color_white_outline">
 
             <FrameLayout
@@ -202,7 +206,7 @@
             </FrameLayout>
 
             <TextView
-                android:layout_width="160dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
@@ -213,7 +217,7 @@
 
             <TextView
                 android:id="@+id/tv_language"
-                android:layout_width="90dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Tiếng Việt"
@@ -234,8 +238,9 @@
             android:id="@+id/line_security"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
+            android:clickable="true"
             android:background="@drawable/background_color_white_outline">
 
             <FrameLayout
@@ -285,8 +290,9 @@
             android:id="@+id/line_notification"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
+            android:clickable="true"
             android:background="@drawable/background_color_white_outline">
 
             <FrameLayout
@@ -325,8 +331,9 @@
             android:id="@+id/line_policy"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
+            android:clickable="true"
             android:background="@drawable/background_color_white_outline">
 
             <FrameLayout
@@ -365,8 +372,9 @@
             android:id="@+id/line_log_out"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
+            android:clickable="true"
             android:background="@drawable/background_color_white_outline">
 
             <FrameLayout

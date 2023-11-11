@@ -4,15 +4,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.learning.personal_expense_management.R;
 
-public class CurrencyUnitActivity extends AppCompatActivity {
+public class NotifyActivity extends AppCompatActivity {
     ImageButton btnBack;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_currency_unit_profile);
+        setContentView(R.layout.activity_notify_profile);
 
         btnBack = findViewById(R.id.btn_Back);
         btnBack.setOnClickListener(new View.OnClickListener() {

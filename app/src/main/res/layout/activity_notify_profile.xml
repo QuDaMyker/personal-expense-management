@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".controller.activity.profile.NotifyActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         app:layout_constraintTop_toTopOf="parent"
@@ -47,11 +50,11 @@
             android:orientation="horizontal"
             android:background="@drawable/background_color_secondary80_outline">
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
@@ -59,7 +62,7 @@
                 android:textColor="@color/black"
                 android:textFontWeight="600"
                 android:textSize="18sp"
-                style="@style/Switch"/>
+                style="@style/Theme.Switch"/>
         </LinearLayout>
 
         <LinearLayout
@@ -70,11 +73,11 @@
             android:orientation="horizontal"
             android:background="@drawable/background_color_secondary80_outline">
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_warning_wallet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
@@ -82,7 +85,7 @@
                 android:textColor="@color/black"
                 android:textFontWeight="600"
                 android:textSize="18sp"
-                style="@style/Switch"/>
+                style="@style/Theme.Switch"/>
         </LinearLayout>
 
         <LinearLayout
@@ -93,11 +96,11 @@
             android:orientation="horizontal"
             android:background="@drawable/background_color_secondary80_outline">
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_daily_remind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
@@ -106,7 +109,7 @@
                 android:textFontWeight="600"
                 android:textSize="18sp"
                 android:checked="true"
-                style="@style/Switch"/>
+                style="@style/Theme.Switch"/>
         </LinearLayout>
     </LinearLayout>
 

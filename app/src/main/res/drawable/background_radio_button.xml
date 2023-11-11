@@ -20,24 +20,24 @@
 
     </item>
 
-    <item android:state_checked="true">
-        <layer-list>
-            <item>
-                <shape android:layout_width="wrap_content">
-                    <solid android:color="@color/primary80" />
-                    <corners android:radius="20dp" />
-                </shape>
-            </item>
-            <item>
-                <inset
-                    android:drawable="@drawable/ic_check_circle_gradient"
-                    android:insetRight="20dp"
-                    android:insetLeft="325dp"
-                    android:insetBottom="22dp"
-                    android:insetTop="22dp"/>
-            </item>
-        </layer-list>
-    </item>
+<!--    <item android:state_checked="true">-->
+<!--        <layer-list>-->
+<!--            <item>-->
+<!--                <shape android:layout_width="wrap_content">-->
+<!--                    <solid android:color="@color/primary80" />-->
+<!--                    <corners android:radius="20dp" />-->
+<!--                </shape>-->
+<!--            </item>-->
+<!--            <item>-->
+<!--                <inset-->
+<!--                    android:drawable="@drawable/ic_check_circle_gradient"-->
+<!--                    android:insetRight="20dp"-->
+<!--                    android:insetLeft="325dp"-->
+<!--                    android:insetBottom="22dp"-->
+<!--                    android:insetTop="22dp"/>-->
+<!--            </item>-->
+<!--        </layer-list>-->
+<!--    </item>-->
 
     <item android:drawable="@null">
         <shape android:layout_width="wrap_content">
