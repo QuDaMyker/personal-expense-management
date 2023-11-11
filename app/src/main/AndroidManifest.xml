@@ -47,6 +47,30 @@
             android:exported="true">
 
         </activity>
+
+
+        <activity
+            android:name=".controller.activity.wallet.NewWalletActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.NotifyActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.PolicyActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.SecurityActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.CurrencyUnitActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.profile.LanguageActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".controller.activity.wallet.WalletActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

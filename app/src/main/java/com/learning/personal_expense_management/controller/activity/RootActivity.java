@@ -11,7 +11,7 @@ import android.os.Bundle;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.fragment.AddFragment;
 import com.learning.personal_expense_management.controller.fragment.HomeFragment;
-import com.learning.personal_expense_management.controller.fragment.PersonalFragment;
+import com.learning.personal_expense_management.controller.fragment.ProfileFragment;
 import com.learning.personal_expense_management.controller.fragment.StatisticFragment;
 import com.learning.personal_expense_management.controller.activity.transaction.fragment.TransactionFragment;
 import com.learning.personal_expense_management.databinding.ActivityRootBinding;
@@ -50,7 +50,7 @@ public class RootActivity extends AppCompatActivity {
                     break;
                 }
                 case R.id.btn_personal:{
-                    replaceFragment(new PersonalFragment());
+                    replaceFragment(new ProfileFragment());
                      break;
                 }
             }
