@@ -17,19 +17,21 @@
             android:exported="false" />
         <activity
             android:name=".controller.activity.loan.LoanActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".controller.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".controller.activity.MainActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".controller.activity.RootActivity"
             android:exported="true">

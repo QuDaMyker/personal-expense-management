@@ -82,131 +82,231 @@
                     android:textFontWeight="600"
                     android:textSize="16dp" />
 
-                <com.google.android.material.chip.ChipGroup
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="5dp"
-                    app:chipSpacingVertical="0dp"
-                    app:singleSelection="true">
-
-                    <LinearLayout
+                    >
+                    <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:outlineProvider="none"
-                        android:paddingStart="0dp">
-
-                        <com.google.android.material.chip.Chip
+                        android:paddingVertical="10dp"
+                        android:columnCount="4"
+                        android:rowCount="2"
+                        >
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem1"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_weight="1"
-                            android:checked="false"
-                            app:chipBackgroundColor="@color/colorItem1"
-                            app:chipCornerRadius="25dp"
-                            app:chipEndPadding="0dp"
-                            app:chipIconSize="30dp"
-                            app:chipStartPadding="18dp"
-                            app:chipStrokeWidth="0dp"
-                            app:iconEndPadding="0dp"
+                            android:layout_row="0"
+                            android:layout_column="0"
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:backgroundTint="@color/colorItem1"
                             />
-
-                        <com.google.android.material.chip.Chip
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem2"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem2"
-                            app:chipCornerRadius="25dp"
-                            app:chipStrokeWidth="0dp" />
-
-                        <com.google.android.material.chip.Chip
+                            android:layout_marginLeft="25dp"
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:backgroundTint="@color/colorItem2"
+                            />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem3"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="25dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem3"
-                            app:chipCornerRadius="25dp"
-                            app:chipStrokeWidth="0dp" />
-
-                        <com.google.android.material.chip.Chip
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:backgroundTint="@color/colorItem3"
+        
+                            />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem4"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="25dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem4"
-                            app:chipCornerRadius="35dp"
-                            app:chipStrokeWidth="0dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:outlineProvider="none">
-
-                        <com.google.android.material.chip.Chip
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:backgroundTint="@color/colorItem4"
+                            />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem5"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem5"
-                            app:chipCornerRadius="25dp"
-                            app:chipEndPadding="0dp"
-                            app:chipIconSize="30dp"
-                            app:chipStartPadding="18dp"
-                            app:chipStrokeWidth="0dp"
-                            app:iconEndPadding="0dp" />
-
-                        <com.google.android.material.chip.Chip
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:backgroundTint="@color/colorItem5"
+                            android:layout_marginTop="15dp"
+    
+                            />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem6"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem6"
-                            app:chipCornerRadius="25dp"
-                            app:chipStrokeWidth="0dp" />
+                            android:layout_marginLeft="25dp"
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:backgroundTint="@color/colorItem6"
+                            android:layout_marginTop="15dp"
 
-                        <com.google.android.material.chip.Chip
+    
+                            />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem7"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="25dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem7"
-                            app:chipCornerRadius="25dp"
-                            app:chipStrokeWidth="0dp" />
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:backgroundTint="@color/colorItem7"
+                            android:layout_marginTop="15dp"
 
-                        <com.google.android.material.chip.Chip
+                            />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem8"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="0dp"
-                            android:layout_height="65dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="25dp"
                             android:layout_weight="1"
-                            app:chipBackgroundColor="@color/colorItem8"
-                            app:chipCornerRadius="35dp"
-                            app:chipStrokeWidth="0dp" />
+                            android:background="@drawable/custom_radiobutton_color"
+                            android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:backgroundTint="@color/colorItem8"
+                            android:layout_marginTop="15dp"
+
+                            />
+                    </GridLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:outlineProvider="none"-->
+<!--                        android:paddingVertical="10dp"-->
+<!--                        >-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:buttonTint="@color/white"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:backgroundTint="@color/colorItem1"-->
+
+<!--                            />-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem2"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_marginLeft="25dp"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:buttonTint="@color/white"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:backgroundTint="@color/colorItem2"-->
+<!--                            />-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem3"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_marginLeft="25dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:buttonTint="@color/white"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:backgroundTint="@color/colorItem3"-->
+
+<!--                            />-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem4"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_marginLeft="25dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:backgroundTint="@color/colorItem4"-->
+
+<!--                            />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:outlineProvider="none"-->
+<!--                        android:paddingVertical="10dp"-->
+<!--                        >-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem5"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:buttonTint="@color/white"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:backgroundTint="@color/colorItem5"-->
+
+<!--                            />-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem6"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_marginLeft="25dp"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:buttonTint="@color/white"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:backgroundTint="@color/colorItem6"-->
 
 
-                    </LinearLayout>
+<!--                            />-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem7"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_marginLeft="25dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:buttonTint="@color/white"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:backgroundTint="@color/colorItem7"-->
+
+<!--                            />-->
+<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                            android:id="@+id/clItem8"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="65dp"-->
+<!--                            android:layout_marginLeft="25dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="@drawable/custom_radiobutton_color"-->
+<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
+<!--                            android:backgroundTint="@color/colorItem8"-->
+
+<!--                            />-->
+<!--                    </LinearLayout>-->
 
 
-                </com.google.android.material.chip.ChipGroup>
+                </RadioGroup>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -223,13 +323,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         >
-                        <LinearLayout
+                        <GridLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
+                            android:rowCount="7"
+                            android:columnCount="5">
                             <RadioButton
-
                                 android:id="@+id/icMoney"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -284,14 +383,6 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-                            >
                             <RadioButton
                                 android:id="@+id/icCaseTravel"
                                 android:layout_width="wrap_content"
@@ -301,12 +392,14 @@
                                 android:drawableTint="@color/primary40"
                                 android:padding="10dp"
                                 android:layout_marginRight="20dp"
+                                android:layout_marginTop="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
                             <RadioButton
                                 android:id="@+id/icMetro"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_train_metro"
@@ -319,6 +412,7 @@
                                 android:id="@+id/icFeeTax"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_fee_tax"
@@ -331,6 +425,7 @@
                                 android:id="@+id/icLetter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_envelope"
@@ -341,6 +436,7 @@
                             <RadioButton
                                 android:id="@+id/icShopping"
                                 android:layout_width="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_height="wrap_content"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/icon_shopping"
@@ -348,16 +444,9 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-                            >
                             <RadioButton
                                 android:id="@+id/icGear"
+                                android:layout_marginTop="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
@@ -371,6 +460,7 @@
                                 android:id="@+id/icSafeSaving"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
 
                                 android:button="@android:color/transparent"
@@ -384,6 +474,7 @@
                                 android:id="@+id/icWallet"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/icon_wallet_earnings"
@@ -396,6 +487,7 @@
                                 android:id="@+id/icFork"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_restaurant_fork"
@@ -407,25 +499,18 @@
                                 android:id="@+id/icMedicine"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/icon_drugs"
                                 android:drawableTint="@color/primary40"
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-                            >
                             <RadioButton
                                 android:id="@+id/icClock"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_pending_time_wait_transaction_clock"
@@ -437,6 +522,7 @@
                                 android:id="@+id/icWater"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_water_tap"
@@ -449,6 +535,7 @@
                                 android:id="@+id/icCash"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_interest"
@@ -461,6 +548,7 @@
                                 android:id="@+id/icSnow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_snow"
@@ -475,22 +563,16 @@
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_label_price"
                                 android:drawableTint="@color/primary40"
+                                android:layout_marginTop="10dp"
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-                            >
                             <RadioButton
                                 android:id="@+id/icKid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
+                                android:layout_marginTop="10dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_kid_care_stroller"
                                 android:drawableTint="@color/primary40"
@@ -501,6 +583,7 @@
                                 android:id="@+id/icSheld"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
 
                                 android:button="@android:color/transparent"
@@ -514,6 +597,7 @@
                                 android:id="@+id/icHome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/outline_home_24"
@@ -527,6 +611,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
+                                android:layout_marginTop="10dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_kite_hobby"
                                 android:drawableTint="@color/primary40"
@@ -537,24 +622,18 @@
                                 android:id="@+id/icHospotal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_hospital"
                                 android:drawableTint="@color/primary40"
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-                            >
                             <RadioButton
                                 android:id="@+id/icGym"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_sport_gym"
@@ -566,6 +645,7 @@
                                 android:id="@+id/icGift"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
 
                                 android:button="@android:color/transparent"
@@ -581,6 +661,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
+                                android:layout_marginTop="10dp"
                                 android:drawableStart="@drawable/ic_station_fuel"
                                 android:drawableTint="@color/primary40"
                                 android:padding="10dp"
@@ -590,6 +671,7 @@
                             <RadioButton
                                 android:id="@+id/icApple"
                                 android:layout_width="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
@@ -600,6 +682,7 @@
                                 />
                             <RadioButton
                                 android:id="@+id/icMask"
+                                android:layout_marginTop="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:button="@android:color/transparent"
@@ -608,18 +691,10 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-
-                            >
                             <RadioButton
                                 android:id="@+id/icComputer"
                                 android:layout_width="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
@@ -631,6 +706,7 @@
                             <RadioButton
                                 android:id="@+id/icHeartCalender"
                                 android:layout_width="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
 
@@ -645,6 +721,7 @@
                                 android:id="@+id/icTshirt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_tshirt"
@@ -657,6 +734,7 @@
                                 android:id="@+id/icCar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_car_drive"
@@ -669,12 +747,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:button="@android:color/transparent"
+                                android:layout_marginTop="10dp"
                                 android:drawableStart="@drawable/ic_coffee_bistro"
                                 android:drawableTint="@color/primary40"
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-                        </LinearLayout>
+                        </GridLayout>
                     </RadioGroup>
                 </ScrollView>
                 <com.google.android.material.button.MaterialButton
