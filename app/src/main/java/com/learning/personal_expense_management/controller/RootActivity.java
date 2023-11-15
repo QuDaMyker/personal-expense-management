@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.learning.personal_expense_management.R;
@@ -13,11 +14,13 @@ import com.learning.personal_expense_management.controller.fragment.AddFragment;
 import com.learning.personal_expense_management.controller.home.fragment.HomeFragment;
 import com.learning.personal_expense_management.controller.fragment.ProfileFragment;
 import com.learning.personal_expense_management.controller.fragment.StatisticFragment;
+import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
 import com.learning.personal_expense_management.controller.transaction.fragment.TransactionFragment;
 import com.learning.personal_expense_management.databinding.ActivityRootBinding;
 
 public class RootActivity extends AppCompatActivity {
     private ActivityRootBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,16 +45,17 @@ public class RootActivity extends AppCompatActivity {
                     break;
                 }
                 case R.id.btn_add: {
-                    replaceFragment(new AddFragment());
+                    //replaceFragment(new AddFragment());
+                    startActivity(new Intent(RootActivity.this, TransactionAddActivity.class));
                     break;
                 }
                 case R.id.btn_statistic: {
                     replaceFragment(new StatisticFragment());
                     break;
                 }
-                case R.id.btn_personal:{
+                case R.id.btn_personal: {
                     replaceFragment(new ProfileFragment());
-                     break;
+                    break;
                 }
             }
             return true;

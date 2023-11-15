@@ -33,6 +33,8 @@ public class TransactionAddActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-
+        binding.btnBack.setOnClickListener(v-> {
+            finish();
+        });
     }
 }
