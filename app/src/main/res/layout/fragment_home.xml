@@ -113,15 +113,16 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_youraccount"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:backgroundTint="@color/primary40"
+                        android:background="@drawable/custom_button_bg"
                         android:text="Tài khoản của bạn"
                         android:textSize="12dp"
+                        app:backgroundTint="@null"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.545"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -160,15 +161,16 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_walletaccount"
                         android:layout_width="151dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:backgroundTint="@color/primary40"
+                        android:background="@drawable/custom_button_bg"
                         android:text="Ví tiền của bạn"
                         android:textSize="12dp"
+                        app:backgroundTint="@null"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -344,7 +346,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_check_circle_outline"
+                android:src="@drawable/ic_target"
                 app:tint="@color/black" />
 
             <TextView
@@ -356,12 +358,25 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:textStyle="bold"
+            android:text="Bạn chưa có mục tiêu"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMucTieu" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rev_muctieu"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMucTieu" />
@@ -379,7 +394,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_check_circle_outline"
+                android:src="@drawable/ic_calendar"
                 app:tint="@color/black" />
 
             <TextView
@@ -391,16 +406,30 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:textStyle="bold"
+            android:text="Bạn chưa có hoạt động gần đây"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHoatDongGanDay" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rev_hoatdongganday"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
+            android:visibility="invisible"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHoatDongGanDay"
-            tools:listitem="@layout/item_muctieu" />
+            tools:listitem="@layout/item_target" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
