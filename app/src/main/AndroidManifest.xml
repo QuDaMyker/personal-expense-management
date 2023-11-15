@@ -13,10 +13,30 @@
         android:theme="@style/Theme.Personalexpensemanagement"
         tools:targetApi="31">
         <activity
-            android:name=".controller.activity.account.AddAccountActivity"
+            android:name=".controller.account.AddAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.activity.account.AccountActivity"
+            android:name=".controller.account.AccountActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".controller.transaction.activity.TransactionAddActivity_SelectionWallet"
+            android:exported="false" />
+        <activity
+            android:name=".controller.transaction.activity.TransactionAddActivity_SelectionAccount"
+            android:exported="false" />
+        <activity
+            android:name=".controller.transaction.activity.TransactionAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.transaction.activity.TransactionFilterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.RootActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,51 +44,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".controller.activity.transaction.activity.TransactionAddActivity_SelectionWallet"
-            android:exported="false" />
-        <activity
-            android:name=".controller.activity.transaction.activity.TransactionAddActivity_SelectionAccount"
-            android:exported="false" />
-        <activity
-            android:name=".controller.activity.transaction.activity.TransactionAddActivity"
-            android:exported="false" />
-        <activity
-            android:name=".controller.activity.transaction.activity.TransactionFilterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".controller.activity.RootActivity"
-            android:exported="false" />
-        <activity
-            android:name=".controller.activity.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".controller.activity.login.LoginActivity"
-            android:exported="true">
-
-        </activity>
 
 
         <activity
-            android:name=".controller.activity.wallet.NewWalletActivity"
+            android:name=".controller.wallet.NewWalletActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.activity.profile.NotifyActivity"
+            android:name=".controller.profile.NotifyActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.activity.profile.PolicyActivity"
+            android:name=".controller.profile.PolicyActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.activity.profile.SecurityActivity"
+            android:name=".controller.profile.SecurityActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.activity.profile.CurrencyUnitActivity"
+            android:name=".controller.profile.CurrencyUnitActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.activity.profile.LanguageActivity"
+            android:name=".controller.profile.LanguageActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.activity.wallet.WalletActivity"
+            android:name=".controller.wallet.WalletActivity"
             android:exported="false"/>
 
     </application>
