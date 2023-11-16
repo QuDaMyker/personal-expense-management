@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".controller.transaction.activity.TransactionAddActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingBottom="20dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/top_app_bar"
@@ -211,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/quicksand_bold"
-                android:text="Ví tiền"
+                android:text="Tài khoản"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -252,7 +251,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/quicksand_bold"
-                        android:text="Tiền tiêu"
+                        android:text="Tiền mặt"
                         android:textAlignment="textStart"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -413,7 +412,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv7"
-                app:suffixText="suffix">
+                app:suffixText="VNĐ">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editAmount"
@@ -450,12 +449,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:hint="Nhập số tiền"
+                android:hint="Nhập ghi chú"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv8"
-                app:suffixText="suffix">
+                app:layout_constraintTop_toBottomOf="@id/tv8">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editNote"
@@ -489,24 +487,32 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edt_transaction_day"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:hint="Ngày giao dịch"
                 android:enabled="false"
+                android:hint="Ngày giao dịch"
                 app:errorEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv9"
-                app:suffixText="suffix">
+                app:layout_constraintTop_toBottomOf="@id/tv9">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_transaction_day"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_calendar"
                     android:inputType="datetime" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/btn_transaction_day"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -524,7 +530,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/quicksand_bold"
-                android:text="Ngày giao dịch"
+                android:text="Thời gian giao dịch"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -533,37 +539,45 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edt_transaction_time"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:hint="Ngày giao dịch"
                 android:enabled="false"
+                android:hint="Thời gian giao dịch"
                 app:errorEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv10"
-                app:suffixText="suffix">
+                app:layout_constraintTop_toBottomOf="@id/tv10">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_transaction_time"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_calendar"
                     android:inputType="datetime" />
             </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/btn_transaction_time"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/custom_button_bg"
             android:fontFamily="@font/quicksand_bold"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:paddingEnd="20dp"
             android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:text="Thêm giao dịch"
             android:textColor="@color/white"
             android:textSize="18dp"
