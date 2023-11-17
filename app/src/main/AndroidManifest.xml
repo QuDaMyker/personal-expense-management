@@ -13,13 +13,14 @@
         android:theme="@style/Theme.Personalexpensemanagement"
         tools:targetApi="31">
         <activity
+            android:name=".controller.BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.account.AddAccountActivity"
             android:exported="false" />
         <activity
             android:name=".controller.account.AccountActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".controller.transaction.activity.TransactionAddActivity_SelectionWallet"
             android:exported="false" />
@@ -44,30 +45,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".controller.wallet.NewWalletActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.profile.NotifyActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.profile.PolicyActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.profile.SecurityActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.profile.CurrencyUnitActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.profile.LanguageActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.wallet.WalletActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
     </application>
 
 </manifest>

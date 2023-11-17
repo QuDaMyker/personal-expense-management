@@ -23,4 +23,8 @@ public class Constants {
     public static final String KEY_IS_BLOCKED = "isBlocked";
     public static final String KEY_NGUOIDUNG = "nguoidung";
 
+
+    // Firestore
+    public static final String KEY_TRANSACTION = "TRANSACTION_COLLECTION";
+
 }

@@ -95,9 +95,24 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         binding.btnSkipLogin.setOnClickListener(v -> {
-            startActivity(new Intent(this, RootActivity.class));
-            Toast.makeText(this, "not login", Toast.LENGTH_SHORT).show();
-            finish();
+            mAuth.signInAnonymously()
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                String uid = FirebaseAuth.getInstance().getUid();
+                                Intent intent = new Intent(LoginActivity.this, RootActivity.class);
+                                startActivity(intent);
+                                Toast.makeText(LoginActivity.this, uid, Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Some thing error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+
         });
     }
 

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,8 +19,9 @@ import com.learning.personal_expense_management.controller.transaction.activity.
 import com.learning.personal_expense_management.controller.transaction.fragment.TransactionFragment;
 import com.learning.personal_expense_management.databinding.ActivityRootBinding;
 
-public class RootActivity extends AppCompatActivity {
+public class RootActivity extends AppCompatActivity implements DialogListener{
     private ActivityRootBinding binding;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,10 @@ public class RootActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     private void init() {
+        progressDialog = new ProgressDialog(RootActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading...");
+
         setDefaultFragment();
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -77,5 +83,15 @@ public class RootActivity extends AppCompatActivity {
         fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void showDialog() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        progressDialog.dismiss();
     }
 }
