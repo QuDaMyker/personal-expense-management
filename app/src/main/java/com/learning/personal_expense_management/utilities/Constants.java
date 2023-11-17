@@ -26,5 +26,7 @@ public class Constants {
 
     // Firestore
     public static final String KEY_TRANSACTION = "TRANSACTION_COLLECTION";
+    public static final String KEY_WALLET = "WALLET_COLLECTION";
+    public static final String KEY_CATEGORY = "CATEGORY_COLLECTION";
 
 }

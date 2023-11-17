@@ -1,5 +1,7 @@
 package com.learning.personal_expense_management.model;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
 public class Transaction {
@@ -12,17 +14,35 @@ public class Transaction {
     private String transactionTime;
     private String sourceAccount;
     private String destinationAccount;
+    private Timestamp timeStamp;
 
-    public Transaction(String ownerId, String id, int transactionType, int amount, String note, String transactionDate, String transactionTime, String sourceAccount, String destinationAccount) {
-        this.ownerId = ownerId;
-        this.id = id;
-        this.transactionType = transactionType;
-        this.amount = amount;
-        this.note = note;
-        this.transactionDate = transactionDate;
-        this.transactionTime = transactionTime;
-        this.sourceAccount = sourceAccount;
-        this.destinationAccount = destinationAccount;
+    public Transaction(QueryDocumentSnapshot document) {
+        this.ownerId = document.getString("ownerId");
+        this.id = document.getString("id");
+        this.transactionType = Integer.parseInt(String.valueOf(document.getLong("transactionType")));
+        this.amount = Integer.parseInt(String.valueOf(document.getLong("amount")));
+        this.note = document.getString("note");
+        this.transactionDate = document.getString("transactionDate");
+        this.transactionTime = document.getString("transactionTime");
+        this.sourceAccount = document.getString("sourceAccount");
+        this.destinationAccount = document.getString("destinationAccount");
+        this.timeStamp = document.getTimestamp("timeStamp");
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "ownerId='" + ownerId + '\'' +
+                ", id='" + id + '\'' +
+                ", transactionType=" + transactionType +
+                ", amount=" + amount +
+                ", note='" + note + '\'' +
+                ", transactionDate='" + transactionDate + '\'' +
+                ", transactionTime='" + transactionTime + '\'' +
+                ", sourceAccount='" + sourceAccount + '\'' +
+                ", destinationAccount='" + destinationAccount + '\'' +
+                ", timeStamp=" + timeStamp +
+                '}';
     }
 
     public String getOwnerId() {
@@ -97,19 +117,25 @@ public class Transaction {
         this.destinationAccount = destinationAccount;
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "ownerId='" + ownerId + '\'' +
-                ", id='" + id + '\'' +
-                ", transactionType=" + transactionType +
-                ", amount=" + amount +
-                ", note='" + note + '\'' +
-                ", transactionDate='" + transactionDate + '\'' +
-                ", transactionTime='" + transactionTime + '\'' +
-                ", sourceAccount='" + sourceAccount + '\'' +
-                ", destinationAccount='" + destinationAccount + '\'' +
-                '}';
+    public Timestamp getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Timestamp timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public Transaction(String ownerId, String id, int transactionType, int amount, String note, String transactionDate, String transactionTime, String sourceAccount, String destinationAccount, Timestamp timeStamp) {
+        this.ownerId = ownerId;
+        this.id = id;
+        this.transactionType = transactionType;
+        this.amount = amount;
+        this.note = note;
+        this.transactionDate = transactionDate;
+        this.transactionTime = transactionTime;
+        this.sourceAccount = sourceAccount;
+        this.destinationAccount = destinationAccount;
+        this.timeStamp = timeStamp;
     }
 }
 

@@ -25,6 +25,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.type.DateTime;
 import com.learning.personal_expense_management.R;
@@ -34,9 +35,13 @@ import com.learning.personal_expense_management.databinding.ActivityTransactionF
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
+import java.util.Date;
+import java.util.Locale;
 
 public class TransactionAddActivity extends AppCompatActivity {
     private ActivityTransactionAddBinding binding;
@@ -128,43 +133,80 @@ public class TransactionAddActivity extends AppCompatActivity {
         });
 
         binding.btnSubmit.setOnClickListener(v -> {
-            progressDialog.show();
-            Transaction newTransaction = new Transaction(
-                    FirebaseAuth.getInstance().getUid(),
-                    "idLater",
-                    binding.chipThu.isChecked() ? 0 : 1,
-                    Integer.parseInt(binding.editAmount.getText().toString().trim()),
-                    binding.editNote.getText().toString().trim(),
-                    binding.editTransactionDay.getText().toString().trim(),
-                    binding.editTransactionTime.getText().toString().trim(),
-                    "Vi tien",
-                    "tien mat");
-            String res = FireStoreService.addTransaction(newTransaction);
-            progressDialog.dismiss();
+            if (isNotEmptyInput()) {
+                progressDialog.show();
+                try {
+                    String dateStr = binding.editTransactionDay.getText().toString().trim();
+                    String timeStr = binding.editTransactionTime.getText().toString().trim();
 
-            finish();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+                    Date date = dateFormat.parse(dateStr + " " + timeStr);
+                    if (date != null) {
+                        Timestamp timestamp = new Timestamp(date);
+                        Transaction newTransaction = new Transaction(
+                                FirebaseAuth.getInstance().getUid(),
+                                "idLater",
+                                binding.chipThu.isChecked() ? 0 : 1,
+                                Integer.parseInt(binding.editAmount.getText().toString().trim()),
+                                binding.editNote.getText().toString().trim(),
+                                dateStr,
+                                timeStr,
+                                "Vi tien",
+                                "tien mat",
+                                new com.google.firebase.Timestamp(date)); // Using getTime() to get milliseconds from the timestamp
+                        String res = FireStoreService.addTransaction(newTransaction);
+                    } else {
+                        // Handle parsing error or null date
+                    }
+                } catch (ParseException | NumberFormatException e) {
+                    e.printStackTrace();
+                    // Handle parsing exception or number format exception
+                }
+
+
+                progressDialog.dismiss();
+
+                finish();
 //            if (res == "success") {
 //                Toast.makeText(this, "Đã thêm giao dịch", Toast.LENGTH_SHORT).show();
 //                finish();
 //            } else {
 //                Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
 //            }
+            }
+
         });
 
         binding.btnChuyentienSubmit.setOnClickListener(v -> {
-            if (binding.chipChuyenTien.isChecked()) {
+            if (binding.chipChuyenTien.isChecked() && isNotEmptyInput()) {
                 progressDialog.show();
-                Transaction newTransaction = new Transaction(
-                        FirebaseAuth.getInstance().getUid(),
-                        "idLater",
-                        3,
-                        Integer.parseInt(binding.editChuyentienAmount.getText().toString().trim()),
-                        binding.editChuyentienNote.getText().toString().trim(),
-                        binding.editChuyentienTransactionDay.getText().toString().trim(),
-                        binding.editChuyentienTransactionTime.getText().toString().trim(),
-                        "Tai khoan nguon",
-                        "Tai Khoan dich");
-                String res = FireStoreService.addTransaction(newTransaction);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                try {
+                    Date date = dateFormat.parse(binding.editTransactionDay + " " + binding.editTransactionTime);
+                    if (date != null) {
+                        Timestamp timestamp = new Timestamp(date);
+                        Transaction newTransaction = new Transaction(
+                                FirebaseAuth.getInstance().getUid(),
+                                "idLater",
+                                3,
+                                Integer.parseInt(binding.editChuyentienAmount.getText().toString().trim()),
+                                binding.editChuyentienNote.getText().toString().trim(),
+                                binding.editChuyentienTransactionDay.getText().toString().trim(),
+                                binding.editChuyentienTransactionTime.getText().toString().trim(),
+                                "Tai khoan nguon",
+                                "Tai Khoan dich",
+                                new com.google.firebase.Timestamp(date));
+                        String res = FireStoreService.addTransaction(newTransaction);
+                    } else {
+                        // Handle parsing error or null date
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    // Handle parsing exception
+                }
+
                 progressDialog.dismiss();
                 finish();
 
@@ -243,5 +285,38 @@ public class TransactionAddActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean isNotEmptyInput() {
+        if (binding.chipChuyenTien.isChecked()) {
+            if (binding.editChuyentienAmount.getText().toString().isEmpty()) {
+                binding.edtChuyentienAmount.setError("Vui lòng điền số tiền");
+                return false;
+            } else if (binding.editChuyentienNote.getText().toString().isEmpty()) {
+                binding.edtChuyentienNote.setError("Vui lòng điền ghi chú");
+                return false;
+            } else if (binding.editChuyentienTransactionDay.getText().toString().isEmpty()) {
+                binding.edtChuyentienTransactionDay.setError("Vui lòng chọn ngày giao dịch");
+                return false;
+            } else if (binding.editChuyentienTransactionTime.getText().toString().isEmpty()) {
+                binding.edtChuyentienTransactionTime.setError("Vui lòng chọn thời gian giao dịch");
+                return false;
+            }
+        } else {
+            if (binding.editAmount.getText().toString().isEmpty()) {
+                binding.edtAmount.setError("Vui lòng điền số tiền");
+                return false;
+            } else if (binding.editNote.getText().toString().isEmpty()) {
+                binding.edtNote.setError("Vui lòng điền ghi chú");
+                return false;
+            } else if (binding.editTransactionDay.getText().toString().isEmpty()) {
+                binding.edtTransactionDay.setError("Vui lòng chọn ngày giao dịch");
+                return false;
+            } else if (binding.editTransactionTime.getText().toString().isEmpty()) {
+                binding.edtTransactionTime.setError("Vui lòng chọn thời gian giao dịch");
+                return false;
+            }
+        }
+        return true;
     }
 }
