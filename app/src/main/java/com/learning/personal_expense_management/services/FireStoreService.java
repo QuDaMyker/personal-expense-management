@@ -39,25 +39,23 @@ public class FireStoreService {
             Map<String, Object> accountMap = new HashMap<>();
             accountMap.putAll(accountMap);
 
-            db.collection(Constants.KEY_PREFERENCE_ACCOUNTS).document(userProfile.getId()).set(accountMap)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                result[0] = "success";
-                                Log.d("rs", result[0]);
-                            } else {
-                                result[0] = "error";
-                                Log.d("rs", result[0]);
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            result[0] = "error";
-                        }
-                    });
+            db.collection(Constants.KEY_PREFERENCE_ACCOUNTS).document(userProfile.getId()).set(accountMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        result[0] = "success";
+                        Log.d("rs", result[0]);
+                    } else {
+                        result[0] = "error";
+                        Log.d("rs", result[0]);
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    result[0] = "error";
+                }
+            });
 
         } catch (Exception e) {
 
@@ -86,27 +84,23 @@ public class FireStoreService {
             transactionMap.put("timeStamp", transaction.getTimeStamp());
             //transactionMap.put("timeStamp", FieldValue.serverTimestamp());
 
-            db.collection(Constants.KEY_TRANSACTION)
-                    .document(id)
-                    .set(transactionMap)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                result[0] = "success";
-                                Log.d("rs", result[0]);
-                            } else {
-                                result[0] = "error";
-                                Log.d("rs", result[0]);
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            result[0] = "error";
-                        }
-                    });
+            db.collection(Constants.KEY_TRANSACTION).document(id).set(transactionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        result[0] = "success";
+                        Log.d("rs", result[0]);
+                    } else {
+                        result[0] = "error";
+                        Log.d("rs", result[0]);
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    result[0] = "error";
+                }
+            });
         } catch (Exception e) {
             result[0] = "General Exception: " + e.getMessage();
         }
@@ -118,12 +112,10 @@ public class FireStoreService {
         List<Transaction> transactionList = new ArrayList<>();
 
         try {
-            db.collection(Constants.KEY_TRANSACTION)
-                    .whereEqualTo("ownerId", ownerId)
+            db.collection(Constants.KEY_TRANSACTION).whereEqualTo("ownerId", ownerId)
                     //.orderBy("amount", Query.Direction.DESCENDING)
-                    //.orderBy("timeStamp", Query.Direction.DESCENDING)
-                    .get()
-                    .addOnCompleteListener(task -> {
+                    .orderBy("timeStamp", Query.Direction.DESCENDING)
+                    .get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Transaction transaction = new Transaction(document);
@@ -135,6 +127,26 @@ public class FireStoreService {
                             listener.onError("Failed to fetch transactions");
                         }
                     });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
+    public static void getParentTransaction(String ownerId, String date, TransactionListener listener) {
+        List<Transaction> transactionList = new ArrayList<>();
+        try {
+            db.collection(Constants.KEY_TRANSACTION).whereEqualTo("ownerId", ownerId).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        Transaction transaction = new Transaction(documentSnapshot);
+                        transactionList.add(transaction);
+                        Log.d("parentTransaction", documentSnapshot.getData().toString());
+                    }
+                    listener.onTransactionsLoaded(transactionList);
+                } else {
+                    listener.onError("Failed to fetch transactions");
+                }
+            });
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }

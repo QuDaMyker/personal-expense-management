@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,20 +25,34 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity_SelectionWallet;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionFilterActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ParentItemAdapter;
 import com.learning.personal_expense_management.databinding.FragmentTransactionBinding;
+import com.learning.personal_expense_management.model.ParentItemTransaction;
+import com.learning.personal_expense_management.model.Transaction;
+import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.TransactionListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TransactionFragment extends Fragment {
     private FragmentTransactionBinding binding;
     private int currentYear;
     private int currentMonth;
     private ActivityResultLauncher<Intent> launcherFilter;
+    private List<Transaction> tempList;
+    private List<ParentItemTransaction> mainList;
+    private ParentItemAdapter parentItemAdapter;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_transaction, container, false);
         binding = FragmentTransactionBinding.inflate(getLayoutInflater());
@@ -52,26 +67,26 @@ public class TransactionFragment extends Fragment {
     }
 
     public void init() {
+        tempList = new ArrayList<>();
+        mainList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMonth = calendar.get(Calendar.MONTH);
         setYear(currentYear);
         setMonth(currentMonth);
 
-        launcherFilter = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if(result.getResultCode() == Activity.RESULT_OK) {
-                            Intent intent = result.getData();
-                            String resultFilter = intent.getStringExtra("resultFilter");
-                            Toast.makeText(getContext(), resultFilter, Toast.LENGTH_SHORT).show();
-                        }
-                    }
+        launcherFilter = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intent = result.getData();
+                    String resultFilter = intent.getStringExtra("resultFilter");
+                    Toast.makeText(getContext(), resultFilter, Toast.LENGTH_SHORT).show();
                 }
-        );
+            }
+        });
         binding.progressBar.setVisibility(View.VISIBLE);
+        parentItemTransactionList();
     }
 
     private void setListeners() {
@@ -196,8 +211,6 @@ public class TransactionFragment extends Fragment {
         btnOK.setOnClickListener(v -> {
             dialog.dismiss();
         });
-
-        // Show the dialog
         dialog.show();
     }
 
@@ -205,6 +218,76 @@ public class TransactionFragment extends Fragment {
         String result = "Something when wrong";
 
         return result;
+    }
+
+    private void getListTransaction() {
+
+        if(mainList.isEmpty()) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.tvNothinghere.setVisibility(View.VISIBLE);
+            binding.parentRecycleView.setVisibility(View.GONE);
+        }else {
+            parentItemAdapter = new ParentItemAdapter(getContext(), mainList);
+
+            binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+            binding.parentRecycleView.setAdapter(parentItemAdapter);
+            parentItemAdapter.notifyDataSetChanged();
+            for (int i = 0; i < mainList.size(); i++) {
+                Log.d("testList", mainList.get(i).toString());
+            }
+            binding.progressBar.setVisibility(View.GONE);
+            binding.tvNothinghere.setVisibility(View.GONE);
+            binding.parentRecycleView.setVisibility(View.VISIBLE);
+        }
+
+
+    }
+
+    private void parentItemTransactionList() {
+        List<ParentItemTransaction> list = new ArrayList<>();
+        Map<String, List<Transaction>> map = new HashMap<>();
+        FireStoreService.getTransaction(FirebaseAuth.getInstance().getUid(), new TransactionListener() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+                if (transactions.isEmpty()) {
+
+                } else {
+                    tempList = transactions;
+                    for(int i =0;i< tempList.size();i++) {
+                        Log.d("lst", tempList.get(i).toString());
+                    }
+                    for (int i = 0; i < tempList.size(); i++) {
+
+                        if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
+                            List<Transaction> newList = new ArrayList<>();
+                            newList.add(tempList.get(i));
+                            map.put(tempList.get(i).getTransactionDate().toString(), newList);
+                            Log.d("result Map", "KHONG TRUNG");
+                        } else {
+                            map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
+                            Log.d("result Map", " TRUNG");
+
+                        }
+                    }
+
+                    map.forEach((s, transactions1) -> {
+                        Log.d("MAP", transactions1.toString());
+                        list.add(new ParentItemTransaction(s, transactions1));
+                    });
+
+                    mainList = list;
+                    getListTransaction();
+
+
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

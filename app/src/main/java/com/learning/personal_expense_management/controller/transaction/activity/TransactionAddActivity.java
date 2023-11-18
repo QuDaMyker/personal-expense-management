@@ -41,7 +41,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class TransactionAddActivity extends AppCompatActivity {
     private ActivityTransactionAddBinding binding;
@@ -154,27 +157,22 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 timeStr,
                                 "Vi tien",
                                 "tien mat",
-                                new com.google.firebase.Timestamp(date)); // Using getTime() to get milliseconds from the timestamp
+                                new com.google.firebase.Timestamp(date));
                         String res = FireStoreService.addTransaction(newTransaction);
                     } else {
-                        // Handle parsing error or null date
+
                     }
                 } catch (ParseException | NumberFormatException e) {
                     e.printStackTrace();
-                    // Handle parsing exception or number format exception
                 }
 
 
                 progressDialog.dismiss();
 
                 finish();
-//            if (res == "success") {
-//                Toast.makeText(this, "Đã thêm giao dịch", Toast.LENGTH_SHORT).show();
-//                finish();
-//            } else {
-//                Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
-//            }
             }
+
+            Map<String, List<Transaction>> list = new HashMap<>();
 
         });
 

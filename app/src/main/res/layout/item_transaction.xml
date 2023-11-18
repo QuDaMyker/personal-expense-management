@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:elevation="20dp"
-    app:cardCornerRadius="20dp"
-    android:background="@color/white"
+    app:cardCornerRadius="16dp"
+    android:background="@drawable/background_color_white_outline"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    app:cardElevation="5dp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
