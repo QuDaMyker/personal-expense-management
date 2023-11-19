@@ -31,7 +31,9 @@ import java.util.List;
 
 public class TransactionFilterActivity extends AppCompatActivity {
     private ActivityTransactionFilterBinding binding;
+    private String resultLoaiGiaoDichFilter = "NULL";
     private String resultFilter = "NULL";
+
 
 
     @Override
@@ -51,19 +53,19 @@ public class TransactionFilterActivity extends AppCompatActivity {
     private void setListeners() {
 
         binding.chipThu.setOnClickListener(v -> {
-            resultFilter = "THU";
+            resultLoaiGiaoDichFilter = "THU";
             clearChecked();
             binding.chipThu.setChecked(true);
         });
 
         binding.chipChi.setOnClickListener(v -> {
-            resultFilter = "CHI";
+            resultLoaiGiaoDichFilter = "CHI";
             clearChecked();
             binding.chipChi.setChecked(true);
         });
 
         binding.chipChuyentien.setOnClickListener(v -> {
-            resultFilter = "CHUYENTIEN";
+            resultLoaiGiaoDichFilter = "CHUYENTIEN";
             clearChecked();
             binding.chipChuyentien.setChecked(true);
         });
@@ -100,6 +102,7 @@ public class TransactionFilterActivity extends AppCompatActivity {
         binding.btnSubmit.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), RootActivity.class);
             intent.putExtra("resultFilter", resultFilter);
+            intent.putExtra("resultLoaiGiaoDich", resultLoaiGiaoDichFilter);
             setResult(RESULT_OK, intent);
             finish();
         });

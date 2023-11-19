@@ -55,6 +55,11 @@ public class TransactionFragment extends Fragment {
     private List<ParentItemTransaction> mainList;
     private ParentItemAdapter parentItemAdapter;
     private DialogListener dialogListener;
+    private int transactionTypeFilter;
+    private boolean isHighestFilter;
+    private boolean isLowestFilter;
+    private boolean isNewestFilter;
+    private boolean isOldestFilter;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -99,12 +104,50 @@ public class TransactionFragment extends Fragment {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent intent = result.getData();
                     String resultFilter = intent.getStringExtra("resultFilter");
-                    Toast.makeText(getContext(), resultFilter, Toast.LENGTH_SHORT).show();
+                    String resultLoaiGiaoDichFilter = intent.getStringExtra("resultLoaiGiaoDich");
+
+                    switch (resultLoaiGiaoDichFilter) {
+                        case "NULL": {
+                            switchCaseResultFilter(-1, resultFilter);
+                        }
+                        case "THU": {
+                            switchCaseResultFilter(0, resultFilter);
+                        }
+                        case "CHI": {
+                            switchCaseResultFilter(1, resultFilter);
+                        }
+                        case "CHUYENTIEN": {
+                            switchCaseResultFilter(2, resultFilter);
+                        }
+                        default: {
+                            parentItemTransactionList(-1, -1, -1);
+                        }
+                    }
                 }
             }
         });
         binding.progressBar.setVisibility(View.VISIBLE);
-        parentItemTransactionList();
+        parentItemTransactionList(-1, -1, -1);
+    }
+
+    private void switchCaseResultFilter(int type, String resultFilter) {
+        switch (resultFilter) {
+            case "CAONHAT": {
+                parentItemTransactionList(type, 1, -1);
+            }
+            case "THAPNHAT": {
+                parentItemTransactionList(type, 0, -1);
+            }
+            case "MOINHAT": {
+                parentItemTransactionList(type, -1, 1);
+            }
+            case "CUNHAT": {
+                parentItemTransactionList(type, -1, 0);
+            }
+            default: {
+                parentItemTransactionList(type, -1, -1);
+            }
+        }
     }
 
     private void setListeners() {
@@ -116,13 +159,13 @@ public class TransactionFragment extends Fragment {
         binding.imgPreYear.setOnClickListener(v -> {
             int showYear = Integer.parseInt(binding.tvYear.getText().toString());
             setYear(--showYear);
-            parentItemTransactionList();
+            parentItemTransactionList(-1, -1, -1);
         });
 
         binding.imgNextYear.setOnClickListener(v -> {
             int showYear = Integer.parseInt(binding.tvYear.getText().toString());
             setYear(++showYear);
-            parentItemTransactionList();
+            parentItemTransactionList(-1, -1, -1);
         });
 
         binding.imgPreMonth.setOnClickListener(v -> {
@@ -139,7 +182,7 @@ public class TransactionFragment extends Fragment {
                 }
 
                 setMonth(showMonth);
-                parentItemTransactionList();
+                parentItemTransactionList(-1, -1, -1);
             } catch (NumberFormatException e) {
 
             }
@@ -158,7 +201,7 @@ public class TransactionFragment extends Fragment {
                 }
 
                 setMonth(showMonth);
-                parentItemTransactionList();
+                parentItemTransactionList(-1, -1, -1);
             } catch (NumberFormatException e) {
 
             }
@@ -263,61 +306,68 @@ public class TransactionFragment extends Fragment {
         }
     }
 
-    private void parentItemTransactionList() {
+    private void parentItemTransactionList(int transactionType, int isHighest, int isNewest) {
         dialogListener.showDialog();
         List<ParentItemTransaction> list = new ArrayList<>();
         Map<String, List<Transaction>> map = new LinkedHashMap<>();
-        FireStoreService.getTransaction(FirebaseAuth.getInstance().getUid(), binding.tvMonth.getText().toString().trim().replaceAll("\\D+", ""), binding.tvYear.getText().toString().trim(), new TransactionListener() {
-            @Override
-            public void onTransactionsLoaded(List<Transaction> transactions) {
-                if (transactions.isEmpty()) {
-                    mainList = list;
-                    getListTransaction();
-                } else {
-                    tempList = transactions;
-                    for (int i = 0; i < tempList.size(); i++) {
-                        Log.d("lst", tempList.get(i).toString());
-                    }
-                    for (int i = 0; i < tempList.size(); i++) {
-
-                        if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
-                            List<Transaction> newList = new ArrayList<>();
-                            newList.add(tempList.get(i));
-                            map.put(tempList.get(i).getTransactionDate().toString(), newList);
-                            Log.d("result Map", "KHONG TRUNG");
+        FireStoreService.getTransaction(
+                FirebaseAuth.getInstance().getUid(),
+                binding.tvMonth.getText().toString().trim().replaceAll("\\D+", ""),
+                binding.tvYear.getText().toString().trim(),
+                transactionType,
+                isHighest,
+                isNewest,
+                new TransactionListener() {
+                    @Override
+                    public void onTransactionsLoaded(List<Transaction> transactions) {
+                        if (transactions.isEmpty()) {
+                            mainList = list;
+                            getListTransaction();
                         } else {
-                            map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
-                            Log.d("result Map", " TRUNG");
+                            tempList = transactions;
+                            for (int i = 0; i < tempList.size(); i++) {
+                                Log.d("lst", tempList.get(i).toString());
+                            }
+                            for (int i = 0; i < tempList.size(); i++) {
+
+                                if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
+                                    List<Transaction> newList = new ArrayList<>();
+                                    newList.add(tempList.get(i));
+                                    map.put(tempList.get(i).getTransactionDate().toString(), newList);
+                                    Log.d("result Map", "KHONG TRUNG");
+                                } else {
+                                    map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
+                                    Log.d("result Map", " TRUNG");
+
+                                }
+                            }
+
+                            map.forEach((s, transactions1) -> {
+                                Log.d("MAP", transactions1.toString());
+                                list.add(new ParentItemTransaction(s, transactions1));
+                            });
+
+                            mainList = list;
+                            getListTransaction();
+
 
                         }
                     }
 
-                    map.forEach((s, transactions1) -> {
-                        Log.d("MAP", transactions1.toString());
-                        list.add(new ParentItemTransaction(s, transactions1));
-                    });
-
-                    mainList = list;
-                    getListTransaction();
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
 
 
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-            }
-
-
-        });
+                });
         dialogListener.dismissDialog();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        parentItemTransactionList();
+        parentItemTransactionList(-1, -1, -1);
     }
 
 }

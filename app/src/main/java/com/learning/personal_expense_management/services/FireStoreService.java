@@ -134,30 +134,62 @@ public class FireStoreService {
         }
     }
 
-    public static void getTransaction(String ownerId, String month, String year, TransactionListener listener) {
+    public static void getTransaction(
+            String ownerId,
+            String month,
+            String year,
+            int transactionType,
+            int isHighest,
+            int isNewest,
+
+            TransactionListener listener) {
         List<Transaction> transactionList = new ArrayList<>();
         Log.d("month - year", month + " - " + year);
 
         try {
-            db.collection(Constants.KEY_TRANSACTION)
-                    .whereEqualTo("ownerId", ownerId)
-                    .whereEqualTo("month", month)
-                    .whereEqualTo("year", year)
-                    //.orderBy("amount", Query.Direction.DESCENDING)
-                    .orderBy("timeStamp", Query.Direction.DESCENDING)
-                    .get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Log.d("result fetch", "successful");
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Transaction transaction = new Transaction(document);
-                                transactionList.add(transaction);
-                                Log.d("rs - trasaction", document.getData().toString());
+            if(transactionType == -1 ) {
+                db.collection(Constants.KEY_TRANSACTION)
+                        .whereEqualTo("ownerId", ownerId)
+                        .whereEqualTo("month", month)
+                        .whereEqualTo("year", year)
+                        //.orderBy("amount", Query.Direction.DESCENDING)
+                        .orderBy("timeStamp", Query.Direction.DESCENDING)
+                        .get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("result fetch", "successful");
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Transaction transaction = new Transaction(document);
+                                    transactionList.add(transaction);
+                                    Log.d("rs - trasaction", document.getData().toString());
+                                }
+                                listener.onTransactionsLoaded(transactionList);
+                            } else {
+                                listener.onError("Failed to fetch transactions");
                             }
-                            listener.onTransactionsLoaded(transactionList);
-                        } else {
-                            listener.onError("Failed to fetch transactions");
-                        }
-                    });
+                        });
+            } else {
+                db.collection(Constants.KEY_TRANSACTION)
+                        .whereEqualTo("ownerId", ownerId)
+                        .whereEqualTo("month", month)
+                        .whereEqualTo("year", year)
+                        .whereEqualTo("transactionType",transactionType)
+                        //.orderBy("amount", Query.Direction.DESCENDING)
+                        .orderBy("timeStamp", Query.Direction.DESCENDING)
+                        .get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("result fetch", "successful");
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Transaction transaction = new Transaction(document);
+                                    transactionList.add(transaction);
+                                    Log.d("rs - trasaction", document.getData().toString());
+                                }
+                                listener.onTransactionsLoaded(transactionList);
+                            } else {
+                                listener.onError("Failed to fetch transactions");
+                            }
+                        });
+            }
+
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }

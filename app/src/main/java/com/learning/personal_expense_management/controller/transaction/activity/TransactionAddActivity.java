@@ -14,6 +14,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -177,24 +178,32 @@ public class TransactionAddActivity extends AppCompatActivity {
         });
 
         binding.btnChuyentienSubmit.setOnClickListener(v -> {
+            Log.d("chuyen tien checked", binding.chipChuyenTien.isChecked()+"" +isNotEmptyInput()+"");
+            Toast.makeText(this, "click", Toast.LENGTH_SHORT).show();
             if (binding.chipChuyenTien.isChecked() && isNotEmptyInput()) {
                 progressDialog.show();
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+
                 try {
-                    Date date = dateFormat.parse(binding.editTransactionDay + " " + binding.editTransactionTime);
+                    String dateStr = binding.editChuyentienTransactionDay.getText().toString().trim();
+                    String timeStr = binding.editChuyentienTransactionTime.getText().toString().trim();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+                    Date date = dateFormat.parse(dateStr + " " + timeStr);
                     if (date != null) {
                         Timestamp timestamp = new Timestamp(date);
                         Transaction newTransaction = new Transaction(
                                 FirebaseAuth.getInstance().getUid(),
                                 "idLater",
-                                3,
+                                2,
                                 Integer.parseInt(binding.editChuyentienAmount.getText().toString().trim()),
                                 binding.editChuyentienNote.getText().toString().trim(),
-                                binding.editChuyentienTransactionDay.getText().toString().trim(),
-                                binding.editChuyentienTransactionTime.getText().toString().trim(),
-                                "Tai khoan nguon",
-                                "Tai Khoan dich",
+                                dateStr,
+                                timeStr,
+                                "Vi tien",
+                                "tien mat",
                                 new com.google.firebase.Timestamp(date));
                         String res = FireStoreService.addTransaction(newTransaction);
                     } else {
@@ -215,7 +224,6 @@ public class TransactionAddActivity extends AppCompatActivity {
 //                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
 //                }
             }
-
         });
 
 
