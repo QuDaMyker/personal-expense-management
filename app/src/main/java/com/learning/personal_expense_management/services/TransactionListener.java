@@ -8,4 +8,5 @@ public interface TransactionListener {
     void onTransactionsLoaded(List<Transaction> transactions);
 
     void onError(String errorMessage);
+
 }

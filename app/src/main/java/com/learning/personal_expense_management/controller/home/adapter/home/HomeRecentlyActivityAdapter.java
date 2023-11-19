@@ -1,10 +1,12 @@
 package com.learning.personal_expense_management.controller.home.adapter.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,6 +62,7 @@ public class HomeRecentlyActivityAdapter extends RecyclerView.Adapter<HomeRecent
                 //Picasso.get().load("https://images.unsplash.com/photo-1682685797088-283404e24b9d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D").into(binding.imgTransaction);
                 binding.imgTransaction.setImageResource(R.drawable.ic_cash);
             }
+            //binding.rootView.setCardBackgroundColor(Color.parseColor("white"));
             binding.titleTransaction.setText(transaction.getId());
             binding.subTitleTransaction.setText(transaction.getNote());
             binding.priceTransaction.setText(transaction.getAmount() + "");

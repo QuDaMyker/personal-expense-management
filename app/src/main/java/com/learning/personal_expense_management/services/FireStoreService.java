@@ -82,6 +82,8 @@ public class FireStoreService {
             transactionMap.put("sourceAccount", String.valueOf(transaction.getSourceAccount()));
             transactionMap.put("destinationAccount", String.valueOf(transaction.getDestinationAccount()));
             transactionMap.put("timeStamp", transaction.getTimeStamp());
+            transactionMap.put("month", transaction.getMonth());
+            transactionMap.put("year", transaction.getYear());
             //transactionMap.put("timeStamp", FieldValue.serverTimestamp());
 
             db.collection(Constants.KEY_TRANSACTION).document(id).set(transactionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -108,7 +110,7 @@ public class FireStoreService {
         return result[0];
     }
 
-    public static void getTransaction(String ownerId, TransactionListener listener) {
+    public static void getAllTransaction(String ownerId, TransactionListener listener) {
         List<Transaction> transactionList = new ArrayList<>();
 
         try {
@@ -121,6 +123,35 @@ public class FireStoreService {
                                 Transaction transaction = new Transaction(document);
                                 transactionList.add(transaction);
                                 Log.d("rs", document.getData().toString());
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
+    public static void getTransaction(String ownerId, String month, String year, TransactionListener listener) {
+        List<Transaction> transactionList = new ArrayList<>();
+        Log.d("month - year", month + " - " + year);
+
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("month", month)
+                    .whereEqualTo("year", year)
+                    //.orderBy("amount", Query.Direction.DESCENDING)
+                    .orderBy("timeStamp", Query.Direction.DESCENDING)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d("result fetch", "successful");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                                Log.d("rs - trasaction", document.getData().toString());
                             }
                             listener.onTransactionsLoaded(transactionList);
                         } else {

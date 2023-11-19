@@ -2,6 +2,8 @@ package com.learning.personal_expense_management.controller.transaction.fragment
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +14,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -27,6 +30,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.DialogListener;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity_SelectionWallet;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionFilterActivity;
 import com.learning.personal_expense_management.controller.transaction.adapter.ParentItemAdapter;
@@ -38,6 +42,7 @@ import com.learning.personal_expense_management.services.TransactionListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +54,17 @@ public class TransactionFragment extends Fragment {
     private List<Transaction> tempList;
     private List<ParentItemTransaction> mainList;
     private ParentItemAdapter parentItemAdapter;
+    private DialogListener dialogListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            dialogListener = (DialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement DialogListener");
+        }
+    }
 
 
     @Override
@@ -67,6 +83,8 @@ public class TransactionFragment extends Fragment {
     }
 
     public void init() {
+
+
         tempList = new ArrayList<>();
         mainList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -98,11 +116,13 @@ public class TransactionFragment extends Fragment {
         binding.imgPreYear.setOnClickListener(v -> {
             int showYear = Integer.parseInt(binding.tvYear.getText().toString());
             setYear(--showYear);
+            parentItemTransactionList();
         });
 
         binding.imgNextYear.setOnClickListener(v -> {
             int showYear = Integer.parseInt(binding.tvYear.getText().toString());
             setYear(++showYear);
+            parentItemTransactionList();
         });
 
         binding.imgPreMonth.setOnClickListener(v -> {
@@ -119,6 +139,7 @@ public class TransactionFragment extends Fragment {
                 }
 
                 setMonth(showMonth);
+                parentItemTransactionList();
             } catch (NumberFormatException e) {
 
             }
@@ -137,6 +158,7 @@ public class TransactionFragment extends Fragment {
                 }
 
                 setMonth(showMonth);
+                parentItemTransactionList();
             } catch (NumberFormatException e) {
 
             }
@@ -221,12 +243,12 @@ public class TransactionFragment extends Fragment {
     }
 
     private void getListTransaction() {
-
-        if(mainList.isEmpty()) {
-            binding.progressBar.setVisibility(View.VISIBLE);
+        if (mainList.isEmpty()) {
+            parentItemAdapter.notifyDataSetChanged();
+            //binding.progressBar.setVisibility(View.VISIBLE);
             binding.tvNothinghere.setVisibility(View.VISIBLE);
             binding.parentRecycleView.setVisibility(View.GONE);
-        }else {
+        } else {
             parentItemAdapter = new ParentItemAdapter(getContext(), mainList);
 
             binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -239,21 +261,21 @@ public class TransactionFragment extends Fragment {
             binding.tvNothinghere.setVisibility(View.GONE);
             binding.parentRecycleView.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     private void parentItemTransactionList() {
+        dialogListener.showDialog();
         List<ParentItemTransaction> list = new ArrayList<>();
-        Map<String, List<Transaction>> map = new HashMap<>();
-        FireStoreService.getTransaction(FirebaseAuth.getInstance().getUid(), new TransactionListener() {
+        Map<String, List<Transaction>> map = new LinkedHashMap<>();
+        FireStoreService.getTransaction(FirebaseAuth.getInstance().getUid(), binding.tvMonth.getText().toString().trim().replaceAll("\\D+", ""), binding.tvYear.getText().toString().trim(), new TransactionListener() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
                 if (transactions.isEmpty()) {
-
+                    mainList = list;
+                    getListTransaction();
                 } else {
                     tempList = transactions;
-                    for(int i =0;i< tempList.size();i++) {
+                    for (int i = 0; i < tempList.size(); i++) {
                         Log.d("lst", tempList.get(i).toString());
                     }
                     for (int i = 0; i < tempList.size(); i++) {
@@ -286,8 +308,16 @@ public class TransactionFragment extends Fragment {
             public void onError(String errorMessage) {
                 Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
             }
-        });
 
+
+        });
+        dialogListener.dismissDialog();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        parentItemTransactionList();
     }
 
 }
