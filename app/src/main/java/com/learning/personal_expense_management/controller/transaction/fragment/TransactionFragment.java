@@ -103,24 +103,30 @@ public class TransactionFragment extends Fragment {
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent intent = result.getData();
+                    String resultTransactionType = intent.getStringExtra("resultTransactionType");
                     String resultFilter = intent.getStringExtra("resultFilter");
-                    String resultLoaiGiaoDichFilter = intent.getStringExtra("resultLoaiGiaoDich");
+                    Log.d("rs - filter", resultTransactionType + " - " + resultFilter);
 
-                    switch (resultLoaiGiaoDichFilter) {
+                    switch (resultTransactionType) {
                         case "NULL": {
                             switchCaseResultFilter(-1, resultFilter);
+                            break;
                         }
                         case "THU": {
                             switchCaseResultFilter(0, resultFilter);
+                            break;
                         }
                         case "CHI": {
                             switchCaseResultFilter(1, resultFilter);
+                            break;
                         }
                         case "CHUYENTIEN": {
                             switchCaseResultFilter(2, resultFilter);
+                            break;
                         }
                         default: {
                             parentItemTransactionList(-1, -1, -1);
+                            break;
                         }
                     }
                 }
@@ -134,18 +140,23 @@ public class TransactionFragment extends Fragment {
         switch (resultFilter) {
             case "CAONHAT": {
                 parentItemTransactionList(type, 1, -1);
+                break;
             }
             case "THAPNHAT": {
                 parentItemTransactionList(type, 0, -1);
+                break;
             }
             case "MOINHAT": {
                 parentItemTransactionList(type, -1, 1);
+                break;
             }
             case "CUNHAT": {
                 parentItemTransactionList(type, -1, 0);
+                break;
             }
             default: {
                 parentItemTransactionList(type, -1, -1);
+                break;
             }
         }
     }
@@ -367,7 +378,7 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        parentItemTransactionList(-1, -1, -1);
+        //parentItemTransactionList(-1, -1, -1);
     }
 
 }

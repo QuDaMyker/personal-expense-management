@@ -31,7 +31,7 @@ import java.util.List;
 
 public class TransactionFilterActivity extends AppCompatActivity {
     private ActivityTransactionFilterBinding binding;
-    private String resultLoaiGiaoDichFilter = "NULL";
+    private String resultTransactionType = "NULL";
     private String resultFilter = "NULL";
 
 
@@ -53,65 +53,71 @@ public class TransactionFilterActivity extends AppCompatActivity {
     private void setListeners() {
 
         binding.chipThu.setOnClickListener(v -> {
-            resultLoaiGiaoDichFilter = "THU";
-            clearChecked();
+            resultTransactionType = "THU";
+            clearTransactionTypeChecked();
             binding.chipThu.setChecked(true);
         });
 
         binding.chipChi.setOnClickListener(v -> {
-            resultLoaiGiaoDichFilter = "CHI";
-            clearChecked();
+            resultTransactionType = "CHI";
+            clearTransactionTypeChecked();
             binding.chipChi.setChecked(true);
         });
 
         binding.chipChuyentien.setOnClickListener(v -> {
-            resultLoaiGiaoDichFilter = "CHUYENTIEN";
-            clearChecked();
+            resultTransactionType = "CHUYENTIEN";
+            clearTransactionTypeChecked();
             binding.chipChuyentien.setChecked(true);
         });
 
         binding.chipCaonhat.setOnClickListener(v -> {
             resultFilter = "CAONHAT";
-            clearChecked();
+            ClearSortChecked();
             binding.chipCaonhat.setChecked(true);
         });
 
         binding.chipThapnhat.setOnClickListener(v -> {
             resultFilter = "THAPNHAT";
-            clearChecked();
+            ClearSortChecked();
             binding.chipThapnhat.setChecked(true);
         });
 
         binding.chipMoinhat.setOnClickListener(v -> {
             resultFilter = "MOINHAT";
-            clearChecked();
+            ClearSortChecked();
             binding.chipMoinhat.setChecked(true);
         });
 
         binding.chipCunhat.setOnClickListener(v -> {
             resultFilter = "CUNHAT";
-            clearChecked();
+            ClearSortChecked();
             binding.chipCunhat.setChecked(true);
         });
 
         binding.btnDeleteFilter.setOnClickListener(v -> {
             resultFilter = "NULL";
-            clearChecked();
+            resultTransactionType = "NULL";
+            clearTransactionTypeChecked();
+            ClearSortChecked();
         });
 
         binding.btnSubmit.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), RootActivity.class);
             intent.putExtra("resultFilter", resultFilter);
-            intent.putExtra("resultLoaiGiaoDich", resultLoaiGiaoDichFilter);
+            intent.putExtra("resultTransactionType", resultTransactionType);
             setResult(RESULT_OK, intent);
             finish();
         });
     }
 
-    private void clearChecked() {
+    private void clearTransactionTypeChecked() {
         binding.chipThu.setChecked(false);
         binding.chipChi.setChecked(false);
         binding.chipChuyentien.setChecked(false);
+
+    }
+
+    private void ClearSortChecked() {
         binding.chipCaonhat.setChecked(false);
         binding.chipThapnhat.setChecked(false);
         binding.chipMoinhat.setChecked(false);

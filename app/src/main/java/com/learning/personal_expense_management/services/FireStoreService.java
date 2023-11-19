@@ -147,47 +147,181 @@ public class FireStoreService {
         Log.d("month - year", month + " - " + year);
 
         try {
-            if(transactionType == -1 ) {
-                db.collection(Constants.KEY_TRANSACTION)
-                        .whereEqualTo("ownerId", ownerId)
-                        .whereEqualTo("month", month)
-                        .whereEqualTo("year", year)
-                        //.orderBy("amount", Query.Direction.DESCENDING)
-                        .orderBy("timeStamp", Query.Direction.DESCENDING)
-                        .get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Log.d("result fetch", "successful");
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Transaction transaction = new Transaction(document);
-                                    transactionList.add(transaction);
-                                    Log.d("rs - trasaction", document.getData().toString());
+            if (transactionType == -1) {
+                if (isHighest == -1) {
+                    if (isNewest == -1 || isNewest == 1) {
+                        db.collection(Constants.KEY_TRANSACTION)
+                                .whereEqualTo("ownerId", ownerId)
+                                .whereEqualTo("month", month)
+                                .whereEqualTo("year", year)
+                                //.orderBy("amount", Query.Direction.DESCENDING)
+                                .orderBy("timeStamp", Query.Direction.DESCENDING)
+                                .get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("result fetch", "successful");
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Transaction transaction = new Transaction(document);
+                                            transactionList.add(transaction);
+                                            Log.d("rs - trasaction", document.getData().toString());
+                                        }
+                                        listener.onTransactionsLoaded(transactionList);
+                                    } else {
+                                        listener.onError("Failed to fetch transactions");
+                                    }
+                                });
+                    } else {
+                        db.collection(Constants.KEY_TRANSACTION)
+                                .whereEqualTo("ownerId", ownerId)
+                                .whereEqualTo("month", month)
+                                .whereEqualTo("year", year)
+                                //.orderBy("amount", Query.Direction.DESCENDING)
+                                .orderBy("timeStamp", Query.Direction.ASCENDING)
+                                .get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("result fetch", "successful");
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Transaction transaction = new Transaction(document);
+                                            transactionList.add(transaction);
+                                            Log.d("rs - trasaction", document.getData().toString());
+                                        }
+                                        listener.onTransactionsLoaded(transactionList);
+                                    } else {
+                                        listener.onError("Failed to fetch transactions");
+                                    }
+                                });
+                    }
+                } else if (isHighest == 0) {
+                    db.collection(Constants.KEY_TRANSACTION)
+                            .whereEqualTo("ownerId", ownerId)
+                            .whereEqualTo("month", month)
+                            .whereEqualTo("year", year)
+                            .orderBy("amount", Query.Direction.ASCENDING)
+                            //.orderBy("timeStamp", Query.Direction.DESCENDING)
+                            .get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("result fetch", "successful");
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Transaction transaction = new Transaction(document);
+                                        transactionList.add(transaction);
+                                        Log.d("rs - trasaction - thap nhat", document.getData().toString());
+                                    }
+                                    listener.onTransactionsLoaded(transactionList);
+                                } else {
+                                    listener.onError("Failed to fetch transactions");
                                 }
-                                listener.onTransactionsLoaded(transactionList);
-                            } else {
-                                listener.onError("Failed to fetch transactions");
-                            }
-                        });
+                            });
+                } else {
+                    db.collection(Constants.KEY_TRANSACTION)
+                            .whereEqualTo("ownerId", ownerId)
+                            .whereEqualTo("month", month)
+                            .whereEqualTo("year", year)
+                            .orderBy("amount", Query.Direction.DESCENDING)
+                            //.orderBy("timeStamp", Query.Direction.DESCENDING)
+                            .get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("result fetch", "successful");
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Transaction transaction = new Transaction(document);
+                                        transactionList.add(transaction);
+                                        Log.d("rs - trasaction", document.getData().toString());
+                                    }
+                                    listener.onTransactionsLoaded(transactionList);
+                                } else {
+                                    listener.onError("Failed to fetch transactions");
+                                }
+                            });
+                }
+
             } else {
-                db.collection(Constants.KEY_TRANSACTION)
-                        .whereEqualTo("ownerId", ownerId)
-                        .whereEqualTo("month", month)
-                        .whereEqualTo("year", year)
-                        .whereEqualTo("transactionType",transactionType)
-                        //.orderBy("amount", Query.Direction.DESCENDING)
-                        .orderBy("timeStamp", Query.Direction.DESCENDING)
-                        .get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Log.d("result fetch", "successful");
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Transaction transaction = new Transaction(document);
-                                    transactionList.add(transaction);
-                                    Log.d("rs - trasaction", document.getData().toString());
+                if (isHighest == -1) {
+                    if(isNewest == -1 || isNewest == 1) {
+                        db.collection(Constants.KEY_TRANSACTION)
+                                .whereEqualTo("ownerId", ownerId)
+                                .whereEqualTo("month", month)
+                                .whereEqualTo("year", year)
+                                .whereEqualTo("transactionType", transactionType)
+                                //.orderBy("amount", Query.Direction.DESCENDING)
+                                .orderBy("timeStamp", Query.Direction.DESCENDING)
+                                .get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("result fetch", "successful");
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Transaction transaction = new Transaction(document);
+                                            transactionList.add(transaction);
+                                            Log.d("rs - trasaction", document.getData().toString());
+                                        }
+                                        listener.onTransactionsLoaded(transactionList);
+                                    } else {
+                                        listener.onError("Failed to fetch transactions");
+                                    }
+                                });
+                    } else {
+                        db.collection(Constants.KEY_TRANSACTION)
+                                .whereEqualTo("ownerId", ownerId)
+                                .whereEqualTo("month", month)
+                                .whereEqualTo("year", year)
+                                .whereEqualTo("transactionType", transactionType)
+                                //.orderBy("amount", Query.Direction.DESCENDING)
+                                .orderBy("timeStamp", Query.Direction.ASCENDING)
+                                .get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("result fetch", "successful");
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Transaction transaction = new Transaction(document);
+                                            transactionList.add(transaction);
+                                            Log.d("rs - trasaction", document.getData().toString());
+                                        }
+                                        listener.onTransactionsLoaded(transactionList);
+                                    } else {
+                                        listener.onError("Failed to fetch transactions");
+                                    }
+                                });
+                    }
+
+                }else if(isHighest == 0) {
+                    db.collection(Constants.KEY_TRANSACTION)
+                            .whereEqualTo("ownerId", ownerId)
+                            .whereEqualTo("month", month)
+                            .whereEqualTo("year", year)
+                            .whereEqualTo("transactionType", transactionType)
+                            .orderBy("amount", Query.Direction.ASCENDING)
+                            //.orderBy("timeStamp", Query.Direction.DESCENDING)
+                            .get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("result fetch", "successful");
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Transaction transaction = new Transaction(document);
+                                        transactionList.add(transaction);
+                                        Log.d("rs - trasaction", document.getData().toString());
+                                    }
+                                    listener.onTransactionsLoaded(transactionList);
+                                } else {
+                                    listener.onError("Failed to fetch transactions");
                                 }
-                                listener.onTransactionsLoaded(transactionList);
-                            } else {
-                                listener.onError("Failed to fetch transactions");
-                            }
-                        });
+                            });
+                } else {
+                    db.collection(Constants.KEY_TRANSACTION)
+                            .whereEqualTo("ownerId", ownerId)
+                            .whereEqualTo("month", month)
+                            .whereEqualTo("year", year)
+                            .whereEqualTo("transactionType", transactionType)
+                            .orderBy("amount", Query.Direction.DESCENDING)
+                            //.orderBy("timeStamp", Query.Direction.DESCENDING)
+                            .get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("result fetch", "successful");
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Transaction transaction = new Transaction(document);
+                                        transactionList.add(transaction);
+                                        Log.d("rs - trasaction", document.getData().toString());
+                                    }
+                                    listener.onTransactionsLoaded(transactionList);
+                                } else {
+                                    listener.onError("Failed to fetch transactions");
+                                }
+                            });
+                }
+
             }
 
         } catch (Exception e) {
