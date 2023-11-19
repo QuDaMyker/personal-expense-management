@@ -14,11 +14,14 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.account.AccountActivity;
+import com.learning.personal_expense_management.controller.loan.LoanActivity;
 import com.learning.personal_expense_management.controller.wallet.WalletActivity;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeRecentlyActivityAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeTargetAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.ObjectListener;
 import com.learning.personal_expense_management.databinding.FragmentHomeBinding;
+import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
@@ -69,6 +72,19 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WalletActivity.class);
                 startActivity(intent);
+            }
+        });
+        binding.accountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AccountActivity.class));
+            }
+        });
+
+        binding.cardVKhoanVay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), LoanActivity.class));
             }
         });
     }

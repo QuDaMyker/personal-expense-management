@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="85dp"
-    android:background="@drawable/background_color_main"
     tools:context=".controller.home.fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,9 +109,11 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/account_btn"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:clickable="true">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_youraccount"
@@ -261,7 +262,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/cardV_DanhMuc"
                 app:layout_constraintRight_toLeftOf="@id/cardV_ChuyenDoi"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:clickable="true">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

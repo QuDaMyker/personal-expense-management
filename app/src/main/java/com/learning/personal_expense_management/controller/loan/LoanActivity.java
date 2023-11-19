@@ -8,20 +8,29 @@ import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.databinding.ActivityAddAccountBinding;
+import com.learning.personal_expense_management.databinding.ActivityLoanBinding;
+
 
 public class LoanActivity extends AppCompatActivity {
-    MaterialButton newLoanBtn;
+    private ActivityLoanBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loan);
-
-        newLoanBtn = findViewById(R.id.new_loan_btn);
-        newLoanBtn.setOnClickListener(new View.OnClickListener() {
+        binding = ActivityLoanBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.newLoanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoanActivity.this, NewLoanActivity.class));
+            }
+        });
+
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
