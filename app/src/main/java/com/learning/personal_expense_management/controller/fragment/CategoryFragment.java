@@ -2,13 +2,26 @@ package com.learning.personal_expense_management.controller.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.google.android.material.tabs.TabLayout;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.Category;
+import com.learning.personal_expense_management.controller.CategoryAdapter;
+
+import org.checkerframework.checker.units.qual.C;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +38,15 @@ public class CategoryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<Category> listDeCats;
+    private ArrayList<Category> listCats;
+    private CategoryAdapter categoryAdapter;
+
+    private RecyclerView rcvCats;
+    private RecyclerView.LayoutManager rcvLayoutManager;
+    private TabLayout tabInOut;
+    private Button btnNewCat;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -61,6 +83,60 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_category, container, false);
+
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        dataInitialize();
+        rcvCats = view.findViewById(R.id.rcvCategories);
+        btnNewCat = view.findViewById(R.id.btnNewCat);
+        rcvLayoutManager = new GridLayoutManager(getActivity(),4);
+        rcvCats.setLayoutManager(rcvLayoutManager);
+        categoryAdapter = new CategoryAdapter(this.getContext());
+        categoryAdapter.setData(listCats);
+        rcvCats.setAdapter(categoryAdapter);
+
+    }
+
+    private void dataInitialize() {
+        listCats = new ArrayList<Category>();
+        listCats.add(new Category("Thưởng", R.color.colorItem1, R.drawable.ic_money, R.color.colorIcon1));
+        listCats.add(new Category("Làm đẹp", R.color.colorItem2, R.drawable.ic_beauty_heart, R.color.colorIcon2));
+        listCats.add(new Category("Máy bay", R.color.colorItem1,R.drawable.ic_airplane, R.color.colorIcon1));
+        listCats.add(new Category("Sửa chữa", R.color.colorItem3,R.drawable.ic_repair, R.color.colorIcon3));
+        listCats.add(new Category("Du lịch", R.color.colorItem6,R.drawable.ic_case_travel, R.color.colorIcon4));
+        listCats.add(new Category("Tàu điện", R.color.colorItem3,R.drawable.ic_train_metro, R.color.colorIcon3));
+        listCats.add(new Category("Hóa đơn", R.color.colorItem5,R.drawable.ic_fee_tax, R.color.colorIcon5));
+        listCats.add(new Category("Thư", R.color.colorItem4,R.drawable.ic_envelope, R.color.colorIcon6));
+        listCats.add(new Category("Mua sắm", R.color.colorItem1,R.drawable.icon_shopping, R.color.colorIcon1));
+        listCats.add(new Category("Két sắt", R.color.colorItem5,R.drawable.ic_safe_saving, R.color.colorIcon5));
+        listCats.add(new Category("Lương", R.color.colorItem8,R.drawable.icon_wallet_earnings, R.color.green));
+        listCats.add(new Category("Thức ăn", R.color.colorItem7,R.drawable.ic_restaurant_fork, R.color.colorIcon7));
+        listCats.add(new Category("Thuốc", R.color.colorItem2,R.drawable.icon_drugs, R.color.colorIcon2));
+        listCats.add(new Category("Nước uống", R.color.colorItem6,R.drawable.ic_coffee_bistro, R.color.colorIcon4));
+        listCats.add(new Category("Thời gian chờ", R.color.colorItem3,R.drawable.ic_pending_time_wait_transaction_clock, R.color.colorIcon3));
+        listCats.add(new Category("Nước", R.color.colorItem1,R.drawable.ic_water_tap, R.color.colorIcon1));
+        listCats.add(new Category("Lãi", R.color.colorItem8,R.drawable.ic_interest, R.color.green));
+        listCats.add(new Category("Em bé", R.color.colorItem7,R.drawable.ic_kid_care_stroller, R.color.colorIcon7));
+        listCats.add(new Category("Bảo hiểm", R.color.colorItem5,R.drawable.ic_insurance_shield, R.color.colorIcon5));
+        listCats.add(new Category("Nhà", R.color.colorItem4,R.drawable.ic_home, R.color.colorIcon6));
+        listCats.add(new Category("Sở thích", R.color.colorItem4,R.drawable.ic_kite_hobby, R.color.colorIcon6));
+        listCats.add(new Category("Y tế", R.color.colorItem2,R.drawable.ic_hospital, R.color.colorIcon2));
+        listCats.add(new Category("Thể thao", R.color.colorItem1,R.drawable.ic_sport_gym, R.color.colorIcon1));
+        listCats.add(new Category("Quần áo", R.color.colorItem1,R.drawable.ic_tshirt, R.color.colorIcon1));
+        listCats.add(new Category("Quà tặng", R.color.colorItem2,R.drawable.ic_gift_box, R.color.colorIcon2));
+        listCats.add(new Category("Trái cây", R.color.colorItem8,R.drawable.ic_apple, R.color.green));
+        listCats.add(new Category("Giải trí", R.color.colorItem6,R.drawable.ic_mask, R.color.colorIcon4));
+        listCats.add(new Category("Di chuyển", R.color.colorItem1,R.drawable.ic_car_drive, R.color.colorIcon1));
+        listCats.add(new Category("Xăng dầu", R.color.colorItem4,R.drawable.ic_station_fuel, R.color.colorIcon6));
+        listCats.add(new Category("Thiết bi", R.color.colorItem1,R.drawable.ic_computer, R.color.colorIcon1));
+        listCats.add(new Category("Từ thiện", R.color.colorItem2,R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2));
+        listCats.add(new Category("Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2,R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2));
+        listCats.add(new Category("Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2,R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2));
+        listCats.add(new Category("Từ thiện", R.color.colorItem2,R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2));
+
     }
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.fragment.CategoryFragment;
 import com.learning.personal_expense_management.controller.fragment.NewCategoryFragment;
 import com.learning.personal_expense_management.controller.fragment.StatisticFragment;
 
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction transaction = fragmentManager.beginTransaction();
-    NewCategoryFragment fragment = new NewCategoryFragment();
+    CategoryFragment fragment = new CategoryFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

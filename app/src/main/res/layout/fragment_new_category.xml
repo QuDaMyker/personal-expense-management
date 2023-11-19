@@ -130,7 +130,7 @@
                             android:buttonTint="@color/white"
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem3"
-        
+
                             />
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem4"
@@ -152,7 +152,7 @@
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem5"
                             android:layout_marginTop="15dp"
-    
+
                             />
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem6"
@@ -166,7 +166,7 @@
                             android:backgroundTint="@color/colorItem6"
                             android:layout_marginTop="15dp"
 
-    
+
                             />
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/clItem7"
@@ -195,115 +195,7 @@
                             />
                     </GridLayout>
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:outlineProvider="none"-->
-<!--                        android:paddingVertical="10dp"-->
-<!--                        >-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem1"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:buttonTint="@color/white"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:backgroundTint="@color/colorItem1"-->
 
-<!--                            />-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem2"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:layout_marginLeft="25dp"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:buttonTint="@color/white"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:backgroundTint="@color/colorItem2"-->
-<!--                            />-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem3"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_marginLeft="25dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:buttonTint="@color/white"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:backgroundTint="@color/colorItem3"-->
-
-<!--                            />-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem4"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_marginLeft="25dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:backgroundTint="@color/colorItem4"-->
-
-<!--                            />-->
-<!--                    </LinearLayout>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:outlineProvider="none"-->
-<!--                        android:paddingVertical="10dp"-->
-<!--                        >-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem5"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:buttonTint="@color/white"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:backgroundTint="@color/colorItem5"-->
-
-<!--                            />-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem6"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:layout_marginLeft="25dp"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:buttonTint="@color/white"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:backgroundTint="@color/colorItem6"-->
-
-
-<!--                            />-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem7"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_marginLeft="25dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:buttonTint="@color/white"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:backgroundTint="@color/colorItem7"-->
-
-<!--                            />-->
-<!--                        <com.google.android.material.radiobutton.MaterialRadioButton-->
-<!--                            android:id="@+id/clItem8"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="65dp"-->
-<!--                            android:layout_marginLeft="25dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:background="@drawable/custom_radiobutton_color"-->
-<!--                            android:button="@drawable/custom_bg_radiobutton_color_selector"-->
-<!--                            android:backgroundTint="@color/colorItem8"-->
-
-<!--                            />-->
-<!--                    </LinearLayout>-->
 
 
                 </RadioGroup>
@@ -585,7 +477,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
-
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_insurance_shield"
                                 android:drawableTint="@color/primary40"
@@ -600,7 +491,7 @@
                                 android:layout_marginTop="10dp"
                                 android:layout_marginRight="20dp"
                                 android:button="@android:color/transparent"
-                                android:drawableStart="@drawable/outline_home_24"
+                                android:drawableStart="@drawable/ic_home"
                                 android:drawableTint="@color/primary40"
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
