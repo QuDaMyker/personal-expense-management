@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,10 @@ import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.DialogListener;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity_SelectionWallet;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionFilterActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
 import com.learning.personal_expense_management.controller.transaction.adapter.ParentItemAdapter;
+import com.learning.personal_expense_management.databinding.DialogConfirmDeleteTransactionBinding;
+import com.learning.personal_expense_management.databinding.DialogDetailTransactionBinding;
 import com.learning.personal_expense_management.databinding.FragmentTransactionBinding;
 import com.learning.personal_expense_management.model.ParentItemTransaction;
 import com.learning.personal_expense_management.model.Transaction;
@@ -240,17 +244,37 @@ public class TransactionFragment extends Fragment {
         binding.tvMonthNext.setText("Tháng " + nextMonth);
     }
 
-    private void openDialog(int gravity) {
+    private void openDialog(int gravity, Transaction transaction) {
         final Dialog dialog = new Dialog(getContext());
+        DialogDetailTransactionBinding bindingDialog;
+        bindingDialog = DialogDetailTransactionBinding.inflate(getLayoutInflater());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_detail_transaction);
+        dialog.setContentView(bindingDialog.getRoot());
+        //dialog.setContentView(R.layout.layout_dialog_detail_transaction);
+
+
+        bindingDialog.priceTransaction.setText(transaction.getAmount() + "₫");
+        bindingDialog.noteTransaction.setText(transaction.getNote());
+        if (transaction.getTransactionType() == 0) {
+            bindingDialog.tvLoaigiaodich.setText("Thu");
+        } else if (transaction.getTransactionType() == 1) {
+            bindingDialog.tvLoaigiaodich.setText("Chi");
+        } else {
+            bindingDialog.tvLoaigiaodich.setText("Chuyển tiền");
+        }
+        bindingDialog.tvNgaygiaodich.setText(transaction.getTransactionDate());
+        bindingDialog.tvGiogiaodich.setText(transaction.getTransactionTime());
+
 
         Window window = dialog.getWindow();
         if (window == null) {
             return;
         }
 
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
+
+        window.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
@@ -258,35 +282,75 @@ public class TransactionFragment extends Fragment {
         window.setAttributes(windowAttributes);
 
 
-//        LayoutDialogDetailTransactionBinding dialogBinding = LayoutDialogDetailTransactionBinding.inflate(getLayoutInflater());
-//
-//        dialogBinding.imgEdit.setOnClickListener(v -> {
-//            Toast.makeText(this, "Img Edit", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        dialogBinding.imgDelete.setOnClickListener(v-> {
-//            Toast.makeText(this, "Img Delete", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        dialogBinding.btnOk.setOnClickListener(v -> {
-//            dialog.dismiss();
-//        });
 
-        ImageButton imgBtnEdit = dialog.findViewById(R.id.imgBtn_edit);
-        ImageButton imgBtnDelete = dialog.findViewById(R.id.imgBtn_delete);
-        Button btnOK = dialog.findViewById(R.id.btn_ok);
 
-        imgBtnEdit.setOnClickListener(v -> {
+        bindingDialog.imgBtnEdit.setOnClickListener(v -> {
             Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
         });
 
-        imgBtnDelete.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+        bindingDialog.imgBtnDelete.setOnClickListener(v-> {
+            dialog.dismiss();
+
+            final Dialog confirmDialog = new Dialog(getContext());
+            DialogConfirmDeleteTransactionBinding bindingConfirm;
+            bindingConfirm = DialogConfirmDeleteTransactionBinding.inflate(getLayoutInflater());
+            confirmDialog.setContentView(bindingConfirm.getRoot());
+
+            bindingConfirm.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FireStoreService.deleteTransaction(FirebaseAuth.getInstance().getUid(), transaction.getId());
+                    confirmDialog.dismiss();
+                    parentItemTransactionList(-1, -1, -1);
+                }
+            });
+
+            bindingConfirm.btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    confirmDialog.dismiss();
+                    dialog.show();
+                }
+            });
+
+            Window windowConfirm = confirmDialog.getWindow();
+            if (windowConfirm == null) {
+                return;
+            }
+
+
+
+            windowConfirm.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+            windowConfirm.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
+
+            WindowManager.LayoutParams windowAttributesConfirm = windowConfirm.getAttributes();
+            windowAttributesConfirm.gravity = gravity;
+            windowConfirm.setAttributes(windowAttributesConfirm);
+
+
+
+            confirmDialog.show();
         });
 
-        btnOK.setOnClickListener(v -> {
+        bindingDialog.btnOk.setOnClickListener(v -> {
             dialog.dismiss();
         });
+
+//        ImageButton imgBtnEdit = dialog.findViewById(R.id.imgBtn_edit);
+//        ImageButton imgBtnDelete = dialog.findViewById(R.id.imgBtn_delete);
+//        Button btnOK = dialog.findViewById(R.id.btn_ok);
+//
+//        imgBtnEdit.setOnClickListener(v -> {
+//            Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
+//        });
+//
+//        imgBtnDelete.setOnClickListener(v -> {
+//            Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+//        });
+//
+//        btnOK.setOnClickListener(v -> {
+//            dialog.dismiss();
+//        });
         dialog.show();
     }
 
@@ -303,7 +367,13 @@ public class TransactionFragment extends Fragment {
             binding.tvNothinghere.setVisibility(View.VISIBLE);
             binding.parentRecycleView.setVisibility(View.GONE);
         } else {
-            parentItemAdapter = new ParentItemAdapter(getContext(), mainList);
+            parentItemAdapter = new ParentItemAdapter(getContext(), mainList, new ObjectListener() {
+                @Override
+                public void onClick(Object o) {
+                    Transaction transaction = (Transaction) o;
+                    openDialog(Gravity.CENTER, transaction);
+                }
+            });
 
             binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
             binding.parentRecycleView.setAdapter(parentItemAdapter);

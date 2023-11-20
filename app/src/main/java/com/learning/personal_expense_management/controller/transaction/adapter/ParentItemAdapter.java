@@ -20,10 +20,12 @@ public class ParentItemAdapter extends RecyclerView.Adapter<ParentItemAdapter.Vi
     private Context context;
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<ParentItemTransaction> list;
+    private ObjectListener objectListener;
 
-    public ParentItemAdapter(Context context, List<ParentItemTransaction> list) {
+    public ParentItemAdapter(Context context, List<ParentItemTransaction> list, ObjectListener objectListener) {
         this.context = context;
         this.list = list;
+        this.objectListener = objectListener;
     }
 
     @NonNull
@@ -55,12 +57,7 @@ public class ParentItemAdapter extends RecyclerView.Adapter<ParentItemAdapter.Vi
             Log.d("date", parentItemTransaction.getDate());
             LinearLayoutManager layoutManager = new LinearLayoutManager(binding.childRecyclerview.getContext());
             layoutManager.setInitialPrefetchItemCount(parentItemTransaction.getListTransaction().size());
-            ChildItemAdapter childItemAdapter = new ChildItemAdapter(parentItemTransaction.getListTransaction(), new ObjectListener() {
-                @Override
-                public void onClick(Object o) {
-
-                }
-            });
+            ChildItemAdapter childItemAdapter = new ChildItemAdapter(parentItemTransaction.getListTransaction(), objectListener);
 
             binding.childRecyclerview.setLayoutManager(layoutManager);
             binding.childRecyclerview.setAdapter(childItemAdapter);

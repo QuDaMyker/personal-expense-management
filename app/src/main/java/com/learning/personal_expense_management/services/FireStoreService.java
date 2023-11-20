@@ -234,7 +234,7 @@ public class FireStoreService {
 
             } else {
                 if (isHighest == -1) {
-                    if(isNewest == -1 || isNewest == 1) {
+                    if (isNewest == -1 || isNewest == 1) {
                         db.collection(Constants.KEY_TRANSACTION)
                                 .whereEqualTo("ownerId", ownerId)
                                 .whereEqualTo("month", month)
@@ -278,7 +278,7 @@ public class FireStoreService {
                                 });
                     }
 
-                }else if(isHighest == 0) {
+                } else if (isHighest == 0) {
                     db.collection(Constants.KEY_TRANSACTION)
                             .whereEqualTo("ownerId", ownerId)
                             .whereEqualTo("month", month)
@@ -347,6 +347,23 @@ public class FireStoreService {
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }
+    }
+
+    public static void deleteTransaction(String ownerId, String transactionId) {
+        db.collection(Constants.KEY_TRANSACTION).document(transactionId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("rs - delete - transaction", "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("rs - delete - transaction", "Error deleting document", e);
+                    }
+                });
     }
 
 
