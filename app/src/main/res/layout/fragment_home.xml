@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_color_main"
-    tools:context=".controller.fragment.HomeFragment">
+    android:paddingBottom="85dp"
+    tools:context=".controller.home.fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Số dư hiện tại"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal"
                 app:layout_constraintLeft_toRightOf="@id/profile_image"
@@ -59,6 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20,000,000₫"
+                    android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -66,6 +69,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
+                    android:background="@color/white"
                     android:src="@drawable/ic_visible_on" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -95,29 +99,29 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="5dp"
-                android:padding="40dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="40dp"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="160dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_youraccount"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:backgroundTint="@color/primary40"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_button_bg"
                         android:text="Tài khoản của bạn"
                         android:textSize="12dp"
-                        android:layout_marginTop="10dp"
+                        app:backgroundTint="@null"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.545"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -130,7 +134,7 @@
                         android:layout_height="75dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:src="@drawable/ic_example"
+                        android:src="@drawable/ic_your_account"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -141,39 +145,39 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="5dp"
                 android:layout_marginTop="5dp"
-                android:padding="40dp"
                 android:layout_marginBottom="5dp"
+                android:padding="40dp"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="160dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_walletaccount"
                         android:layout_width="151dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:backgroundTint="@color/primary40"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_button_bg"
                         android:text="Ví tiền của bạn"
                         android:textSize="12dp"
-                        android:layout_marginTop="10dp"
+                        app:backgroundTint="@null"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="65dp"
+                        android:layout_width="80dp"
                         android:layout_height="75dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:src="@drawable/ic_example"
+                        android:src="@drawable/ic_your_wallet"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -199,19 +203,18 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardV_DanhMuc"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_width="80dp"
                 android:layout_height="95dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginBottom="5dp"
                 android:padding="40dp"
-                android:layout_marginStart="20dp"
                 app:cardBackgroundColor="@color/primary90"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -241,10 +244,6 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/cardV_DanhMuc"
-                app:layout_constraintRight_toLeftOf="@id/cardV_ChuyenDoi"
                 android:id="@+id/cardV_KhoanVay"
                 android:layout_width="80dp"
                 android:layout_height="95dp"
@@ -253,7 +252,10 @@
                 android:padding="40dp"
                 app:cardBackgroundColor="@color/primary90"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/cardV_DanhMuc"
+                app:layout_constraintRight_toLeftOf="@id/cardV_ChuyenDoi"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -284,18 +286,17 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardV_ChuyenDoi"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_width="80dp"
                 android:layout_height="95dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="5dp"
                 android:padding="40dp"
-                android:layout_marginEnd="20dp"
                 app:cardBackgroundColor="@color/primary90"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -339,16 +340,30 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_check_circle_outline"
+                android:src="@drawable/ic_target"
                 app:tint="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mục tiêu"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_rev_muctieu_null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Bạn chưa có mục tiêu"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMucTieu" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rev_muctieu"
@@ -356,6 +371,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMucTieu" />
@@ -373,27 +389,44 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_check_circle_outline"
+                android:src="@drawable/ic_calendar"
                 app:tint="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hoạt động gần đây"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_rev_hoatdongganday_null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Bạn chưa có hoạt động gần đây"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHoatDongGanDay" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rev_hoatdongganday"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHoatDongGanDay"
-            tools:listitem="@layout/item_muctieu" />
+            tools:itemCount="10"
+            tools:listitem="@layout/item_transaction" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
