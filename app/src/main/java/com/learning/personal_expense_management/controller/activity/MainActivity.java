@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction transaction = fragmentManager.beginTransaction();
-    CategoryFragment fragment = new CategoryFragment();
+    NewCategoryFragment fragment = new NewCategoryFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

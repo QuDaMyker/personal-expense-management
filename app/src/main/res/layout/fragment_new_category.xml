@@ -7,7 +7,6 @@
     tools:context=".controller.fragment.NewCategoryFragment"
     android:paddingHorizontal="20dp"
     >
-
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,7 +66,7 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Nhập tên danh mục"
                     app:errorEnabled="true"
-                    app:suffixText="₫">
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -88,16 +87,17 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:paddingHorizontal="20dp"
-                    android:paddingVertical="5dp"
+                    android:id="@+id/grColor"
+                    android:paddingVertical="20dp"
+
                     >
-                    <GridLayout
+                    <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="10dp"
-                        android:columnCount="4"
-                        android:rowCount="2"
+                        android:orientation="horizontal"
+                        android:id="@+id/grColor1"
                         >
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/clItem1"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
@@ -109,7 +109,7 @@
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem1"
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/clItem2"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
@@ -119,31 +119,42 @@
                             android:buttonTint="@color/white"
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem2"
+
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/clItem3"
+                        <RadioButton
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:id="@+id/clItem3"
                             android:layout_marginLeft="25dp"
                             android:layout_weight="1"
                             android:button="@drawable/custom_bg_radiobutton_color_selector"
                             android:buttonTint="@color/white"
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem3"
-
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/clItem4"
+                        <RadioButton
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:id="@+id/clItem4"
                             android:layout_marginLeft="25dp"
                             android:layout_weight="1"
-                            android:background="@drawable/custom_radiobutton_color"
                             android:button="@drawable/custom_bg_radiobutton_color_selector"
+                            android:buttonTint="@color/white"
+                            android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem4"
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+
+                    </RadioGroup>
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/grColor2"
+
+                        >
+                        <RadioButton
                             android:id="@+id/clItem5"
+
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_weight="1"
@@ -152,10 +163,10 @@
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem5"
                             android:layout_marginTop="15dp"
-
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/clItem6"
+
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_weight="1"
@@ -165,11 +176,10 @@
                             android:background="@drawable/custom_radiobutton_color"
                             android:backgroundTint="@color/colorItem6"
                             android:layout_marginTop="15dp"
-
-
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/clItem7"
+
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginLeft="25dp"
@@ -181,7 +191,7 @@
                             android:layout_marginTop="15dp"
 
                             />
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/clItem8"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
@@ -193,18 +203,15 @@
                             android:layout_marginTop="15dp"
 
                             />
-                    </GridLayout>
-
-
-
-
+                    </RadioGroup>
                 </RadioGroup>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Biểu tượng"
                     android:textFontWeight="600"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:layout_marginTop="20dp"/>
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -214,12 +221,14 @@
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/grIcon"
                         >
-                        <GridLayout
+                        <RadioGroup
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:rowCount="7"
-                            android:columnCount="5">
+                            android:id="@+id/grIcon1"
+                            android:orientation="horizontal"
+                            >
                             <RadioButton
                                 android:id="@+id/icMoney"
                                 android:layout_width="wrap_content"
@@ -275,6 +284,12 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
+                        </RadioGroup>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/grIcon2"
+                            android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/icCaseTravel"
                                 android:layout_width="wrap_content"
@@ -336,6 +351,13 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
+
+                        </RadioGroup>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/grIcon3"
+                            android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/icGear"
                                 android:layout_marginTop="10dp"
@@ -398,6 +420,13 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
+
+                        </RadioGroup>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/grIcon4"
+                            android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/icClock"
                                 android:layout_width="wrap_content"
@@ -459,6 +488,12 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
+                        </RadioGroup>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/grIcon5"
+                            android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/icKid"
                                 android:layout_width="wrap_content"
@@ -520,6 +555,12 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
+                        </RadioGroup>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/grIcon6"
+                            android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/icGym"
                                 android:layout_width="wrap_content"
@@ -582,6 +623,12 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
+                        </RadioGroup>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/grIcon7"
+                            android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/icComputer"
                                 android:layout_width="wrap_content"
@@ -644,7 +691,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
-                        </GridLayout>
+                        </RadioGroup>
                     </RadioGroup>
                 </ScrollView>
                 <com.google.android.material.button.MaterialButton

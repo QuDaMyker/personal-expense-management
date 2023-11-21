@@ -101,6 +101,7 @@ public class CategoryFragment extends Fragment {
 
     }
 
+    //một số danh mục mặc định
     private void dataInitialize() {
         listCats = new ArrayList<Category>();
         listCats.add(new Category("Thưởng", R.color.colorItem1, R.drawable.ic_money, R.color.colorIcon1));
