@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    tools:context=".controller.activity.transaction.activity.TransactionFilterActivity">
+    tools:context=".controller.transaction.activity.TransactionFilterActivity">
 
     <!--    <com.google.android.material.appbar.MaterialToolbar-->
     <!--        android:id="@+id/top_app_bar"-->
@@ -93,6 +93,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipgroup_loaigiaodich"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -102,6 +103,7 @@
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_thu"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,6 +114,7 @@
                 app:chipCornerRadius="20dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_chi"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,6 +125,7 @@
                 app:chipCornerRadius="20dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_chuyentien"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,6 +158,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipgroup_sapxeptheo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -163,6 +168,7 @@
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_caonhat"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,6 +179,7 @@
                 app:chipCornerRadius="20dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_thapnhat"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,6 +191,7 @@
                 app:chipCornerRadius="20dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_moinhat"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,6 +202,7 @@
                 app:chipCornerRadius="20dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_cunhat"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -227,58 +236,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv4"
-            app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cao nhấp"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipBackgroundColor="@color/chip_background"
-                app:chipCornerRadius="20dp" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="80dp"
-                android:text="Thấp nhất"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipBackgroundColor="@color/chip_background"
-                app:chipCornerRadius="20dp" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mới nhất"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipBackgroundColor="@color/chip_background"
-                app:chipCornerRadius="20dp" />
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="40dp"
-                android:text="Cũ nhất"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipBackgroundColor="@color/chip_background"
-                app:chipCornerRadius="20dp" />
-
-        </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton

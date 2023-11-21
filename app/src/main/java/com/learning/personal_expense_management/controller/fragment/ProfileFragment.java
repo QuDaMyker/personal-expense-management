@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.learning.personal_expense_management.R;
-import com.learning.personal_expense_management.controller.activity.profile.LanguageActivity;
-import com.learning.personal_expense_management.controller.activity.profile.NotifyActivity;
-import com.learning.personal_expense_management.controller.activity.profile.PolicyActivity;
-import com.learning.personal_expense_management.controller.activity.profile.CurrencyUnitActivity;
-import com.learning.personal_expense_management.controller.activity.profile.SecurityActivity;
+import com.learning.personal_expense_management.controller.profile.LanguageActivity;
+import com.learning.personal_expense_management.controller.profile.NotifyActivity;
+import com.learning.personal_expense_management.controller.profile.PolicyActivity;
+import com.learning.personal_expense_management.controller.profile.CurrencyUnitActivity;
+import com.learning.personal_expense_management.controller.profile.SecurityActivity;
 
 /**
  * A simple {@link Fragment} subclass.
