@@ -1,5 +1,7 @@
 package com.learning.personal_expense_management.model;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 public class UserProfile {
     private String id;
     private String name;
@@ -10,6 +12,18 @@ public class UserProfile {
     private boolean tip;
     private boolean lowBalanceAlert;
     private boolean dailyReminders;
+
+    public UserProfile(QueryDocumentSnapshot document) {
+        this.id = document.getString("id");
+        this.name = document.getString("name");
+        this.email = document.getString("email");
+        this.defaultCurrency = document.getString("defaultCurrency");
+        this.language = document.getString("language");
+        this.securityMethod = document.getString("securityMethod");
+        this.tip = document.getBoolean("tip");
+        this.lowBalanceAlert = document.getBoolean("lowBalanceAlert");
+        this.dailyReminders = document.getBoolean("dailyReminders");
+    }
 
     public UserProfile(String id, String name, String email, String defaultCurrency, String language, String securityMethod, boolean tip, boolean lowBalanceAlert, boolean dailyReminders) {
         this.id = id;

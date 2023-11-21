@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="85dp"
     android:background="@drawable/background_color_main"
+    android:paddingBottom="85dp"
     tools:context=".controller.home.fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,10 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:elevation="20dp"
                 android:padding="40dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -149,10 +147,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:elevation="20dp"
                 android:padding="40dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -216,7 +212,6 @@
                 android:padding="40dp"
                 app:cardBackgroundColor="@color/primary90"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -257,7 +252,6 @@
                 android:padding="40dp"
                 app:cardBackgroundColor="@color/primary90"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/cardV_DanhMuc"
                 app:layout_constraintRight_toLeftOf="@id/cardV_ChuyenDoi"
@@ -300,7 +294,6 @@
                 android:padding="40dp"
                 app:cardBackgroundColor="@color/primary90"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -365,9 +358,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/quicksand_bold"
-            android:textStyle="bold"
             android:text="Bạn chưa có mục tiêu"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMucTieu" />
@@ -414,10 +407,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/quicksand_bold"
-            android:textStyle="bold"
             android:text="Bạn chưa có hoạt động gần đây"
             android:textAlignment="center"
             android:textSize="22sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHoatDongGanDay" />
@@ -427,8 +420,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:visibility="invisible"
             android:orientation="vertical"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHoatDongGanDay"

@@ -1,7 +1,4 @@
 package com.learning.personal_expense_management.controller.login;
-
-import static com.learning.personal_expense_management.utilities.Constants.KEY_PREFERENCE_ACCOUNTS;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -41,6 +38,8 @@ import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.RootActivity;
 import com.learning.personal_expense_management.databinding.ActivityLoginBinding;
 import com.learning.personal_expense_management.model.UserProfile;
+import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.UserProfileListener;
 import com.learning.personal_expense_management.utilities.Constants;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 
@@ -159,109 +158,36 @@ public class LoginActivity extends AppCompatActivity {
                                         //updateUserInfo(user);
                                         // them thong tin tai khoan vao realtime
                                         if (user != null) {
-                                            String personalID = user.getUid();
-                                            String personName = user.getDisplayName();
-                                            String personEmail = user.getEmail();
-                                            Uri personPhoto = user.getPhotoUrl();
-
-                                            Date now = new Date();
-                                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                            String formattedDate = dateFormat.format(now);
-                                            UserProfile hoSoNguoiDung = new UserProfile(
-                                                    personalID,
-                                                    personName,
-                                                    personEmail,
+                                            UserProfile userProfile = new UserProfile(
+                                                    user.getUid(),
+                                                    user.getDisplayName(),
+                                                    user.getEmail(),
                                                     "VND",
                                                     "Vietnamese",
-                                                    "PIN",
+                                                    "NO",
                                                     false,
                                                     false,
-                                                    false);
-                                            String emailToCheck = personEmail;
+                                                    false
+                                            );
 
-
-                                            preferenceManager.putString(Constants.KEY_EMAIL, hoSoNguoiDung.getEmail());
-                                            preferenceManager.putString(Constants.KEY_FULLNAME, hoSoNguoiDung.getName());
-
-                                            preferenceManager.putString(Constants.KEY_DATECREATEDACCOUNT, formattedDate);
-
-                                            DatabaseReference accountsRef = reference.child(KEY_PREFERENCE_ACCOUNTS);
-
-                                            Query emailQuery = accountsRef.orderByChild(Constants.KEY_EMAIL).equalTo(emailToCheck);
-
-                                            emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            FireStoreService.isExistAccount(userProfile, new UserProfileListener() {
                                                 @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                    if (!dataSnapshot.exists()) {
-                                                        Toast.makeText(LoginActivity.this, "not exist", Toast.LENGTH_SHORT).show();
-                                                        DatabaseReference newChildRef = reference.child(KEY_PREFERENCE_ACCOUNTS).push();
-                                                        String generatedKey = newChildRef.getKey();
-                                                        hoSoNguoiDung.setId(generatedKey);
-                                                        preferenceManager.putString(Constants.KEY_USER_ID, generatedKey);
-
-                                                        newChildRef.setValue(hoSoNguoiDung)
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        if (task.isSuccessful()) {
-                                                                            // Data successfully saved
-                                                                            preferenceManager.putString(Constants.KEY_FULLNAME, hoSoNguoiDung.getName());
-                                                                            preferenceManager.putString(Constants.KEY_EMAIL, hoSoNguoiDung.getEmail());
-                                                                            preferenceManager.putString(Constants.KEY_DON_VI_TIEN_MAC_DINH, hoSoNguoiDung.getDefaultCurrency());
-                                                                            preferenceManager.putString(Constants.KEY_NGON_NGU, hoSoNguoiDung.getLanguage());
-                                                                            preferenceManager.putString(Constants.KEY_PHUONG_THUC_BAO_MAT, hoSoNguoiDung.getSecurityMethod());
-                                                                            preferenceManager.putBoolean(Constants.KEY_MEO_TIEU_VAT, hoSoNguoiDung.isTip());
-                                                                            preferenceManager.putBoolean(Constants.KEY_CANH_BAO_CAN_VI_TIEN, hoSoNguoiDung.isLowBalanceAlert());
-                                                                            preferenceManager.putBoolean(Constants.KEY_NHAC_NHO_HANG_NGAY, hoSoNguoiDung.isDailyReminders());
-                                                                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                                                                            preferenceManager.putBoolean(Constants.KEY_FIRST_INSTALL, true);
-
-                                                                            // n(getApplicationContext(), "Thông báo", "Chào mừng bạn đến với chúng tôi, hãy lựa chọn căn phòng ưng ý mình nhé", R.drawable.ic_phobien_1);
-                                                                            progressDialog.dismiss();
-
-
-                                                                            startActivity(new Intent(LoginActivity.this, RootActivity.class));
-                                                                        } else {
-                                                                            // Handle the error here
-                                                                            Toast.makeText(LoginActivity.this, "Lỗi cập nhật RealtimeDB", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    }
-                                                                });
-                                                    } else {
-//                                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                                                                    AccountClass checkAcc = snapshot.getValue(AccountClass.class);
-//                                                                    preferenceManager.putString(Constants.KEY_USER_KEY, snapshot.getKey());
-//                                                                    preferenceManager.putString(Constants.KEY_IMAGE, checkAcc.getImage());
-//                                                                    preferenceManager.putBoolean(Constants.KEY_IS_BLOCKED, checkAcc.getBlocked());
-//                                                                    if (checkAcc.getBlocked()) {
-//                                                                        progressDialog.dismiss();
-//                                                                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-//
-//                                                                        startActivity(new Intent(ActivityLogIn.this, ActivityBlocked.class));
-//                                                                    } else {
-//                                                                        CommonUtils.showNotification(getApplicationContext(), "Thông báo", "Chào mừng bạn trở lại, hãy lựa chọn căn phòng ưng ý mình nhé", R.drawable.ic_phobien_1);
-//                                                                        progressDialog.dismiss();
-//                                                                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-//                                                                        preferenceManager.putBoolean(Constants.KEY_FIRST_INSTALL, true);
-//
-//                                                                        startActivity(new Intent(ActivityLogIn.this, ActivityMain.class));
-//                                                                    }
-//                                                                }
-                                                        Toast.makeText(LoginActivity.this, "Tai Khoan Ton Tai", Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(LoginActivity.this, RootActivity.class));
-
-
+                                                public void onUserProfilesLoaded(boolean isExist) {
+                                                    if(isExist) {
+                                                        FireStoreService.addUserProfile(userProfile);
                                                     }
+                                                    startActivity(new Intent(LoginActivity.this, RootActivity.class));
+                                                    finish();
                                                 }
 
                                                 @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                    // Handle the error here
-                                                    //CommonUtils.showNotification(getApplicationContext(), "Trạng thái đăng nhập", "Thất bại", R.drawable.ic_phobien_1);
-                                                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-                                                    progressDialog.dismiss();
+                                                public void onError(String errorMessage) {
+                                                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
+
+
+
                                         }
                                     } else {
                                         // Đăng nhập thất bại
