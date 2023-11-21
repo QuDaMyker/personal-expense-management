@@ -45,6 +45,7 @@ import com.learning.personal_expense_management.utilities.PreferenceManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -172,12 +173,17 @@ public class LoginActivity extends AppCompatActivity {
 
                                             FireStoreService.isExistAccount(userProfile, new UserProfileListener() {
                                                 @Override
-                                                public void onUserProfilesLoaded(boolean isExist) {
+                                                public void onExist(boolean isExist) {
                                                     if(isExist) {
                                                         FireStoreService.addUserProfile(userProfile);
                                                     }
                                                     startActivity(new Intent(LoginActivity.this, RootActivity.class));
                                                     finish();
+                                                }
+
+                                                @Override
+                                                public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
+
                                                 }
 
                                                 @Override
