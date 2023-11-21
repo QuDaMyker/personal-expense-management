@@ -1,20 +1,54 @@
 package com.learning.personal_expense_management.model;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
 public class Account {
+    private String ownerId;
+    private String id;
     private String accountType;
     private String cardName;
     private String cardNumber;
-    private DateTime expirationDate;
+    private String expirationDate;
     private int currentBalance;
 
-    public Account(String accountType, String cardName, String cardNumber, DateTime expirationDate, int currentBalance) {
-        this.accountType = accountType;
-        this.cardName = cardName;
-        this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.currentBalance = currentBalance;
+    public Account(QueryDocumentSnapshot document) {
+        this.ownerId = document.getString("ownerId");
+        this.id = document.getString("id");
+        this.accountType = document.getString("accountType");
+        this.cardName = document.getString("cardName");
+        this.cardNumber = document.getString("cardNumber");
+        this.expirationDate = document.getString("expirationDate");
+        this.currentBalance = Integer.parseInt(String.valueOf(document.getLong("currentBalance")));
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "ownerId='" + ownerId + '\'' +
+                ", id='" + id + '\'' +
+                ", accountType='" + accountType + '\'' +
+                ", cardName='" + cardName + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", currentBalance=" + currentBalance +
+                '}';
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAccountType() {
@@ -41,11 +75,11 @@ public class Account {
         this.cardNumber = cardNumber;
     }
 
-    public DateTime getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(DateTime expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -57,14 +91,13 @@ public class Account {
         this.currentBalance = currentBalance;
     }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "accountType='" + accountType + '\'' +
-                ", cardName='" + cardName + '\'' +
-                ", cardNumber='" + cardNumber + '\'' +
-                ", expirationDate=" + expirationDate +
-                ", currentBalance=" + currentBalance +
-                '}';
+    public Account(String ownerId, String id, String accountType, String cardName, String cardNumber, String expirationDate, int currentBalance) {
+        this.ownerId = ownerId;
+        this.id = id;
+        this.accountType = accountType;
+        this.cardName = cardName;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.currentBalance = currentBalance;
     }
 }

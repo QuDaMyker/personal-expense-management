@@ -362,8 +362,8 @@ public class TransactionFragment extends Fragment {
 
     private void getListTransaction() {
         if (mainList.isEmpty()) {
-            parentItemAdapter.notifyDataSetChanged();
-            //binding.progressBar.setVisibility(View.VISIBLE);
+            //parentItemAdapter.notifyDataSetChanged();
+            binding.progressBar.setVisibility(View.GONE);
             binding.tvNothinghere.setVisibility(View.VISIBLE);
             binding.parentRecycleView.setVisibility(View.GONE);
         } else {
