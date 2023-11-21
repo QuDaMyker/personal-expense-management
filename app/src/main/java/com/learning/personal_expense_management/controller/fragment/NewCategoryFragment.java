@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class NewCategoryFragment extends Fragment {
 
     private RadioGroup grColor2;
     private RadioButton selectedColorBtn;
+    private int preCheckedGrColorID;
 
     private RadioGroup grIcon;
     private RadioGroup grIcon1;
@@ -50,6 +52,8 @@ public class NewCategoryFragment extends Fragment {
     private RadioGroup grIcon7;
 
     private RadioButton selectedIconBtn;
+    private int preCheckedGrIconID;
+
 
     private RadioButton btnColo1;
     private RadioButton btnColo2;
@@ -59,29 +63,8 @@ public class NewCategoryFragment extends Fragment {
     private RadioButton btnColo6;
     private RadioButton btnColo7;
     private RadioButton btnColo8;
+    private Button btnCreateNewCat;
 
-//    private RadioGroup grIcon;
-//    private RadioButton btnIcon1;
-//    private RadioButton btnIcon2;
-//    private RadioButton btnIcon3;
-//    private RadioButton btnIcon4;
-//    private RadioButton btnIcon5;
-//    private RadioButton btnIcon6;
-//    private RadioButton btnIcon7;
-//    private RadioButton btnIcon8;
-//    private RadioButton btnIcon9;
-//    private RadioButton btnIcon10;
-//    private RadioButton btnIcon11;
-//    private RadioButton btnIcon12;
-//    private RadioButton btnIcon13;
-//    private RadioButton btnIcon14;
-//    private RadioButton btnIcon15;
-//    private RadioButton btnIcon16;
-//    private RadioButton btnIcon17;
-//    private RadioButton btnIcon18;
-//    private RadioButton btnIcon19;
-//    private RadioButton btnIcon20;
-//    private RadioButton btnIcon21;
 
     public NewCategoryFragment() {
         // Required empty public constructor
@@ -120,10 +103,15 @@ public class NewCategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_new_category, container, false);
+        txTitle = rootView.findViewById(R.id.tvTitleNewCat);
+
 
         grColor = rootView.findViewById(R.id.grColor);
         grColor1 = rootView.findViewById(R.id.grColor1);
         grColor2 = rootView.findViewById(R.id.grColor2);
+        preCheckedGrColorID =-1;
+        preCheckedGrIconID =-1;
+
 
         grIcon = rootView.findViewById(R.id.grIcon);
         grIcon1 = rootView.findViewById(R.id.grIcon1);
@@ -143,14 +131,16 @@ public class NewCategoryFragment extends Fragment {
         btnColo7 = rootView.findViewById(R.id.clItem7);
         btnColo8 = rootView.findViewById(R.id.clItem8);
 
+        btnCreateNewCat = rootView.findViewById(R.id.btnCreateNewCat);
+
         grColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
             }
         });
-        setupRadioButtonGRColor (rootView, grColor1);
-        setupRadioButtonGRColor (rootView, grColor2);
+        setupRadioButtonGRColor(rootView, grColor1);
+        setupRadioButtonGRColor(rootView, grColor2);
 
         setupRadioButtonGRIcon(rootView, grIcon1);
         setupRadioButtonGRIcon(rootView, grIcon2);
@@ -160,65 +150,63 @@ public class NewCategoryFragment extends Fragment {
         setupRadioButtonGRIcon(rootView, grIcon6);
         setupRadioButtonGRIcon(rootView, grIcon7);
 
+        btnCreateNewCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txTitle.getText()!= null && selectedColorBtn.getId()!=-1 && selectedIconBtn.getId()!=-1)
+                {
+
+                }
+            }
+        });
 
         return rootView;
     }
-    private void uncheckInOtherRadioGr(RadioGroup parent ,RadioGroup grChild) {
-        for (int i = 0; i < parent.getChildCount(); i++) {
-            RadioGroup radioGroup = (RadioGroup) parent.getChildAt(i);
-            if (radioGroup.getId() != grChild.getId()) {
-                radioGroup.setTag(true);
-                radioGroup.clearCheck();
-            }
-        }
-    }
 
-    //setup nếu gr nào được chọn thì uncheck ở các gr còn lại
     private void setupRadioButtonGRColor(View view, RadioGroup grChecked) {
         grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 selectedColorBtn = view.findViewById(checkedId);
 
-                if (group.getTag() != null && (boolean) group.getTag()) {
-                    // Nếu là từ hàm clearCheck thì không thực hiện xử lý
-                    group.setTag(false);
-                    return;
+                if (preCheckedGrColorID != -1 && group.getId() != preCheckedGrColorID) {
+                    // Uncheck ở `preCheckedGrID`
+                    RadioGroup preCheckedGr = view.findViewById(preCheckedGrColorID);
+                    preCheckedGr.clearCheck();
                 }
 
-                //xử lý
-                if (selectedColorBtn != null) {
-                    Toast.makeText(requireContext(), "Selected: " + selectedColorBtn.getId(), Toast.LENGTH_SHORT).show();
+                preCheckedGrColorID = group.getId();
 
-                    //uncheck ở cacgr khác
-                    RadioGroup parent = (RadioGroup) grChecked.getParent();
-                    uncheckInOtherRadioGr(parent, grChecked);
+                // Xử lý
+                if (selectedColorBtn != null) {
+                    Toast.makeText(requireContext(), "Selected: " + selectedColorBtn.getBackgroundTintList(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
     }
-    private void setupRadioButtonGRIcon(View view, RadioGroup grChecked){
-            grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    selectedIconBtn = view.findViewById(checkedId);
+    private void setupRadioButtonGRIcon(View view, RadioGroup grChecked) {
+        grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                selectedIconBtn = view.findViewById(checkedId);
 
-                    if (group.getTag() != null && (boolean) group.getTag()) {
-                        // Nếu là từ hàm clearCheck thì không thực hiện xử lý
-                        group.setTag(false);
-                        return;
-                    }
-
-                    //xử lý
-                    if (selectedIconBtn != null) {
-                        Toast.makeText(requireContext(), "Selected: " + selectedIconBtn.getId(), Toast.LENGTH_SHORT).show();
-
-                        //uncheck ở cacgr khác
-                        RadioGroup parent = (RadioGroup) grChecked.getParent();
-                        uncheckInOtherRadioGr(parent, grChecked);
-                    }
+                //k chọn lại gr hoặc k phải lần đầu
+                if (preCheckedGrIconID != -1 && group.getId() != preCheckedGrIconID) {
+                    // Uncheck ở `preCheckedGrID`
+                    RadioGroup preCheckedGr = view.findViewById(preCheckedGrIconID);
+                    preCheckedGr.clearCheck();
                 }
-            });
-        }
+
+                preCheckedGrIconID = group.getId();
+
+                // Xử lý
+                if (selectedIconBtn != null) {
+                    Toast.makeText(requireContext(), "Selected: " + selectedIconBtn.getDrawableState(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
 
 }

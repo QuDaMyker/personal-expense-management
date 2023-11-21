@@ -71,7 +71,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textFontWeight="400" />
+                        android:textFontWeight="400"
+                        android:id="@+id/tvTitleNewCat"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -697,6 +698,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/btnCreateNewCat"
                     android:padding="8dp"
                     android:text="Tạo danh mục mới"
                     android:textSize="20sp"
