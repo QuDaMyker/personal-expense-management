@@ -4,6 +4,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
 public class Wallet {
+    private String ownerId;
+    private String id;
     private String walletName;
     private boolean lowBalanceAlert;
     private int minimumBalance;
@@ -13,6 +15,8 @@ public class Wallet {
     private int frequency;
 
     public Wallet(QueryDocumentSnapshot document) {
+        this.ownerId = document.getString("ownerId");
+        this.id = document.getString("id");
         this.walletName = document.getString("walletName");
         this.lowBalanceAlert = Boolean.parseBoolean(document.getString("lowBalanceAlert"));
         this.minimumBalance = Integer.parseInt(document.getString("minimumBalance"));
@@ -22,7 +26,9 @@ public class Wallet {
         this.frequency = Integer.parseInt(document.getString("frequency"));
     }
 
-    public Wallet(String walletName, boolean lowBalanceAlert, int minimumBalance, boolean goalSavingsEnabled, int goalAmount, String savingsDeadline, int frequency) {
+    public Wallet(String ownerId, String id, String walletName, boolean lowBalanceAlert, int minimumBalance, boolean goalSavingsEnabled, int goalAmount, String savingsDeadline, int frequency) {
+        this.ownerId = ownerId;
+        this.id = id;
         this.walletName = walletName;
         this.lowBalanceAlert = lowBalanceAlert;
         this.minimumBalance = minimumBalance;
@@ -30,6 +36,22 @@ public class Wallet {
         this.goalAmount = goalAmount;
         this.savingsDeadline = savingsDeadline;
         this.frequency = frequency;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getWalletName() {
@@ -91,7 +113,9 @@ public class Wallet {
     @Override
     public String toString() {
         return "Wallet{" +
-                "walletName='" + walletName + '\'' +
+                "ownerId='" + ownerId + '\'' +
+                ", id='" + id + '\'' +
+                ", walletName='" + walletName + '\'' +
                 ", lowBalanceAlert=" + lowBalanceAlert +
                 ", minimumBalance=" + minimumBalance +
                 ", goalSavingsEnabled=" + goalSavingsEnabled +

@@ -56,7 +56,7 @@
                 android:layout_marginStart="20dp"
                 android:backgroundTint="@color/secondary80"
                 android:fontFamily="@font/quicksand_bold"
-                android:text="OK"
+                android:text="Hủy"
                 android:textColor="@color/black"
                 android:textSize="12dp"
                 android:textStyle="bold"

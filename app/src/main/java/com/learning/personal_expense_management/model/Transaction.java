@@ -15,6 +15,8 @@ public class Transaction {
     private String sourceAccount;
     private String destinationAccount;
     private Timestamp timeStamp;
+    private String month;
+    private String year;
 
     public Transaction(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
@@ -27,6 +29,8 @@ public class Transaction {
         this.sourceAccount = document.getString("sourceAccount");
         this.destinationAccount = document.getString("destinationAccount");
         this.timeStamp = document.getTimestamp("timeStamp");
+        this.month = document.getString("month");
+        this.year = document.getString("year");
     }
 
     @Override
@@ -42,7 +46,17 @@ public class Transaction {
                 ", sourceAccount='" + sourceAccount + '\'' +
                 ", destinationAccount='" + destinationAccount + '\'' +
                 ", timeStamp=" + timeStamp +
+                ", month='" + month + '\'' +
+                ", year='" + year + '\'' +
                 '}';
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getYear() {
+        return year;
     }
 
     public String getOwnerId() {
@@ -136,6 +150,8 @@ public class Transaction {
         this.sourceAccount = sourceAccount;
         this.destinationAccount = destinationAccount;
         this.timeStamp = timeStamp;
+        this.month = this.transactionDate.split("/")[1];
+        this.year = this.transactionDate.split("/")[2];
     }
 }
 

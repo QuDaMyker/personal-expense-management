@@ -2,6 +2,8 @@ package com.learning.personal_expense_management.controller.transaction.fragment
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,10 +14,12 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +31,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.DialogListener;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity_SelectionWallet;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionFilterActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
 import com.learning.personal_expense_management.controller.transaction.adapter.ParentItemAdapter;
+import com.learning.personal_expense_management.databinding.DialogConfirmDeleteTransactionBinding;
+import com.learning.personal_expense_management.databinding.DialogDetailTransactionBinding;
 import com.learning.personal_expense_management.databinding.FragmentTransactionBinding;
 import com.learning.personal_expense_management.model.ParentItemTransaction;
 import com.learning.personal_expense_management.model.Transaction;
@@ -38,6 +46,7 @@ import com.learning.personal_expense_management.services.TransactionListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +58,22 @@ public class TransactionFragment extends Fragment {
     private List<Transaction> tempList;
     private List<ParentItemTransaction> mainList;
     private ParentItemAdapter parentItemAdapter;
+    private DialogListener dialogListener;
+    private int transactionTypeFilter;
+    private boolean isHighestFilter;
+    private boolean isLowestFilter;
+    private boolean isNewestFilter;
+    private boolean isOldestFilter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            dialogListener = (DialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement DialogListener");
+        }
+    }
 
 
     @Override
@@ -67,6 +92,8 @@ public class TransactionFragment extends Fragment {
     }
 
     public void init() {
+
+
         tempList = new ArrayList<>();
         mainList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -80,13 +107,62 @@ public class TransactionFragment extends Fragment {
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent intent = result.getData();
+                    String resultTransactionType = intent.getStringExtra("resultTransactionType");
                     String resultFilter = intent.getStringExtra("resultFilter");
-                    Toast.makeText(getContext(), resultFilter, Toast.LENGTH_SHORT).show();
+                    Log.d("rs - filter", resultTransactionType + " - " + resultFilter);
+
+                    switch (resultTransactionType) {
+                        case "NULL": {
+                            switchCaseResultFilter(-1, resultFilter);
+                            break;
+                        }
+                        case "THU": {
+                            switchCaseResultFilter(0, resultFilter);
+                            break;
+                        }
+                        case "CHI": {
+                            switchCaseResultFilter(1, resultFilter);
+                            break;
+                        }
+                        case "CHUYENTIEN": {
+                            switchCaseResultFilter(2, resultFilter);
+                            break;
+                        }
+                        default: {
+                            parentItemTransactionList(-1, -1, -1);
+                            break;
+                        }
+                    }
                 }
             }
         });
         binding.progressBar.setVisibility(View.VISIBLE);
-        parentItemTransactionList();
+        parentItemTransactionList(-1, -1, -1);
+    }
+
+    private void switchCaseResultFilter(int type, String resultFilter) {
+        switch (resultFilter) {
+            case "CAONHAT": {
+                parentItemTransactionList(type, 1, -1);
+                break;
+            }
+            case "THAPNHAT": {
+                parentItemTransactionList(type, 0, -1);
+                break;
+            }
+            case "MOINHAT": {
+                parentItemTransactionList(type, -1, 1);
+                break;
+            }
+            case "CUNHAT": {
+                parentItemTransactionList(type, -1, 0);
+                break;
+            }
+            default: {
+                parentItemTransactionList(type, -1, -1);
+                break;
+            }
+        }
     }
 
     private void setListeners() {
@@ -98,11 +174,13 @@ public class TransactionFragment extends Fragment {
         binding.imgPreYear.setOnClickListener(v -> {
             int showYear = Integer.parseInt(binding.tvYear.getText().toString());
             setYear(--showYear);
+            parentItemTransactionList(-1, -1, -1);
         });
 
         binding.imgNextYear.setOnClickListener(v -> {
             int showYear = Integer.parseInt(binding.tvYear.getText().toString());
             setYear(++showYear);
+            parentItemTransactionList(-1, -1, -1);
         });
 
         binding.imgPreMonth.setOnClickListener(v -> {
@@ -119,6 +197,7 @@ public class TransactionFragment extends Fragment {
                 }
 
                 setMonth(showMonth);
+                parentItemTransactionList(-1, -1, -1);
             } catch (NumberFormatException e) {
 
             }
@@ -137,6 +216,7 @@ public class TransactionFragment extends Fragment {
                 }
 
                 setMonth(showMonth);
+                parentItemTransactionList(-1, -1, -1);
             } catch (NumberFormatException e) {
 
             }
@@ -164,17 +244,37 @@ public class TransactionFragment extends Fragment {
         binding.tvMonthNext.setText("Tháng " + nextMonth);
     }
 
-    private void openDialog(int gravity) {
+    private void openDialog(int gravity, Transaction transaction) {
         final Dialog dialog = new Dialog(getContext());
+        DialogDetailTransactionBinding bindingDialog;
+        bindingDialog = DialogDetailTransactionBinding.inflate(getLayoutInflater());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_detail_transaction);
+        dialog.setContentView(bindingDialog.getRoot());
+        //dialog.setContentView(R.layout.layout_dialog_detail_transaction);
+
+
+        bindingDialog.priceTransaction.setText(transaction.getAmount() + "₫");
+        bindingDialog.noteTransaction.setText(transaction.getNote());
+        if (transaction.getTransactionType() == 0) {
+            bindingDialog.tvLoaigiaodich.setText("Thu");
+        } else if (transaction.getTransactionType() == 1) {
+            bindingDialog.tvLoaigiaodich.setText("Chi");
+        } else {
+            bindingDialog.tvLoaigiaodich.setText("Chuyển tiền");
+        }
+        bindingDialog.tvNgaygiaodich.setText(transaction.getTransactionDate());
+        bindingDialog.tvGiogiaodich.setText(transaction.getTransactionTime());
+
 
         Window window = dialog.getWindow();
         if (window == null) {
             return;
         }
 
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
+
+        window.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
@@ -182,35 +282,75 @@ public class TransactionFragment extends Fragment {
         window.setAttributes(windowAttributes);
 
 
-//        LayoutDialogDetailTransactionBinding dialogBinding = LayoutDialogDetailTransactionBinding.inflate(getLayoutInflater());
-//
-//        dialogBinding.imgEdit.setOnClickListener(v -> {
-//            Toast.makeText(this, "Img Edit", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        dialogBinding.imgDelete.setOnClickListener(v-> {
-//            Toast.makeText(this, "Img Delete", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        dialogBinding.btnOk.setOnClickListener(v -> {
-//            dialog.dismiss();
-//        });
 
-        ImageButton imgBtnEdit = dialog.findViewById(R.id.imgBtn_edit);
-        ImageButton imgBtnDelete = dialog.findViewById(R.id.imgBtn_delete);
-        Button btnOK = dialog.findViewById(R.id.btn_ok);
 
-        imgBtnEdit.setOnClickListener(v -> {
+        bindingDialog.imgBtnEdit.setOnClickListener(v -> {
             Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
         });
 
-        imgBtnDelete.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+        bindingDialog.imgBtnDelete.setOnClickListener(v-> {
+            dialog.dismiss();
+
+            final Dialog confirmDialog = new Dialog(getContext());
+            DialogConfirmDeleteTransactionBinding bindingConfirm;
+            bindingConfirm = DialogConfirmDeleteTransactionBinding.inflate(getLayoutInflater());
+            confirmDialog.setContentView(bindingConfirm.getRoot());
+
+            bindingConfirm.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FireStoreService.deleteTransaction(FirebaseAuth.getInstance().getUid(), transaction.getId());
+                    confirmDialog.dismiss();
+                    parentItemTransactionList(-1, -1, -1);
+                }
+            });
+
+            bindingConfirm.btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    confirmDialog.dismiss();
+                    dialog.show();
+                }
+            });
+
+            Window windowConfirm = confirmDialog.getWindow();
+            if (windowConfirm == null) {
+                return;
+            }
+
+
+
+            windowConfirm.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+            windowConfirm.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
+
+            WindowManager.LayoutParams windowAttributesConfirm = windowConfirm.getAttributes();
+            windowAttributesConfirm.gravity = gravity;
+            windowConfirm.setAttributes(windowAttributesConfirm);
+
+
+
+            confirmDialog.show();
         });
 
-        btnOK.setOnClickListener(v -> {
+        bindingDialog.btnOk.setOnClickListener(v -> {
             dialog.dismiss();
         });
+
+//        ImageButton imgBtnEdit = dialog.findViewById(R.id.imgBtn_edit);
+//        ImageButton imgBtnDelete = dialog.findViewById(R.id.imgBtn_delete);
+//        Button btnOK = dialog.findViewById(R.id.btn_ok);
+//
+//        imgBtnEdit.setOnClickListener(v -> {
+//            Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
+//        });
+//
+//        imgBtnDelete.setOnClickListener(v -> {
+//            Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+//        });
+//
+//        btnOK.setOnClickListener(v -> {
+//            dialog.dismiss();
+//        });
         dialog.show();
     }
 
@@ -221,13 +361,19 @@ public class TransactionFragment extends Fragment {
     }
 
     private void getListTransaction() {
-
-        if(mainList.isEmpty()) {
-            binding.progressBar.setVisibility(View.VISIBLE);
+        if (mainList.isEmpty()) {
+            //parentItemAdapter.notifyDataSetChanged();
+            binding.progressBar.setVisibility(View.GONE);
             binding.tvNothinghere.setVisibility(View.VISIBLE);
             binding.parentRecycleView.setVisibility(View.GONE);
-        }else {
-            parentItemAdapter = new ParentItemAdapter(getContext(), mainList);
+        } else {
+            parentItemAdapter = new ParentItemAdapter(getContext(), mainList, new ObjectListener() {
+                @Override
+                public void onClick(Object o) {
+                    Transaction transaction = (Transaction) o;
+                    openDialog(Gravity.CENTER, transaction);
+                }
+            });
 
             binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
             binding.parentRecycleView.setAdapter(parentItemAdapter);
@@ -239,55 +385,70 @@ public class TransactionFragment extends Fragment {
             binding.tvNothinghere.setVisibility(View.GONE);
             binding.parentRecycleView.setVisibility(View.VISIBLE);
         }
-
-
     }
 
-    private void parentItemTransactionList() {
+    private void parentItemTransactionList(int transactionType, int isHighest, int isNewest) {
+        dialogListener.showDialog();
         List<ParentItemTransaction> list = new ArrayList<>();
-        Map<String, List<Transaction>> map = new HashMap<>();
-        FireStoreService.getTransaction(FirebaseAuth.getInstance().getUid(), new TransactionListener() {
-            @Override
-            public void onTransactionsLoaded(List<Transaction> transactions) {
-                if (transactions.isEmpty()) {
-
-                } else {
-                    tempList = transactions;
-                    for(int i =0;i< tempList.size();i++) {
-                        Log.d("lst", tempList.get(i).toString());
-                    }
-                    for (int i = 0; i < tempList.size(); i++) {
-
-                        if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
-                            List<Transaction> newList = new ArrayList<>();
-                            newList.add(tempList.get(i));
-                            map.put(tempList.get(i).getTransactionDate().toString(), newList);
-                            Log.d("result Map", "KHONG TRUNG");
+        Map<String, List<Transaction>> map = new LinkedHashMap<>();
+        FireStoreService.getTransaction(
+                FirebaseAuth.getInstance().getUid(),
+                binding.tvMonth.getText().toString().trim().replaceAll("\\D+", ""),
+                binding.tvYear.getText().toString().trim(),
+                transactionType,
+                isHighest,
+                isNewest,
+                new TransactionListener() {
+                    @Override
+                    public void onTransactionsLoaded(List<Transaction> transactions) {
+                        if (transactions.isEmpty()) {
+                            mainList = list;
+                            getListTransaction();
                         } else {
-                            map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
-                            Log.d("result Map", " TRUNG");
+                            tempList = transactions;
+                            for (int i = 0; i < tempList.size(); i++) {
+                                Log.d("lst", tempList.get(i).toString());
+                            }
+                            for (int i = 0; i < tempList.size(); i++) {
+
+                                if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
+                                    List<Transaction> newList = new ArrayList<>();
+                                    newList.add(tempList.get(i));
+                                    map.put(tempList.get(i).getTransactionDate().toString(), newList);
+                                    Log.d("result Map", "KHONG TRUNG");
+                                } else {
+                                    map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
+                                    Log.d("result Map", " TRUNG");
+
+                                }
+                            }
+
+                            map.forEach((s, transactions1) -> {
+                                Log.d("MAP", transactions1.toString());
+                                list.add(new ParentItemTransaction(s, transactions1));
+                            });
+
+                            mainList = list;
+                            getListTransaction();
+
 
                         }
                     }
 
-                    map.forEach((s, transactions1) -> {
-                        Log.d("MAP", transactions1.toString());
-                        list.add(new ParentItemTransaction(s, transactions1));
-                    });
-
-                    mainList = list;
-                    getListTransaction();
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
 
 
-                }
-            }
+                });
+        dialogListener.dismissDialog();
+    }
 
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        //parentItemTransactionList(-1, -1, -1);
     }
 
 }

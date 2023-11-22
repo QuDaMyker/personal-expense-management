@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getListRecentlyActivity() {
-        FireStoreService.getTransaction(FirebaseAuth.getInstance().getUid(), new TransactionListener() {
+        FireStoreService.getAllTransaction(FirebaseAuth.getInstance().getUid(), new TransactionListener() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
                 listRecently = transactions;
@@ -126,6 +126,7 @@ public class HomeFragment extends Fragment {
             public void onError(String errorMessage) {
                 Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 

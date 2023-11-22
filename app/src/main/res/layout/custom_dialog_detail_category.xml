@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp"
+    android:layout_margin="20dp"
+    android:background="@drawable/background_color_primary90_outline"
+    android:backgroundTint="@color/white">
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/cardBGDetail"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/primary80"
+
+        />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/iconCatDetail"
+        android:src="@drawable/ic_beauty_heart"
+        app:layout_constraintTop_toTopOf="@id/cardBGDetail"
+        app:layout_constraintLeft_toLeftOf="@id/cardBGDetail"
+        app:layout_constraintRight_toRightOf="@id/cardBGDetail"
+        app:layout_constraintBottom_toBottomOf="@id/cardBGDetail"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textTitleDetail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/cardBGDetail"
+        android:text="Làm đẹp"
+        android:textColor="@color/secondary20"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="24sp"
+        android:textFontWeight="600"
+        />
+
+    <Button
+        android:id="@+id/btnUpdateDetail"
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/primary90"
+        app:icon="@drawable/ic_pen_24"
+        app:iconSize="23dp"
+        app:iconTint="@color/secondary40"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardBGDetail" />
+
+    <Button
+        android:id="@+id/btnDeleteDetail"
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/primary90"
+        app:icon="@drawable/ic_delete_24"
+        app:iconSize="23dp"
+        app:iconTint="@color/secondary40"
+        app:layout_constraintLeft_toRightOf="@id/btnUpdateDetail"
+        app:layout_constraintTop_toBottomOf="@id/cardBGDetail" />
+
+    <Button
+        android:id="@+id/btnOkDetail"
+        android:layout_width="112dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/primary90"
+        android:text="OK"
+        android:textSize="16sp"
+        android:textFontWeight="700"
+        android:textColor="@color/primary40"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardBGDetail"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
