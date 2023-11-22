@@ -25,7 +25,6 @@ import com.google.android.material.chip.ChipGroup;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.RootActivity;
 import com.learning.personal_expense_management.databinding.ActivityTransactionFilterBinding;
-import com.learning.personal_expense_management.databinding.LayoutDialogDetailTransactionBinding;
 
 import java.util.List;
 
