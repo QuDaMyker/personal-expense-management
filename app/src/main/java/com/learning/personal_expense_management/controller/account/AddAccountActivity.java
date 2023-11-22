@@ -2,7 +2,6 @@ package com.learning.personal_expense_management.controller.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,10 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -22,7 +18,7 @@ import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.databinding.ActivityAddAccountBinding;
 import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.services.FireStoreService;
-import com.learning.personal_expense_management.utilities.CustomDialog;
+import com.learning.personal_expense_management.utilities.custom_dialog.ChooseAccountTypeDialog;
 import com.learning.personal_expense_management.utilities.Enum;
 
 import java.util.Calendar;
@@ -51,9 +47,9 @@ public class AddAccountActivity extends AppCompatActivity {
         binding.accountTypePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialog cdd = new CustomDialog(AddAccountActivity.this);
+                ChooseAccountTypeDialog cdd = new ChooseAccountTypeDialog(AddAccountActivity.this);
                 cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                cdd.setListener(new CustomDialog.MyDialogListener() {
+                cdd.setListener(new ChooseAccountTypeDialog.MyDialogListener() {
                     @Override
                     public void userSelectedAValue(Enum.AccountType value) {
                         binding.accountTypeTv.setText(value.AccountTypeName());

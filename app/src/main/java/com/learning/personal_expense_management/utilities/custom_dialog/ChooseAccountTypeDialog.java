@@ -1,18 +1,16 @@
-package com.learning.personal_expense_management.utilities;
+package com.learning.personal_expense_management.utilities.custom_dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.learning.personal_expense_management.R;
-import com.learning.personal_expense_management.model.Account;
+import com.learning.personal_expense_management.utilities.Enum;
 
-public class CustomDialog extends Dialog implements
+public class ChooseAccountTypeDialog extends Dialog implements
         android.view.View.OnClickListener {
 
     public Activity c;
@@ -41,7 +39,7 @@ public class CustomDialog extends Dialog implements
         this.listener = listener;
     }
 
-    public CustomDialog(Activity a) {
+    public ChooseAccountTypeDialog(Activity a) {
         super(a);
         this.c = a;
     }
