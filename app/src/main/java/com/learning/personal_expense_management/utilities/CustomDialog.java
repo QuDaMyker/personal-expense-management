@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.model.Account;
 
 public class CustomDialog extends Dialog implements
         android.view.View.OnClickListener {
@@ -27,7 +28,7 @@ public class CustomDialog extends Dialog implements
 
     public static interface MyDialogListener
     {
-        public void userSelectedAValue(String value);
+        public void userSelectedAValue(Enum.AccountType value);
         public void userCanceled();
     }
 
@@ -77,38 +78,38 @@ public class CustomDialog extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cash_btn:
-                listener.userSelectedAValue("Tiền mặt");
+                listener.userSelectedAValue(Enum.AccountType.Cash);
                 break;
             case R.id.visa_btn:
-                listener.userSelectedAValue("Thẻ Visa");
+                listener.userSelectedAValue(Enum.AccountType.Visa);
 
                 break;
             case R.id.mastercard_btn:
-                listener.userSelectedAValue("Thẻ Mastercard");
+                listener.userSelectedAValue(Enum.AccountType.Mastercard);
 
                 break;
             case R.id.jcb_btn:
-                listener.userSelectedAValue("Thẻ JCB");
+                listener.userSelectedAValue(Enum.AccountType.JCB);
 
                 break;
             case R.id.momo_btn:
-                listener.userSelectedAValue("Ví điện tử MoMo");
+                listener.userSelectedAValue(Enum.AccountType.MoMo);
 
                 break;
             case R.id.shopeepay_btn:
-                listener.userSelectedAValue("Ví ShopeePay");
+                listener.userSelectedAValue(Enum.AccountType.ShopeePay);
 
                 break;
             case R.id.zalopay_btn:
-                listener.userSelectedAValue("Ví ZaloPay");
+                listener.userSelectedAValue(Enum.AccountType.ZaloPay);
 
                 break;
             case R.id.ewallet_btn:
-                listener.userSelectedAValue("Ví điện tử khác");
+                listener.userSelectedAValue(Enum.AccountType.EWallet);
 
                 break;
             case R.id.credit_card_btn:
-                listener.userSelectedAValue("Thẻ ngân hàng");
+                listener.userSelectedAValue(Enum.AccountType.ATM);
 
                 break;
             default:

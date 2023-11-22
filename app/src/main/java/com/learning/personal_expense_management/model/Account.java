@@ -12,6 +12,9 @@ public class Account {
     private String expirationDate;
     private int currentBalance;
 
+    public Account(){
+
+    }
     public Account(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");

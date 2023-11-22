@@ -19,7 +19,9 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.databinding.ActivityAddAccountBinding;
+import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.utilities.CustomDialog;
+import com.learning.personal_expense_management.utilities.Enum;
 
 import java.util.Calendar;
 
@@ -27,6 +29,7 @@ import java.util.Calendar;
 public class AddAccountActivity extends AppCompatActivity {
 
     private ActivityAddAccountBinding binding;
+    private Account inputAccount = new Account();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,43 +50,44 @@ public class AddAccountActivity extends AppCompatActivity {
                 cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 cdd.setListener(new CustomDialog.MyDialogListener() {
                     @Override
-                    public void userSelectedAValue(String value) {
-                        binding.accountTypeTv.setText(value);
+                    public void userSelectedAValue(Enum.AccountType value) {
+                        binding.accountTypeTv.setText(value.AccountTypeName());
+                        inputAccount.setAccountType(value.AccountTypeName());
 
                         switch (value) {
-                            case "Tiền mặt":
+                            case Cash:
                                 binding.logo.setImageResource(R.drawable.ic_money_2);
                                 setLayoutVisibility(false);
                                 break;
-                            case "Thẻ Visa":
+                            case Visa:
                                 binding.logo.setImageResource(R.drawable.visa_logo);
                                 setLayoutVisibility(true);
                                 break;
-                            case "Thẻ Mastercard":
+                            case Mastercard:
                                 binding.logo.setImageResource(R.drawable.mastercard_logo);
                                 setLayoutVisibility(true);
                                 break;
-                            case "Thẻ JCB":
+                            case JCB:
                                 binding.logo.setImageResource(R.drawable.jcb_logo);
                                 setLayoutVisibility(true);
                                 break;
-                            case "Ví điện tử MoMo":
+                            case MoMo:
                                 binding.logo.setImageResource(R.drawable.momo_logo);
                                 setLayoutVisibility(false);
                                 break;
-                            case "Ví ShopeePay":
+                            case ShopeePay:
                                 binding.logo.setImageResource(R.drawable.shopeepay_logo);
                                 setLayoutVisibility(false);
                                 break;
-                            case "Ví ZaloPay":
+                            case ZaloPay:
                                 binding.logo.setImageResource(R.drawable.zalopay_logo);
                                 setLayoutVisibility(false);
                                 break;
-                            case "Ví điện tử khác":
+                            case EWallet:
                                 binding.logo.setImageResource(R.drawable.ic_ewallet);
                                 setLayoutVisibility(false);
                                 break;
-                            case "Thẻ ngân hàng":
+                            case ATM:
                                 binding.logo.setImageResource(R.drawable.ic_credit_card);
                                 setLayoutVisibility(true);
                                 break;
@@ -163,6 +167,13 @@ public class AddAccountActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.tvAccountId.setText(editable.toString());
+            }
+        });
+
+        binding.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
