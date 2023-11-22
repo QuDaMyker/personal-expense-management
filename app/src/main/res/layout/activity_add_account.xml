@@ -224,6 +224,7 @@
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/accountNameEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textFontWeight="400"/>
@@ -297,7 +298,8 @@
                     android:id="@+id/balanceEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textFontWeight="400"/>
+                    android:textFontWeight="400"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

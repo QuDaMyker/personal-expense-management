@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.databinding.ActivityAddAccountBinding;
 import com.learning.personal_expense_management.model.Account;
+import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.utilities.CustomDialog;
 import com.learning.personal_expense_management.utilities.Enum;
 
@@ -30,11 +32,14 @@ public class AddAccountActivity extends AppCompatActivity {
 
     private ActivityAddAccountBinding binding;
     private Account inputAccount = new Account();
+    private boolean isCard = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        inputAccount.setAccountType("Tiền mặt");
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,43 +62,44 @@ public class AddAccountActivity extends AppCompatActivity {
                         switch (value) {
                             case Cash:
                                 binding.logo.setImageResource(R.drawable.ic_money_2);
-                                setLayoutVisibility(false);
+                                isCard = false;
                                 break;
                             case Visa:
                                 binding.logo.setImageResource(R.drawable.visa_logo);
-                                setLayoutVisibility(true);
+                                isCard = true;
                                 break;
                             case Mastercard:
                                 binding.logo.setImageResource(R.drawable.mastercard_logo);
-                                setLayoutVisibility(true);
+                                isCard = true;
                                 break;
                             case JCB:
                                 binding.logo.setImageResource(R.drawable.jcb_logo);
-                                setLayoutVisibility(true);
+                                isCard = true;
                                 break;
                             case MoMo:
                                 binding.logo.setImageResource(R.drawable.momo_logo);
-                                setLayoutVisibility(false);
+                                isCard = false;
                                 break;
                             case ShopeePay:
                                 binding.logo.setImageResource(R.drawable.shopeepay_logo);
-                                setLayoutVisibility(false);
+                                isCard = false;
                                 break;
                             case ZaloPay:
                                 binding.logo.setImageResource(R.drawable.zalopay_logo);
-                                setLayoutVisibility(false);
+                                isCard = false;
                                 break;
                             case EWallet:
                                 binding.logo.setImageResource(R.drawable.ic_ewallet);
-                                setLayoutVisibility(false);
+                                isCard = false;
                                 break;
                             case ATM:
                                 binding.logo.setImageResource(R.drawable.ic_credit_card);
-                                setLayoutVisibility(true);
+                                isCard = true;
                                 break;
                             default:
                                 break;
                         }
+                        setLayoutVisibility(isCard);
                     }
 
                     @Override
@@ -173,7 +179,19 @@ public class AddAccountActivity extends AppCompatActivity {
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(isCard){
+                    inputAccount.setCurrentBalance(Integer.parseInt(binding.balanceEdt.getText().toString()));
+                    inputAccount.setCardName(binding.accountNameEdt.getText().toString());
+                    inputAccount.setCardNumber(binding.accountIdEdt.getText().toString());
+                    inputAccount.setExpirationDate(binding.expiryDateEdt.getText().toString());
+                    inputAccount.setOwnerId(FirebaseAuth.getInstance().getUid());
+                    String res = FireStoreService.addAccount(inputAccount);
+                }
+                else{
+                    inputAccount.setCurrentBalance(Integer.parseInt(binding.balanceEdt.getText().toString()));
+                    inputAccount.setOwnerId(FirebaseAuth.getInstance().getUid());
+                    String res = FireStoreService.addAccount(inputAccount);
+                }
             }
         });
     }

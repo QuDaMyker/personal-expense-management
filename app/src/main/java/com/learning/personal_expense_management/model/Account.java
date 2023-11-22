@@ -13,7 +13,13 @@ public class Account {
     private int currentBalance;
 
     public Account(){
-
+        this.ownerId = "";
+        this.id = "";
+        this.accountType = "";
+        this.cardName = "";
+        this.cardNumber = "";
+        this.expirationDate = "";
+        this.currentBalance = 0;
     }
     public Account(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");

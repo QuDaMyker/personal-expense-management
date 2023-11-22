@@ -502,19 +502,19 @@ public class FireStoreService {
         String[] result = {"Some thing went wrong"};
 
         try {
-            DocumentReference docRef = db.collection(Constants.KEY_TRANSACTION).document();
+            DocumentReference docRef = db.collection(Constants.KEY_ACCOUNT).document();
             String id = docRef.getId();
 
             Map<String, Object> accountMap = new HashMap<>();
             accountMap.put("ownerId", account.getOwnerId());
-            accountMap.put("id", id);
+            accountMap.put("id", id); 
             accountMap.put("accountType", account.getAccountType());
             accountMap.put("cardName", account.getCardName());
             accountMap.put("cardNumber", account.getCardNumber());
             accountMap.put("expirationDate", account.getExpirationDate());
             accountMap.put("currentBalance", account.getCurrentBalance());
 
-            db.collection(Constants.KEY_ACCOUNT).document(account.getId()).set(accountMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            docRef.set(accountMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
