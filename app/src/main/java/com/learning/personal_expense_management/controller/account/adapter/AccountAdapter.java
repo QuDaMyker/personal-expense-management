@@ -4,6 +4,8 @@ package com.learning.personal_expense_management.controller.account.adapter;
 import static com.learning.personal_expense_management.utilities.Enum.AccountType.Cash;
 import static com.learning.personal_expense_management.utilities.Enum.AccountType.Visa;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,15 @@ import java.util.List;
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
     private List<Account> accounts;
+    public interface OnItemClickListener {
+        void onItemClick(Account account);
+    }
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameAccount;
@@ -40,6 +51,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         public ImageView getImgAccount(){
             return imgAccount;
         }
+
     }
 
     public AccountAdapter(List<Account> dataSet) {
@@ -55,7 +67,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         viewHolder.getNameAccount().setText(accounts.get(position).getCardName().isEmpty() ?
                 accounts.get(position).getAccountType() :
                 accounts.get(position).getCardName());
@@ -90,6 +102,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             default:
                 break;
         }
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("VIEWHOLDER", "JOIN");
+                onItemClickListener.onItemClick(accounts.get(position));
+            }
+        });
     }
 
     @Override

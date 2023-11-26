@@ -32,8 +32,7 @@ public class ChooseAccountDialog extends Dialog implements
 
     public static interface MyDialogListener
     {
-        public void userSelectedAValue(Enum.AccountType value);
-        public void userCanceled();
+        public void userSelectedAValue(Account value);
     }
 
     MyDialogListener listener ;
@@ -59,6 +58,13 @@ public class ChooseAccountDialog extends Dialog implements
         setContentView(R.layout.dialog_choose_account);
         recyclerView = findViewById(R.id.account_recycler_view);
         accountAdapter = new AccountAdapter(accountList);
+        accountAdapter.setOnItemClickListener(new AccountAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Account account) {
+                listener.userSelectedAValue(account);
+                dismiss();
+            }
+        });
         recyclerView.setAdapter(accountAdapter);
         Log.e("onCreate", "ACCOUNT LENGTH: " + accountList.size());
     }

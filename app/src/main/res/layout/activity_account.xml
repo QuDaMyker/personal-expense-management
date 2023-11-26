@@ -64,6 +64,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/visa_logo"/>
                 <TextView
+                    android:id="@+id/accountName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -144,9 +145,51 @@
             </LinearLayout>
 
             <FrameLayout
+                android:id="@+id/wallet_layout"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginBottom="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wallet_bg"
+                    android:scaleType="centerCrop"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="30dp">
+                    <TextView
+                        android:id="@+id/tvBalanceWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="32sp"
+                        android:textColor="@color/white"
+                        android:text="18,000,000₫"/>
+
+                    <TextView
+                        android:id="@+id/labelBalanceWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toTopOf="@id/tvBalanceWallet"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:text="Số dư tài khoản"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/card_layout"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -189,6 +232,7 @@
                         android:text="01/25"/>
 
                     <TextView
+                        android:id="@+id/tvCardNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toTopOf="@id/tvExpiryDate"
@@ -199,6 +243,7 @@
                         android:text="**** **** **** 1268"/>
 
                     <ImageView
+                        android:id="@+id/cardLogo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
