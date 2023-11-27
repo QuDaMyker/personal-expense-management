@@ -133,12 +133,6 @@ public class NewCategoryFragment extends Fragment {
 
         btnCreateNewCat = rootView.findViewById(R.id.btnCreateNewCat);
 
-        grColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-            }
-        });
         setupRadioButtonGRColor(rootView, grColor1);
         setupRadioButtonGRColor(rootView, grColor2);
 
@@ -155,6 +149,7 @@ public class NewCategoryFragment extends Fragment {
             public void onClick(View v) {
                 if (txTitle.getText()!= null && selectedColorBtn.getId()!=-1 && selectedIconBtn.getId()!=-1)
                 {
+                    
 
                 }
             }

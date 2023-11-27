@@ -586,9 +586,11 @@ public class FireStoreService {
             Map<String, Object> categoryMap = new HashMap<>();
             categoryMap.put("ownerId", category.getOwnerId());
             categoryMap.put("id", id);
-            categoryMap.put("categoryName", category.getCategoryName());
-            categoryMap.put("colorCode", category.getColorCode());
-            categoryMap.put("icon", category.getColorCode());
+            categoryMap.put("categoryName", category.getName());
+            categoryMap.put("background", category.getBackGround());
+            categoryMap.put("icon", category.getIcon());
+            categoryMap.put("colorIcon", category.getColorIcon());
+
 
 
             db.collection(Constants.KEY_CATEGORY).document(category.getId()).set(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {

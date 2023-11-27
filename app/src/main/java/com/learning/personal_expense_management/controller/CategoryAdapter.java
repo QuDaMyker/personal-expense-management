@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;

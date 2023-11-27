@@ -5,29 +5,37 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 public class Category {
     private String ownerId;
     private String id;
-    private String categoryName;
-    private String colorCode;
-    private String icon;
+    private String name;
+    private int backGround;
+    private int icon;
+    private int colorIcon;
+
+    public Category() {
+    }
     public Category(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");
-        this.categoryName = document.getString("categoryName");
-        this.colorCode = document.getString("colorCode");
-        this.icon = document.getString("icon");
+        this.name = document.getString("categoryName");
+        this.backGround = document.getLong("colorCode").intValue();
+        this.icon = document.getLong("icon").intValue();
     }
 
-
-    @Override
+    public Category(String idOwner, String name, int backGround, int icon, int iconColor) {
+        this.ownerId = idOwner;
+        this.name = name;
+        this.backGround = backGround;
+        this.icon = icon;
+        this.colorIcon = iconColor;
+    }
     public String toString() {
         return "Category{" +
                 "ownerId='" + ownerId + '\'' +
                 ", id='" + id + '\'' +
-                ", categoryName='" + categoryName + '\'' +
-                ", colorCode='" + colorCode + '\'' +
+                ", categoryName='" + name + '\'' +
+                ", colorCode='" + backGround + '\'' +
                 ", icon='" + icon + '\'' +
                 '}';
     }
-
     public String getOwnerId() {
         return ownerId;
     }
@@ -44,35 +52,33 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getColorCode() {
-        return colorCode;
+    public int getBackGround() {
+        return backGround;
     }
 
-    public void setColorCode(String colorCode) {
-        this.colorCode = colorCode;
+    public void setBackGround(int backGround) {
+        this.backGround = backGround;
     }
 
-    public String getIcon() {
+    public int getIcon() {
         return icon;
     }
-
-    public void setIcon(String icon) {
+    public void setIcon(int icon) {
         this.icon = icon;
     }
+    public int getColorIcon() {
+        return colorIcon;
+    }
 
-    public Category(String ownerId, String id, String categoryName, String colorCode, String icon) {
-        this.ownerId = ownerId;
-        this.id = id;
-        this.categoryName = categoryName;
-        this.colorCode = colorCode;
-        this.icon = icon;
+    public void setColorIcon(int colorIcon) {
+        this.colorIcon = colorIcon;
     }
 }
