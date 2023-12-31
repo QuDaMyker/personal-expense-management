@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Đang xử lý dữ liệu...");
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         binding.btnSkipLogin.setOnClickListener(v -> {
+            progressDialog.show();
             mAuth.signInAnonymously()
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -117,17 +118,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginWithGoogle() {
-        binding.btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client_id))
-                        .requestEmail()
-                        .build();
-                gsc = GoogleSignIn.getClient(LoginActivity.this, gso);
-                signInWithGoogle();
-            }
-        });
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        gsc = GoogleSignIn.getClient(LoginActivity.this, gso);
+        signInWithGoogle();
     }
 
     private void signInWithGoogle() {
@@ -156,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                                         progressDialog.show();
                                         // Cập nhật thông tin người dùng lên Firebase Authentication
                                         FirebaseUser user = mAuth.getCurrentUser();
+                                        preferenceManager.putString("imageProfile", user.getPhotoUrl().toString());
                                         //updateUserInfo(user);
                                         // them thong tin tai khoan vao realtime
                                         if (user != null) {
