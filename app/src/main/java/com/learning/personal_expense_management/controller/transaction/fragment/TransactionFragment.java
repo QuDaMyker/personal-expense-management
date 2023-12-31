@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.DialogListener;
+import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity_SelectionWallet;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionFilterActivity;
 import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
@@ -44,6 +46,7 @@ import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.TransactionListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -55,6 +58,7 @@ public class TransactionFragment extends Fragment {
     private int currentYear;
     private int currentMonth;
     private ActivityResultLauncher<Intent> launcherFilter;
+    private ActivityResultLauncher<Intent> launcherEdit;
     private List<Transaction> tempList;
     private List<ParentItemTransaction> mainList;
     private ParentItemAdapter parentItemAdapter;
@@ -98,7 +102,8 @@ public class TransactionFragment extends Fragment {
         mainList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
-        currentMonth = calendar.get(Calendar.MONTH);
+        currentMonth = calendar.get(Calendar.MONTH) + 1;
+        Toast.makeText(getContext(), currentMonth + "", Toast.LENGTH_SHORT).show();
         setYear(currentYear);
         setMonth(currentMonth);
 
@@ -132,6 +137,20 @@ public class TransactionFragment extends Fragment {
                             parentItemTransactionList(-1, -1, -1);
                             break;
                         }
+                    }
+                }
+            }
+        });
+
+        launcherEdit = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intent = result.getData();
+                    Boolean isEdited = intent.getBooleanExtra("isEdited", false);
+
+                    if (isEdited) {
+                        parentItemTransactionList(-1, -1, -1);
                     }
                 }
             }
@@ -282,13 +301,14 @@ public class TransactionFragment extends Fragment {
         window.setAttributes(windowAttributes);
 
 
-
-
         bindingDialog.imgBtnEdit.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), TransactionAddActivity.class);
+            intent.putExtra("transactionEdit", (Serializable) transaction);
+            startActivity(intent);
+            launcherEdit.launch(intent);
         });
 
-        bindingDialog.imgBtnDelete.setOnClickListener(v-> {
+        bindingDialog.imgBtnDelete.setOnClickListener(v -> {
             dialog.dismiss();
 
             final Dialog confirmDialog = new Dialog(getContext());
@@ -319,14 +339,12 @@ public class TransactionFragment extends Fragment {
             }
 
 
-
             windowConfirm.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
             windowConfirm.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
 
             WindowManager.LayoutParams windowAttributesConfirm = windowConfirm.getAttributes();
             windowAttributesConfirm.gravity = gravity;
             windowConfirm.setAttributes(windowAttributesConfirm);
-
 
 
             confirmDialog.show();
