@@ -1,10 +1,17 @@
 package com.learning.personal_expense_management.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable{
     private String ownerId;
     private String id;
     private int transactionType;
@@ -17,6 +24,8 @@ public class Transaction {
     private Timestamp timeStamp;
     private String month;
     private String year;
+
+
 
     public Transaction(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
@@ -153,5 +162,7 @@ public class Transaction {
         this.month = this.transactionDate.split("/")[1];
         this.year = this.transactionDate.split("/")[2];
     }
+
+
 }
 
