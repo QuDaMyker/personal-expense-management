@@ -96,8 +96,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         btnDelete.setBackgroundColor(backgroundColor);
         btnOK.setBackgroundColor(backgroundColor);
         icon.setImageResource(cat.getIcon());
+
         int colorIcon =  context.getResources().getColor(cat.getColorIcon());
         icon.setColorFilter(colorIcon);
+
         title.setText(cat.getName());
         title.setTextColor(colorIcon);
 
