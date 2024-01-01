@@ -53,6 +53,8 @@ public class TransactionAddActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> addAccountLaunch;
     private ActivityResultLauncher<Intent> addCategoryLaunch;
     private ProgressDialog progressDialog;
+    private Transaction transactionEdit;
+    private Boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,13 @@ public class TransactionAddActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(TransactionAddActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
+
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("transactionEdit")) {
+           transactionEdit = (Transaction)intent.getSerializableExtra("transactionEdit");
+            isEdit = true;
+        }
         addWalletLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -83,9 +92,53 @@ public class TransactionAddActivity extends AppCompatActivity {
             }
         });
 
-        binding.chipThu.setChecked(true);
-        binding.clRootThuchi.setVisibility(View.VISIBLE);
-        binding.clRootChuyentien.setVisibility(View.GONE);
+        setLayoutChip(isEdit);
+    }
+
+    private void setLayoutChip(Boolean isEdit) {
+        if (isEdit) {
+            switch (transactionEdit.getTransactionType()) {
+                case 0: {
+                    binding.chipThu.setChecked(true);
+                    setLayoutCLNOTChuyenTien(transactionEdit);
+                    break;
+                }
+                case 1: {
+                    binding.chipChi.setChecked(true);
+                    setLayoutCLNOTChuyenTien(transactionEdit);
+                    break;
+                }
+                case 2: {
+                    binding.chipChuyenTien.setChecked(true);
+                    setLayoutCLChuyenTien(transactionEdit);
+                    break;
+                }
+                default: {
+                    binding.chipThu.setChecked(true);
+                    setLayoutCLNOTChuyenTien(transactionEdit);
+                }
+            }
+        } else {
+            binding.chipThu.setChecked(true);
+            binding.clRootThuchi.setVisibility(View.VISIBLE);
+            binding.clRootChuyentien.setVisibility(View.GONE);
+        }
+    }
+
+    private void setLayoutCLNOTChuyenTien(Transaction transaction) {
+        binding.editAmount.setText(transaction.getAmount());
+        binding.editNote.setText(transaction.getNote());
+        binding.editChuyentienTransactionDay.setText(transaction.getTransactionDate());
+        binding.editChuyentienTransactionTime.setText(transaction.getTransactionTime());
+        binding.btnSubmit.setText("Lưu");
+    }
+
+    private void setLayoutCLChuyenTien(Transaction transaction) {
+        binding.editChuyentienAmount.setText(transaction.getAmount());
+        binding.editChuyentienNote.setText(transaction.getNote());
+        binding.editChuyentienTransactionDay.setText(transaction.getTransactionDate());
+        binding.editChuyentienTransactionTime.setText(transaction.getTransactionTime());
+        binding.btnChuyentienSubmit.setText("Lưu");
     }
 
     private void setListeners() {
@@ -178,11 +231,10 @@ public class TransactionAddActivity extends AppCompatActivity {
         });
 
         binding.btnChuyentienSubmit.setOnClickListener(v -> {
-            Log.d("chuyen tien checked", binding.chipChuyenTien.isChecked()+"" +isNotEmptyInput()+"");
+            Log.d("chuyen tien checked", binding.chipChuyenTien.isChecked() + "" + isNotEmptyInput() + "");
             Toast.makeText(this, "click", Toast.LENGTH_SHORT).show();
             if (binding.chipChuyenTien.isChecked() && isNotEmptyInput()) {
                 progressDialog.show();
-
 
 
                 try {

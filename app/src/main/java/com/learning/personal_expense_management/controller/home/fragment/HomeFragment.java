@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.account.AccountActivity;
 import com.learning.personal_expense_management.controller.loan.LoanActivity;
+import com.learning.personal_expense_management.controller.login.LoginActivity;
 import com.learning.personal_expense_management.controller.wallet.WalletActivity;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeRecentlyActivityAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeTargetAdapter;
@@ -26,6 +27,8 @@ import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.TransactionListener;
+import com.learning.personal_expense_management.utilities.PreferenceManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class HomeFragment extends Fragment {
     private List<Transaction> listRecently;
     private HomeTargetAdapter homeTargetAdapter;
     private HomeRecentlyActivityAdapter homeRecentlyActivityAdapter;
+    private PreferenceManager preferenceManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
+        preferenceManager = new PreferenceManager(getContext());
         listTarget = new ArrayList<>();
         listRecently = new ArrayList<>();
         getListRecentlyActivity();
@@ -63,6 +68,8 @@ public class HomeFragment extends Fragment {
                 Wallet wallet = (Wallet) o;
             }
         });
+
+        Picasso.get().load(preferenceManager.getString("imageProfile")).into(binding.profileImage);
 
     }
 
