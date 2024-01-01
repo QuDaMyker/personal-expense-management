@@ -57,6 +57,7 @@
                 android:layout_marginBottom="10dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/account_type_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -72,9 +73,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/ic_money_2"/>
                 <TextView
+                    android:id="@+id/account_type_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/logo"
                     android:textFontWeight="600"
                     android:textColor="@color/secondary20"
@@ -87,10 +90,12 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:src="@drawable/ic_down"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
+                android:id="@+id/wallet_layout"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginBottom="20dp">
@@ -105,7 +110,7 @@
                     android:layout_height="match_parent"
                     android:padding="30dp">
                     <TextView
-                        android:id="@+id/labelBalanceWallet"
+                        android:id="@+id/tvBalanceWallet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,10 +121,10 @@
                         android:text="18,000,000₫"/>
 
                     <TextView
-                        android:id="@+id/tvBalanceWallet"
+                        android:id="@+id/labelBalanceWallet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/labelBalanceWallet"
+                        app:layout_constraintBottom_toTopOf="@id/tvBalanceWallet"
                         app:layout_constraintStart_toStartOf="parent"
                         android:textFontWeight="700"
                         android:textSize="14sp"
@@ -177,6 +182,7 @@
                         android:text="01/25"/>
 
                     <TextView
+                        android:id="@+id/tvAccountId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toTopOf="@id/tvExpiryDate"
@@ -218,6 +224,7 @@
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/accountNameEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textFontWeight="400"/>
@@ -239,6 +246,7 @@
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/accountIdEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textFontWeight="400"/>
@@ -261,6 +269,7 @@
                     app:endIconMode="custom"
                     app:hintEnabled="false">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/expiryDateEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
@@ -286,12 +295,15 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/balanceEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textFontWeight="400"/>
+                    android:textFontWeight="400"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"

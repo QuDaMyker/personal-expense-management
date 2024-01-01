@@ -66,6 +66,12 @@
         <activity
             android:name=".controller.wallet.WalletActivity"
             android:exported="false" />
+        <activity
+            android:name=".controller.loan.LoanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.loan.NewLoanActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
