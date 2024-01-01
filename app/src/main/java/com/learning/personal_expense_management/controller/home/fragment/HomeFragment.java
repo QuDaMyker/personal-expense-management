@@ -3,18 +3,18 @@ package com.learning.personal_expense_management.controller.home.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.learning.personal_expense_management.R;
-import com.learning.personal_expense_management.controller.login.LoginActivity;
+import com.learning.personal_expense_management.controller.category.CategoriesActivity;
 import com.learning.personal_expense_management.controller.wallet.WalletActivity;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeRecentlyActivityAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeTargetAdapter;
@@ -38,13 +38,23 @@ public class HomeFragment extends Fragment {
     private HomeRecentlyActivityAdapter homeRecentlyActivityAdapter;
     private PreferenceManager preferenceManager;
 
+    private CardView cardCategory;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+
+
         init();
         setListeners();
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -75,6 +85,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WalletActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.cardVDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CategoriesActivity.class);
                 startActivity(intent);
             }
         });

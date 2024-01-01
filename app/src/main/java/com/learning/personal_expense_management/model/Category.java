@@ -11,6 +11,7 @@ public class Category {
     private int colorIcon;
 
     public Category() {
+
     }
     public Category(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");

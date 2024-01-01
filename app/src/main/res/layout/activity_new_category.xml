@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".controller.fragment.NewCategoryFragment"
-    android:paddingHorizontal="20dp"
-    >
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".controller.category.NewCategoryActivity"
+    android:paddingHorizontal="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -238,7 +236,8 @@
                                 android:button="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_money"
                                 android:drawableTint="@color/primary40"
-                                android:padding="10dp"
+
+                                android:paddingLeft="14dp"
                                 android:background="@drawable/ic_background_selector"
                                 />
                             <RadioButton
@@ -712,5 +711,4 @@
         </ScrollView>
 
     </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
