@@ -35,6 +35,7 @@ import com.learning.personal_expense_management.databinding.ActivityTransactionA
 import com.learning.personal_expense_management.databinding.ActivityTransactionFilterBinding;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.FirestoreCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -212,7 +213,15 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 "Vi tien",
                                 "tien mat",
                                 new com.google.firebase.Timestamp(date));
-                        String res = FireStoreService.addTransaction(newTransaction);
+                        // String res = FireStoreService.addTransaction(newTransaction);
+                        FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                            @Override
+                            public void onCallback(String result) {
+                                if(result.equals("success")) {
+                                    finish();
+                                }
+                            }
+                        });
                     } else {
 
                     }
@@ -257,7 +266,15 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 "Vi tien",
                                 "tien mat",
                                 new com.google.firebase.Timestamp(date));
-                        String res = FireStoreService.addTransaction(newTransaction);
+                        //String res = FireStoreService.addTransaction(newTransaction);
+                        FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                            @Override
+                            public void onCallback(String result) {
+                                if(result.equals("success")) {
+                                    finish();
+                                }
+                            }
+                        });
                     } else {
                         // Handle parsing error or null date
                     }
