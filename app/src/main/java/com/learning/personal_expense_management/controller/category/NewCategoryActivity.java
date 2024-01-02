@@ -24,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.FirestoreCallback;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -37,7 +38,7 @@ public class NewCategoryActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference reference;
 
-    private  String userCurrent ;
+    private String userCurrent;
     private TextInputEditText txTitle;
     private RadioGroup grColor;
     private RadioGroup grColor1;
@@ -80,37 +81,37 @@ public class NewCategoryActivity extends AppCompatActivity {
 
         userCurrent = mAuth.getInstance().getUid();
 
-        txTitle=findViewById(R.id.tvTitleNewCat);
+        txTitle = findViewById(R.id.tvTitleNewCat);
 
 
-        grColor=findViewById(R.id.grColor);
-        grColor1=findViewById(R.id.grColor1);
-        grColor2=findViewById(R.id.grColor2);
-        preCheckedGrColorID =-1;
-        preCheckedGrIconID =-1;
+        grColor = findViewById(R.id.grColor);
+        grColor1 = findViewById(R.id.grColor1);
+        grColor2 = findViewById(R.id.grColor2);
+        preCheckedGrColorID = -1;
+        preCheckedGrIconID = -1;
 
 
-        grIcon=findViewById(R.id.grIcon);
-        grIcon1=findViewById(R.id.grIcon1);
-        grIcon2=findViewById(R.id.grIcon2);
-        grIcon3=findViewById(R.id.grIcon3);
-        grIcon4=findViewById(R.id.grIcon4);
-        grIcon5=findViewById(R.id.grIcon5);
-        grIcon6= findViewById(R.id.grIcon6);
-        grIcon7= findViewById(R.id.grIcon7);
+        grIcon = findViewById(R.id.grIcon);
+        grIcon1 = findViewById(R.id.grIcon1);
+        grIcon2 = findViewById(R.id.grIcon2);
+        grIcon3 = findViewById(R.id.grIcon3);
+        grIcon4 = findViewById(R.id.grIcon4);
+        grIcon5 = findViewById(R.id.grIcon5);
+        grIcon6 = findViewById(R.id.grIcon6);
+        grIcon7 = findViewById(R.id.grIcon7);
 
-        btnColo1= findViewById(R.id.clItem1);
-        btnColo2= findViewById(R.id.clItem2);
-        btnColo3= findViewById(R.id.clItem3);
+        btnColo1 = findViewById(R.id.clItem1);
+        btnColo2 = findViewById(R.id.clItem2);
+        btnColo3 = findViewById(R.id.clItem3);
         btnColo4 = findViewById(R.id.clItem4);
-        btnColo5= findViewById(R.id.clItem5);
-        btnColo6= findViewById(R.id.clItem6);
-        btnColo7= findViewById(R.id.clItem7);
-        btnColo8= findViewById(R.id.clItem8);
+        btnColo5 = findViewById(R.id.clItem5);
+        btnColo6 = findViewById(R.id.clItem6);
+        btnColo7 = findViewById(R.id.clItem7);
+        btnColo8 = findViewById(R.id.clItem8);
 
         grIsIncome = findViewById(R.id.grIsIncome);
 
-        btnCreateNewCat= findViewById(R.id.btnCreateNewCat);
+        btnCreateNewCat = findViewById(R.id.btnCreateNewCat);
 
         setupRadioButtonGRColor(grColor1);
         setupRadioButtonGRColor(grColor2);
@@ -123,6 +124,10 @@ public class NewCategoryActivity extends AppCompatActivity {
         setupRadioButtonGRIcon(grIcon6);
         setupRadioButtonGRIcon(grIcon7);
 
+        selectedColorBtn = findViewById(R.id.clItem1);
+        selectedIconBtn = findViewById(R.id.icMoney);
+        btnIsIncome = findViewById(R.id.radioIsIcome);
+
         grIsIncome.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -132,13 +137,11 @@ public class NewCategoryActivity extends AppCompatActivity {
         btnCreateNewCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txTitle.getText()!= null && selectedColorBtn.getId()!=-1 && selectedIconBtn.getId()!=-1)
-                {
+                if (txTitle.getText() != null && selectedColorBtn.getId() != -1 && selectedIconBtn.getId() != -1) {
                     Category newCat = new Category();
 
                     try {
-                        switch (selectedColorBtn.getId())
-                        {
+                        switch (selectedColorBtn.getId()) {
                             case R.id.clItem1:
                                 newCat.setBackGround(R.color.colorItem1);
                                 newCat.setColorIcon(R.color.colorIcon1);
@@ -173,10 +176,9 @@ public class NewCategoryActivity extends AppCompatActivity {
                                 break;
                         }
 
-                        int icon  = 0;
-                        switch (selectedIconBtn.getId())
-                        {
-                            case  R.id.icMoney:
+                        int icon = 0;
+                        switch (selectedIconBtn.getId()) {
+                            case R.id.icMoney:
                                 icon = R.drawable.ic_money;
                                 break;
                             case R.id.icBeauty:
@@ -191,7 +193,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             case R.id.icRepair:
                                 icon = R.drawable.ic_repair;
                                 break;
-                            case  R.id.icCaseTravel:
+                            case R.id.icCaseTravel:
                                 icon = R.drawable.ic_case_travel;
                                 break;
                             case R.id.icMetro:
@@ -206,7 +208,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             case R.id.icShopping:
                                 icon = R.drawable.icon_shopping;
                                 break;
-                            case  R.id.icGear:
+                            case R.id.icGear:
                                 icon = R.drawable.ic_gear;
                                 break;
                             case R.id.icSafeSaving:
@@ -221,7 +223,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             case R.id.icMedicine:
                                 icon = R.drawable.icon_drugs;
                                 break;
-                            case  R.id.icClock:
+                            case R.id.icClock:
                                 icon = R.drawable.ic_pending_time_wait_transaction_clock;
                                 break;
                             case R.id.icWater:
@@ -236,7 +238,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             case R.id.icKid:
                                 icon = R.drawable.ic_kid_care_stroller;
                                 break;
-                            case  R.id.icSheld:
+                            case R.id.icSheld:
                                 icon = R.drawable.ic_insurance_shield;
                                 break;
                             case R.id.icHome:
@@ -251,7 +253,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             case R.id.icGym:
                                 icon = R.drawable.ic_sport_gym;
                                 break;
-                            case  R.id.icGift:
+                            case R.id.icGift:
                                 icon = R.drawable.ic_gift_box;
                                 break;
                             case R.id.icFuel:
@@ -266,7 +268,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             case R.id.icComputer:
                                 icon = R.drawable.ic_computer;
                                 break;
-                            case  R.id.icHeartCalender:
+                            case R.id.icHeartCalender:
                                 icon = R.drawable.ic_social_heart_donation_care_calendar;
                                 break;
                             case R.id.icTshirt:
@@ -282,12 +284,11 @@ public class NewCategoryActivity extends AppCompatActivity {
                                 break;
                         }
 
-                        switch (btnIsIncome.getId())
-                        {
+                        switch (btnIsIncome.getId()) {
                             case 0:
                                 newCat.setIncome(0);
                                 break;
-                            case 1 :
+                            case 1:
                                 newCat.setIncome(1);
                                 break;
                             case 2:
@@ -301,33 +302,47 @@ public class NewCategoryActivity extends AppCompatActivity {
                         newCat.setName(txTitle.getText().toString());
                         newCat.setIcon(icon);
 
+                        Log.d("newCat", newCat.toString());
+
                         //đổi thành json ròi gửi lên firebase
-                        String result = FireStoreService.addCategory(newCat);
+                        FireStoreService.addCategory(newCat, new FirestoreCallback() {
+                            @Override
+                            public void onCallback(String result) {
+                                Log.d("result-push", result);
+                                if ("success".equals(result)) {
+                                    Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(NewCategoryActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
-                        if (result == "success")
-                        {
-                            Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
-                            startActivity(intent);
-                        }
+//                        String result = FireStoreService.addCategory(newCat);
+//                        Log.d("result-push", result);
+//
+//                        if ("success".equals(result)) {
+//                            Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
+//                            startActivity(intent);
+//                        }
 
-                    }
-                    catch (Exception  e){
+                    } catch (Exception e) {
                         Log.d("er", e.getMessage());
-                }
+                    }
                 }
             }
         });
 
     }
+
     private void setupRadioButtonGRColor(RadioGroup grChecked) {
         grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                selectedColorBtn= findViewById(checkedId);
-
+                selectedColorBtn = findViewById(checkedId);
                 if (preCheckedGrColorID != -1 && group.getId() != preCheckedGrColorID) {
                     // Uncheck ở `preCheckedGrID`
-                    RadioGroup preCheckedGr= findViewById(preCheckedGrColorID);
+                    RadioGroup preCheckedGr = findViewById(preCheckedGrColorID);
                     preCheckedGr.clearCheck();
                 }
 
@@ -341,11 +356,12 @@ public class NewCategoryActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setupRadioButtonGRIcon(RadioGroup grChecked) {
         grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                selectedIconBtn= findViewById(checkedId);
+                selectedIconBtn = findViewById(checkedId);
 
                 //k chọn lại gr hoặc k phải lần đầu
                 if (preCheckedGrIconID != -1 && group.getId() != preCheckedGrIconID) {
