@@ -576,7 +576,7 @@ public class FireStoreService {
                 });
     }
 
-    public static String addCategory(Category category) {
+    public static String addCategory(Category category, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
 
         try {
@@ -598,9 +598,11 @@ public class FireStoreService {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        callback.onCallback("success");
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
+                        callback.onCallback("error");
                         result[0] = "error";
                         Log.d("rs", result[0]);
                     }
