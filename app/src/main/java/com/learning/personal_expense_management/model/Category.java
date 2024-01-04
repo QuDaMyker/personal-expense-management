@@ -23,8 +23,12 @@ public class Category  implements Serializable {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");
         this.name = document.getString("categoryName");
-        this.backGround = document.getLong("colorCode").intValue();
+        this.backGround = document.getLong("background").intValue();
         this.icon = document.getLong("icon").intValue();
+        this.colorIcon = document.getLong("colorIcon").intValue();
+        this.isIncome = document.getLong("isIncome").intValue();
+
+
     }
 
     public Category(String idOwner, String name, int backGround, int icon, int iconColor, int isIncome) {

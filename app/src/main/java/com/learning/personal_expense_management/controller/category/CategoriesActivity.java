@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -19,24 +20,28 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.CategoryAdapter;
 import com.learning.personal_expense_management.model.Category;
+import com.learning.personal_expense_management.services.CategoryListener;
+import com.learning.personal_expense_management.services.FireStoreService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoriesActivity extends AppCompatActivity {
-    private FirebaseStorage storage;
+
     private FirebaseAuth mAuth;
-    private GoogleSignInOptions gso;
-    private GoogleSignInClient gsc;
-    private FirebaseDatabase database;
-    private DatabaseReference reference;
-    private ArrayList<Category> listDeCats;
-    private ArrayList<Category> listCats;
+
+    private List<Category> listDisplay;
+    private List<Category> listCats;
+    private List<Category> listIncome;
+    private List<Category> listOutCome;
+
     private CategoryAdapter categoryAdapter;
+
 
     private String currentUser;
 
     private RecyclerView rcvCats;
-    private RecyclerView.LayoutManager rcvLayoutManager;
+
     private TabLayout tabInOut;
     private Button btnNewCat;
 
@@ -46,15 +51,98 @@ public class CategoriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
+        tabInOut = findViewById(R.id.InOut);
+
         currentUser = mAuth.getInstance().getUid();
 
         rcvCats= findViewById(R.id.rcvCategories);
+
         btnNewCat = findViewById(R.id.btnCreateNewCat);
-        rcvLayoutManager = new GridLayoutManager(this,4);
-        rcvCats.setLayoutManager(rcvLayoutManager);
+
+        if (rcvCats.getLayoutManager() == null) {
+            rcvCats.setLayoutManager(new GridLayoutManager(this, 4));
+        }
+
         categoryAdapter = new CategoryAdapter(this);
-        categoryAdapter.setData(listCats);
+
+        listCats = new ArrayList<Category>();
+        listDisplay = new ArrayList<Category>();
+        listIncome = new ArrayList<Category>();
+        listOutCome = new ArrayList<Category>();
+
         rcvCats.setAdapter(categoryAdapter);
+
+        FireStoreService.getCategory(currentUser, new CategoryListener() {
+            @Override
+            public void onCategoryLoaded(List<Category> categories) {
+                listCats = categories;
+
+                listIncome.clear();
+                listOutCome.clear();
+                for (Category cat : listCats) {
+                    if (cat.getIsIncome() == 0 ) {
+                        listOutCome.add(cat);
+                    }
+                    else
+                    {
+                        if (cat.getIsIncome() == 1)
+                        {
+                            listIncome.add(cat);
+                        }
+                        else
+                        {
+                            listOutCome.add(cat);
+                            listIncome.add(cat);
+                        }
+                    }
+                }
+
+                listDisplay.clear();
+                listDisplay.addAll(listOutCome);
+                categoryAdapter.setData(listDisplay);
+                categoryAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+
+        tabInOut.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                switch (position) {
+                    //chi tieu
+                    case 0:
+                        listDisplay.clear();
+                        listDisplay.addAll(listOutCome);
+                        break;
+                    case 1:
+                        //thu nhap
+                        listDisplay.clear();
+                        listDisplay.addAll(listIncome);
+                        break;
+                    default:
+                        break;
+                }
+
+                categoryAdapter.setData(listDisplay);
+                categoryAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         btnNewCat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +152,7 @@ public class CategoriesActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void createDefaultLisCategories(String userID) {
         listCats = new ArrayList<Category>();

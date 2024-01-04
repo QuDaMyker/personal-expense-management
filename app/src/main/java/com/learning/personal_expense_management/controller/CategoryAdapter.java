@@ -27,12 +27,12 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private Context context;
-    private ArrayList<Category> cats;
+    private List<Category> cats;
 
     public CategoryAdapter(Context context) {
         this.context = context;
     }
-    public void setData (ArrayList<Category> cats)
+    public void setData (List<Category> cats)
     {
         this.cats = cats;
         notifyDataSetChanged();

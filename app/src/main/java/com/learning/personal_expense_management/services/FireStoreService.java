@@ -642,7 +642,6 @@ public class FireStoreService {
             listener.onError(e.getMessage());
         }
     }
-
     public static void deleteCategory(String ownerId, String categoryId) {
         db.collection(Constants.KEY_CATEGORY).document(categoryId)
                 .delete()

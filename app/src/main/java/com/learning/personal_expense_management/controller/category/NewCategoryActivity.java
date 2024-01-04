@@ -124,9 +124,13 @@ public class NewCategoryActivity extends AppCompatActivity {
         setupRadioButtonGRIcon(grIcon6);
         setupRadioButtonGRIcon(grIcon7);
 
-        selectedColorBtn = findViewById(R.id.clItem1);
-        selectedIconBtn = findViewById(R.id.icMoney);
-        btnIsIncome = findViewById(R.id.radioIsIcome);
+//        selectedColorBtn = findViewById(R.id.clItem1);
+//        selectedIconBtn = findViewById(R.id.icMoney);
+//        btnIsIncome = findViewById(R.id.radioIsIcome);
+//
+//        selectedColorBtn = findViewById(R.id.clItem1);
+//        selectedIconBtn = findViewById(R.id.icMoney);
+//        btnIsIncome = findViewById(R.id.radioIsIcome);
 
         grIsIncome.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -137,9 +141,18 @@ public class NewCategoryActivity extends AppCompatActivity {
         btnCreateNewCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txTitle.getText() != null && selectedColorBtn.getId() != -1 && selectedIconBtn.getId() != -1) {
-                    Category newCat = new Category();
+                String test = txTitle.getText().toString();
 
+                if (test.isEmpty())
+                {
+
+                }
+                if ( !test.isEmpty()
+                        && selectedColorBtn!= null
+                        && selectedIconBtn!= null
+                        && btnIsIncome!= null )
+                {
+                    Category newCat = new Category();
                     try {
                         switch (selectedColorBtn.getId()) {
                             case R.id.clItem1:
@@ -285,13 +298,13 @@ public class NewCategoryActivity extends AppCompatActivity {
                         }
 
                         switch (btnIsIncome.getId()) {
-                            case 0:
-                                newCat.setIncome(0);
-                                break;
-                            case 1:
+                            case R.id.radioIsIcome:
                                 newCat.setIncome(1);
                                 break;
-                            case 2:
+                            case R.id.radioIsOutCome:
+                                newCat.setIncome(0);
+                                break;
+                            case R.id.radioBoth:
                                 newCat.setIncome(2);
                                 break;
                             default:
@@ -318,17 +331,13 @@ public class NewCategoryActivity extends AppCompatActivity {
                             }
                         });
 
-//                        String result = FireStoreService.addCategory(newCat);
-//                        Log.d("result-push", result);
-//
-//                        if ("success".equals(result)) {
-//                            Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
-//                            startActivity(intent);
-//                        }
 
                     } catch (Exception e) {
                         Log.d("er", e.getMessage());
                     }
+                }
+                else {
+                    Toast.makeText(NewCategoryActivity.this, "Bạn hãy điền đủ tên, màu nền, icon và loại danh thu nhé", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -349,10 +358,10 @@ public class NewCategoryActivity extends AppCompatActivity {
                 preCheckedGrColorID = group.getId();
 
                 // Xử lý
-                if (selectedColorBtn != null) {
-                    Toast.makeText(NewCategoryActivity.this, "Selected: " + selectedColorBtn.getBackgroundTintList(), Toast.LENGTH_SHORT).show();
-
-                }
+//                if (selectedColorBtn != null) {
+//                    Toast.makeText(NewCategoryActivity.this, "Selected: " + selectedColorBtn.getBackgroundTintList(), Toast.LENGTH_SHORT).show();
+//
+//                }
             }
         });
     }
@@ -373,10 +382,10 @@ public class NewCategoryActivity extends AppCompatActivity {
                 preCheckedGrIconID = group.getId();
 
                 // Xử lý
-                if (selectedIconBtn != null) {
-                    Toast.makeText(NewCategoryActivity.this, "Selected: " + selectedIconBtn.getDrawableState(), Toast.LENGTH_SHORT).show();
-
-                }
+//                if (selectedIconBtn != null) {
+//                    Toast.makeText(NewCategoryActivity.this, "Selected: " + selectedIconBtn.getDrawableState(), Toast.LENGTH_SHORT).show();
+//
+//                }
             }
         });
     }
