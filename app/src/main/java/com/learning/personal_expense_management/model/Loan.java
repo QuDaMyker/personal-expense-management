@@ -9,9 +9,31 @@ public class Loan {
     private String borrowerName;
     private int amount;
     private String note;
-    private String transactionDate;
-    private String transactionTime;
+    private String timestamp;
     private int repaymentPeriod;
+    private boolean hasInterestRate;
+    private int interestRate;
+    private boolean interestRateType; //true = based on pricipal debt
+    private boolean isLend;
+    private String deadline;
+
+    public Loan() {
+    }
+
+    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, int interestRate, boolean interestRateType, boolean isLend, String deadline) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.borrowerName = borrowerName;
+        this.amount = amount;
+        this.note = note;
+        this.timestamp = timestamp;
+        this.repaymentPeriod = repaymentPeriod;
+        this.hasInterestRate = hasInterestRate;
+        this.interestRate = interestRate;
+        this.interestRateType = interestRateType;
+        this.isLend = isLend;
+        this.deadline = deadline;
+    }
 
     public Loan(QueryDocumentSnapshot document) {
         this.id = document.getString("id");
@@ -19,14 +41,31 @@ public class Loan {
         this.borrowerName = document.getString("borrowerName");
         this.amount = Integer.parseInt(String.valueOf(document.getLong("amount")));
         this.note = document.getString("note");
-        this.transactionDate = document.getString("transactionDate");
-        this.transactionTime = document.getString("transactionTime");
-        this.repaymentPeriod = Integer.parseInt(String.valueOf(document.getString("repaymentPeriod")));
+        this.timestamp = document.getString("timestamp");
+        this.repaymentPeriod = Integer.valueOf(Math.toIntExact(document.getLong("repaymentPeriod")));
+        this.hasInterestRate = Boolean.TRUE.equals(document.getBoolean("hasInterestRate"));
+        this.interestRate = Integer.valueOf(Math.toIntExact(document.getLong("interestRate")));
+        this.interestRateType = Boolean.TRUE.equals(document.getBoolean("interestRateType"));
+        this.isLend = Boolean.TRUE.equals(document.getBoolean("isLend"));
+        this.deadline = document.getString("deadline");
     }
 
     @Override
     public String toString() {
-        return "Loan{" + "id='" + id + '\'' + ", ownerId='" + ownerId + '\'' + ", borrowerName='" + borrowerName + '\'' + ", amount=" + amount + ", note='" + note + '\'' + ", transactionDate='" + transactionDate + '\'' + ", transactionTime='" + transactionTime + '\'' + ", repaymentPeriod=" + repaymentPeriod + '}';
+        return "Loan{" +
+                "id='" + id + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", borrowerName='" + borrowerName + '\'' +
+                ", amount=" + amount +
+                ", note='" + note + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", repaymentPeriod=" + repaymentPeriod +
+                ", hasInterestRate=" + hasInterestRate +
+                ", interestRate=" + interestRate +
+                ", interestRateType=" + interestRateType +
+                ", isLend=" + isLend +
+                ", deadline='" + deadline + '\'' +
+                '}';
     }
 
     public String getId() {
@@ -69,20 +108,12 @@ public class Loan {
         this.note = note;
     }
 
-    public String getTransactionDate() {
-        return transactionDate;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTransactionDate(String transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
-    public String getTransactionTime() {
-        return transactionTime;
-    }
-
-    public void setTransactionTime(String transactionTime) {
-        this.transactionTime = transactionTime;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public int getRepaymentPeriod() {
@@ -93,14 +124,43 @@ public class Loan {
         this.repaymentPeriod = repaymentPeriod;
     }
 
-    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String transactionDate, String transactionTime, int repaymentPeriod) {
-        this.id = id;
-        this.ownerId = ownerId;
-        this.borrowerName = borrowerName;
-        this.amount = amount;
-        this.note = note;
-        this.transactionDate = transactionDate;
-        this.transactionTime = transactionTime;
-        this.repaymentPeriod = repaymentPeriod;
+    public boolean isHasInterestRate() {
+        return hasInterestRate;
+    }
+
+    public void setHasInterestRate(boolean hasInterestRate) {
+        this.hasInterestRate = hasInterestRate;
+    }
+
+    public int getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(int interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public boolean isInterestRateType() {
+        return interestRateType;
+    }
+
+    public void setInterestRateType(boolean interestRateType) {
+        this.interestRateType = interestRateType;
+    }
+
+    public boolean isLend() {
+        return isLend;
+    }
+
+    public void setLend(boolean lend) {
+        isLend = lend;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 }

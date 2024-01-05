@@ -54,7 +54,9 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onAccountsLoaded(List<Account> accounts) {
                 accountList = accounts;
-                selectAccount(accounts.get(0));
+                if(accounts.size() > 0){
+                    selectAccount(accounts.get(0));
+                }
             }
 
             @Override

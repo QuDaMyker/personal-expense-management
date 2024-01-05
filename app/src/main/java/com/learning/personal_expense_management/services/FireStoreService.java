@@ -666,12 +666,17 @@ public class FireStoreService {
             loanMap.put("borrowerName", loan.getBorrowerName());
             loanMap.put("amount", loan.getAmount());
             loanMap.put("note", loan.getNote());
-            loanMap.put("transactionDate", loan.getTransactionDate());
-            loanMap.put("transactionTime", loan.getTransactionTime());
+            loanMap.put("timestamp", loan.getTimestamp());
             loanMap.put("repaymentPeriod", loan.getRepaymentPeriod());
+            loanMap.put("hasInterestRate", loan.isHasInterestRate());
+            loanMap.put("interestRate", loan.getInterestRate());
+            loanMap.put("interestRateType", loan.isInterestRateType());
+            loanMap.put("isLend", loan.isLend());
+            loanMap.put("deadline", loan.getDeadline());
 
 
-            db.collection(Constants.KEY_LOAN).document(loan.getId()).set(loanMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+            docRef.set(loanMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -693,11 +698,35 @@ public class FireStoreService {
         }
         return result[0];
     }
-    public static void getLoan(String ownerId, LoanListener listener) {
+    public static void getBorrowLoan(String ownerId, LoanListener listener) {
         List<Loan> loanList = new ArrayList<>();
 
         try {
             db.collection(Constants.KEY_LOAN).whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("isLend", false)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Loan loan = new Loan(document);
+                                loanList.add(loan);
+                                Log.d("rs", document.getData().toString());
+                            }
+                            listener.onLoanLoaded(loanList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
+    public static void getLendLoan(String ownerId, LoanListener listener) {
+        List<Loan> loanList = new ArrayList<>();
+
+        try {
+            db.collection(Constants.KEY_LOAN).whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("isLend", true)
                     .get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
