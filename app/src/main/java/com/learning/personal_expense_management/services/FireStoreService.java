@@ -642,19 +642,23 @@ public class FireStoreService {
             listener.onError(e.getMessage());
         }
     }
-    public static void deleteCategory(String ownerId, String categoryId) {
+    public static void deleteCategory(String ownerId, String categoryId, FirestoreCallback callback) {
         db.collection(Constants.KEY_CATEGORY).document(categoryId)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("rs - delete - category", "DocumentSnapshot successfully deleted!");
+                        callback.onCallback("success");
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("rs - delete - category", "Error deleting document", e);
+                        callback.onCallback("error");
+
                     }
                 });
     }
