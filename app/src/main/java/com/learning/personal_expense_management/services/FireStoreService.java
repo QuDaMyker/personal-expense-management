@@ -646,7 +646,7 @@ public class FireStoreService {
     public  static void updateCategory (Category category, FirestoreCallback callback){
         try
         {
-            DocumentReference docRef = db.collection(Constants.KEY_CATEGORY).document();
+
             String id = category.getId();
             category.setId(id);
 
@@ -658,6 +658,7 @@ public class FireStoreService {
             categoryMap.put("icon", category.getIcon());
             categoryMap.put("colorIcon", category.getColorIcon());
             categoryMap.put("isIncome", category.getIsIncome());
+            Log.d("id", category.getId());
 
             db.collection(Constants.KEY_CATEGORY).document(category.getId()).update(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

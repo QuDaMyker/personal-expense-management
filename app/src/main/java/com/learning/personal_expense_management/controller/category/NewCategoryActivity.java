@@ -105,11 +105,10 @@ public class NewCategoryActivity extends AppCompatActivity {
         btnColo8 = findViewById(R.id.clItem8);
 
         grIsIncome = findViewById(R.id.grIsIncome);
-        
         btnCreateNewCat = findViewById(R.id.btnCreateNewCat);
 
-        setupRadioButtonGRColor(grColor1);
-        setupRadioButtonGRColor(grColor2);
+//        setupRadioButtonGRColor(grColor1);
+//        setupRadioButtonGRColor(grColor2);
 
         setupRadioButtonGRIcon(grIcon1);
         setupRadioButtonGRIcon(grIcon2);
@@ -118,6 +117,7 @@ public class NewCategoryActivity extends AppCompatActivity {
         setupRadioButtonGRIcon(grIcon5);
         setupRadioButtonGRIcon(grIcon6);
         setupRadioButtonGRIcon(grIcon7);
+        selectedColorBtn = findViewById(R.id.clItem1);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -137,15 +137,16 @@ public class NewCategoryActivity extends AppCompatActivity {
             updateCat.setIcon(icon);
             updateCat.setIncome(catIsIncome);
 
-            if(catName == null)
-            {
+            if (catName == null) {
                 isEdit = false;
             }
 
-            if(catName != null ) { txTitle.setText(catName);}
-            if(catIsIncome != -1) {
-                switch (catIsIncome)
-                {
+            if (catName != null) {
+                txTitle.setText(catName);
+                isEdit = true;
+            }
+            if (catIsIncome != -1) {
+                switch (catIsIncome) {
                     case 0:
                         grIsIncome.check(R.id.radioIsOutCome);
                         btnIsIncome = findViewById(R.id.radioIsOutCome);
@@ -160,56 +161,55 @@ public class NewCategoryActivity extends AppCompatActivity {
                         break;
                     default:
                         break;
-                        
+
                 }
             }
 
-            if(backgroundColor != -1)
-            {
+            if (backgroundColor != -1) {
                 switch (backgroundColor) {
-                    case  R.color.colorItem1:
+                    case R.color.colorItem1:
                         selectedColorBtn = findViewById(R.id.clItem1);
                         grColor1.check(selectedColorBtn.getId());
 
                         break;
                     case R.color.colorItem2:
-                        selectedColorBtn= findViewById( R.id.clItem2);
+                        selectedColorBtn = findViewById(R.id.clItem2);
                         grColor1.check(selectedColorBtn.getId());
 
 
                         break;
-                    case  R.color.colorItem3:
-                        selectedColorBtn=findViewById(R.id.clItem3);
+                    case R.color.colorItem3:
+                        selectedColorBtn = findViewById(R.id.clItem3);
                         grColor1.check(selectedColorBtn.getId());
 
 
                         break;
-                    case  R.color.colorItem4:
-                        selectedColorBtn=findViewById(R.id.clItem4);
+                    case R.color.colorItem4:
+                        selectedColorBtn = findViewById(R.id.clItem4);
                         grColor1.check(selectedColorBtn.getId());
 
 
                         break;
-                    case  R.color.colorItem5:
-                        selectedColorBtn=findViewById(R.id.clItem5);
+                    case R.color.colorItem5:
+                        selectedColorBtn = findViewById(R.id.clItem5);
                         grColor2.check(selectedColorBtn.getId());
 
 
                         break;
-                    case  R.color.colorItem6:
-                        selectedColorBtn=findViewById(R.id.clItem6);
+                    case R.color.colorItem6:
+                        selectedColorBtn = findViewById(R.id.clItem6);
                         grColor2.check(selectedColorBtn.getId());
 
 
                         break;
-                    case  R.color.colorItem7:
-                        selectedColorBtn=findViewById(R.id.clItem7);
+                    case R.color.colorItem7:
+                        selectedColorBtn = findViewById(R.id.clItem7);
                         grColor2.check(selectedColorBtn.getId());
 
 
                         break;
-                    case  R.color.colorItem8:
-                        selectedColorBtn=findViewById(R.id.clItem8);
+                    case R.color.colorItem8:
+                        selectedColorBtn = findViewById(R.id.clItem8);
                         grColor2.check(selectedColorBtn.getId());
 
                         break;
@@ -220,156 +220,157 @@ public class NewCategoryActivity extends AppCompatActivity {
 
             switch (icon) {
                 case R.drawable.ic_money:
-                    selectedIconBtn= findViewById(R.id.icMoney);
+                    selectedIconBtn = findViewById(R.id.icMoney);
                     grIcon1.check(selectedIconBtn.getId());
                     break;
-                case  R.drawable.ic_beauty_heart:
-                    selectedIconBtn= findViewById(R.id.icBeauty);
+                case R.drawable.ic_beauty_heart:
+                    selectedIconBtn = findViewById(R.id.icBeauty);
                     grIcon1.check(selectedIconBtn.getId());
 
                     break;
                 case R.drawable.ic_airplane:
-                    selectedIconBtn= findViewById(R.id.icPlane ) ;
+                    selectedIconBtn = findViewById(R.id.icPlane);
                     grIcon1.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_atm:
-                    selectedIconBtn= findViewById(R.id.icAtm)   ;
+                    selectedIconBtn = findViewById(R.id.icAtm);
                     grIcon1.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_repair:
-                    selectedIconBtn= findViewById(R.id.icRepair) ;
+                    selectedIconBtn = findViewById(R.id.icRepair);
                     grIcon1.check(selectedIconBtn.getId());
                     break;
 
-                case R.drawable.ic_case_travel :
+                case R.drawable.ic_case_travel:
                     grIcon2.check(selectedIconBtn.getId());
-                    selectedIconBtn= findViewById(R.id.icCaseTravel) ;
+                    selectedIconBtn = findViewById(R.id.icCaseTravel);
                     break;
                 case R.drawable.ic_train_metro:
-                    selectedIconBtn= findViewById(R.id.icMetro) ;
+                    selectedIconBtn = findViewById(R.id.icMetro);
                     grIcon2.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_fee_tax:
-                    selectedIconBtn= findViewById(R.id.icFeeTax) ;
+                    selectedIconBtn = findViewById(R.id.icFeeTax);
                     grIcon2.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_envelope:
-                    selectedIconBtn= findViewById (R.id.icLetter) ;
+                    selectedIconBtn = findViewById(R.id.icLetter);
                     grIcon2.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.icon_shopping:
-                    selectedIconBtn= findViewById(R.id.icShopping) ;
+                    selectedIconBtn = findViewById(R.id.icShopping);
                     grIcon2.check(selectedIconBtn.getId());
                     break;
 
                 case R.drawable.ic_gear:
-                    selectedIconBtn= findViewById(R.id.icGear) ;
+                    selectedIconBtn = findViewById(R.id.icGear);
                     grIcon3.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_safe_saving:
-                    selectedIconBtn= findViewById(R.id.icSafeSaving) ;
+                    selectedIconBtn = findViewById(R.id.icSafeSaving);
                     grIcon3.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.icon_wallet_earnings:
-                    selectedIconBtn= findViewById (R.id.icWallet) ;
+                    selectedIconBtn = findViewById(R.id.icWallet);
                     grIcon3.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_restaurant_fork:
-                    selectedIconBtn= findViewById(R.id.icFork) ;
+                    selectedIconBtn = findViewById(R.id.icFork);
                     grIcon3.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.icon_drugs:
-                    selectedIconBtn= findViewById(R.id.icMedicine) ;
+                    selectedIconBtn = findViewById(R.id.icMedicine);
                     grIcon3.check(selectedIconBtn.getId());
                     break;
 
                 case R.drawable.ic_pending_time_wait_transaction_clock:
-                    selectedIconBtn= findViewById(R.id.icClock) ;
+                    selectedIconBtn = findViewById(R.id.icClock);
                     grIcon4.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_water_tap:
-                    selectedIconBtn= findViewById(R.id.icWater) ;
+                    selectedIconBtn = findViewById(R.id.icWater);
                     grIcon4.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_interest:
-                    selectedIconBtn= findViewById(R.id.icCash) ;
+                    selectedIconBtn = findViewById(R.id.icCash);
                     grIcon4.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_snow:
-                    selectedIconBtn= findViewById(R.id.icSnow) ;
+                    selectedIconBtn = findViewById(R.id.icSnow);
                     grIcon4.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_label_price:
-                    selectedIconBtn= findViewById(R.id.icTag) ;
+                    selectedIconBtn = findViewById(R.id.icTag);
                     grIcon4.check(selectedIconBtn.getId());
                     break;
 
                 case R.drawable.ic_kid_care_stroller:
-                    selectedIconBtn= findViewById(R.id.icKid) ;
+                    selectedIconBtn = findViewById(R.id.icKid);
                     grIcon5.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_insurance_shield:
-                    selectedIconBtn= findViewById(R.id.icSheld) ;
+                    selectedIconBtn = findViewById(R.id.icSheld);
                     grIcon5.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_home:
-                    selectedIconBtn= findViewById(R.id.icHome) ;
+                    selectedIconBtn = findViewById(R.id.icHome);
                     grIcon5.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_kite_hobby:
-                    selectedIconBtn= findViewById(R.id.icKite) ;
+                    selectedIconBtn = findViewById(R.id.icKite);
                     grIcon5.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_hospital:
-                    selectedIconBtn= findViewById(R.id.icHospotal) ;
+                    selectedIconBtn = findViewById(R.id.icHospotal);
                     grIcon5.check(selectedIconBtn.getId());
                     break;
 
                 case R.drawable.ic_sport_gym:
-                    selectedIconBtn= findViewById(R.id.icGym) ;
+                    selectedIconBtn = findViewById(R.id.icGym);
                     grIcon6.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_gift_box:
-                    selectedIconBtn= findViewById(R.id.icGift) ;
+                    selectedIconBtn = findViewById(R.id.icGift);
                     grIcon6.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_station_fuel:
-                    selectedIconBtn= findViewById(R.id.icFuel) ;
+                    selectedIconBtn = findViewById(R.id.icFuel);
                     grIcon6.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_apple:
-                    selectedIconBtn= findViewById(R.id.icApple) ;
+                    selectedIconBtn = findViewById(R.id.icApple);
                     grIcon6.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_mask:
-                    selectedIconBtn= findViewById(R.id.icMask) ;
+                    selectedIconBtn = findViewById(R.id.icMask);
                     grIcon6.check(selectedIconBtn.getId());
                     break;
 
                 case R.drawable.ic_computer:
-                    selectedIconBtn= findViewById(R.id.icComputer) ;
+                    selectedIconBtn = findViewById(R.id.icComputer);
                     grIcon7.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_social_heart_donation_care_calendar:
-                    selectedIconBtn= findViewById(R.id.icHeartCalender) ;
+                    selectedIconBtn = findViewById(R.id.icHeartCalender);
                     grIcon7.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_tshirt:
-                    selectedIconBtn= findViewById (R.id.icTshirt) ;
+                    selectedIconBtn = findViewById(R.id.icTshirt);
                     grIcon7.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_car_drive:
-                    selectedIconBtn= findViewById(R.id.icCar) ;
+                    selectedIconBtn = findViewById(R.id.icCar);
                     grIcon7.check(selectedIconBtn.getId());
                     break;
                 case R.drawable.ic_coffee_bistro:
-                    selectedIconBtn= findViewById(R.id.icDrink) ;
+                    selectedIconBtn = findViewById(R.id.icDrink);
                     grIcon7.check(selectedIconBtn.getId());
                     break;
                 default:
                     break;
             }
         }
+
 
         grIsIncome.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -381,14 +382,12 @@ public class NewCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String test = txTitle.getText().toString();
-                
-                if ( !test.isEmpty()
-                        && selectedColorBtn!= null
-                        && selectedIconBtn!= null
-                        && btnIsIncome!= null )
-                {
-                    if (!isEdit)
-                    {
+
+                if (!test.isEmpty()
+                        && selectedColorBtn != null
+                        && selectedIconBtn != null
+                        && btnIsIncome != null) {
+                    if (!isEdit) {
                         Category newCat = new Category();
                         try {
                             switch (selectedColorBtn.getId()) {
@@ -561,6 +560,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             FireStoreService.addCategory(newCat, new FirestoreCallback() {
                                 @Override
                                 public void onCallback(String result) {
+                                    Log.d("isUpdate", "false");
                                     Log.d("result-push", result);
                                     if ("success".equals(result)) {
                                         Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
@@ -572,15 +572,11 @@ public class NewCategoryActivity extends AppCompatActivity {
                             });
 
 
-                        } catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.d("er", e.getMessage());
                         }
-                    }
-                    else
-                    {
-                        try
-                        {
+                    } else {
+                        try {
                             updateCat.setName(txTitle.getText().toString());
                             switch (selectedColorBtn.getId()) {
                                 case R.id.clItem1:
@@ -746,7 +742,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             FireStoreService.updateCategory(updateCat, new FirestoreCallback() {
                                 @Override
                                 public void onCallback(String result) {
-                                    Log.d("result-push", result);
+Log.d("isUpdate", "true");
                                     if ("success".equals(result)) {
                                         Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
                                         startActivity(intent);
@@ -755,25 +751,50 @@ public class NewCategoryActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.d("er", e.getMessage());
                         }
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(NewCategoryActivity.this, "Bạn hãy điền đủ tên, màu nền, icon và loại danh thu nhé", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
+        grColor1.setOnCheckedChangeListener(listener1);
+        grColor2.setOnCheckedChangeListener(listener2);
     }
+
+    private RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                grColor2.setOnCheckedChangeListener(null);
+                grColor2.clearCheck();
+                grColor2.setOnCheckedChangeListener(listener2);
+                selectedColorBtn = findViewById(checkedId);
+            }
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                grColor1.setOnCheckedChangeListener(null);
+                grColor1.clearCheck();
+                grColor1.setOnCheckedChangeListener(listener1);
+                selectedColorBtn = findViewById(checkedId);
+            }
+        }
+    };
 
     private void setupRadioButtonGRColor(RadioGroup grChecked) {
         grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
                 selectedColorBtn = findViewById(checkedId);
                 if (preCheckedGrColorID != -1 && group.getId() != preCheckedGrColorID) {
                     // Uncheck ở `preCheckedGrID`
@@ -781,21 +802,20 @@ public class NewCategoryActivity extends AppCompatActivity {
                     RadioGroup preCheckedGr = findViewById(preCheckedGrColorID);
                     preCheckedGr.clearCheck();
 
-                    group.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            group.check(newCheckedId);
-                        }
-                    });
+
                 }
 
                 preCheckedGrColorID = group.getId();
 
                 if (selectedColorBtn != null) {
+                    Toast.makeText(NewCategoryActivity.this, "chnage", Toast.LENGTH_SHORT).show();
                     RadioGroup preCheckedGr = findViewById(preCheckedGrColorID);
                     preCheckedGr.check(selectedColorBtn.getId());
+                    String test = Integer.toString(selectedColorBtn.getId());
+                } else {
+                    Toast.makeText(NewCategoryActivity.this, " no chnage", Toast.LENGTH_SHORT).show();
                 }
-                String test = Integer.toString(selectedColorBtn.getId());
+
             }
         });
     }
@@ -815,8 +835,7 @@ public class NewCategoryActivity extends AppCompatActivity {
 
                 preCheckedGrIconID = group.getId();
 
-                if (selectedIconBtn!=null)
-                {
+                if (selectedIconBtn != null) {
                     RadioGroup preCheckedGr = findViewById(preCheckedGrIconID);
                     preCheckedGr.check(selectedIconBtn.getId());
                 }
