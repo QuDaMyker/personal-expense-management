@@ -13,6 +13,7 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -673,6 +674,8 @@ public class FireStoreService {
             loanMap.put("interestRateType", loan.isInterestRateType());
             loanMap.put("isLend", loan.isLend());
             loanMap.put("deadline", loan.getDeadline());
+            loanMap.put("interest", loan.getInterest());
+            loanMap.put("paid", loan.getPaid());
 
 
 
@@ -761,4 +764,28 @@ public class FireStoreService {
                 });
     }
 
+    public static void paidLoan(String loanId, long paid, boolean isAll) {
+        db.collection(Constants.KEY_LOAN).document(loanId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        int currentPaid= Integer.valueOf(Math.toIntExact(document.getLong("paid")));
+                        int totalAmount = (int) (document.getDouble("interest") + Integer.parseInt(String.valueOf(document.getLong("amount"))));
+                        if(isAll){
+                            db.collection(Constants.KEY_LOAN).document(loanId).update("paid", totalAmount);
+                        }else{
+                            db.collection(Constants.KEY_LOAN).document(loanId).update("paid", currentPaid + paid);
+                        }
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        });
+
+    }
 }

@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.databinding.ActivityLoanDetailBinding;
@@ -54,18 +58,29 @@ public class LoanDetailActivity extends AppCompatActivity {
 
     void initData(){
         binding.noteTv.setText(loan.getNote());
-        binding.paidTv.setText("1000000₫");
-        binding.amountTotalTv.setText("/" + loan.getAmount() + "₫");
-        double percent = 100000*100.0/loan.getAmount();
-        binding.percentTv.setText(roundDouble(percent) + "%");
+        binding.paidTv.setText(loan.getPaid() + "₫");
 
+        int totalAmount = (int) (loan.getAmount() + loan.getInterest());
+
+        binding.amountTotalTv.setText("/" + totalAmount + "₫");
+        if(loan.isHasInterestRate()){
+            binding.principalTv.setText(loan.getAmount() + "₫");
+            binding.principalLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            binding.principalLayout.setVisibility(View.GONE);
+        }
+        double percent = loan.getPaid()*100.0/totalAmount;
+        binding.percentTv.setText(roundDouble(percent) + "%");
+        float factor = this.getBaseContext().getResources().getDisplayMetrics().density;
+        binding.paidLine.setLayoutParams(new FrameLayout.LayoutParams((int) (270*factor*percent/100), (int)(12*factor)));
         binding.borrowerNameTv.setText(loan.getBorrowerName());
         binding.typeTv.setText(loan.isLend() ? "Cho vay" : "Vay");
         binding.dateTv.setText(Utils.convertTimestampToDateString(Long.parseLong(loan.getTimestamp())));
         binding.timeTv.setText(Utils.convertTimestampToTimeString(Long.parseLong(loan.getTimestamp())));
         binding.deadlineTv.setText(loan.getDeadline());
 
-        binding.interestRateTv.setText(loan.getInterestRate() + "%");
+        binding.interestRateTv.setText(loan.getInterestRate() + "%/năm");
         binding.interestRateTypeTv.setText(loan.isInterestRateType() ? "Theo dư nợ gốc" : "Theo dư nợ giảm dần");
         binding.periodTv.setText(periodMap.get(loan.getRepaymentPeriod()));
     }

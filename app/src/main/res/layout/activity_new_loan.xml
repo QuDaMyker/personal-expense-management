@@ -326,7 +326,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:hint="Nhập lãi suất khoản vay"
-                    app:suffixText="%"
+                    app:suffixText="%/năm"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText

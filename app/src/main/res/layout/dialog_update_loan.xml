@@ -30,12 +30,14 @@
         android:hint="Nhập số tiền trả">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/paidEdt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textFontWeight="400"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
+        android:id="@+id/paidAllCb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Trả toàn bộ tiền còn lại"
@@ -58,6 +60,7 @@
             android:textSize="16sp"
             android:layout_marginEnd="20dp"/>
         <Button
+            android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:backgroundTint="@color/primary90"

@@ -67,19 +67,22 @@
         android:layout_marginBottom="16dp">
         <TextView
             android:id="@+id/percentTv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="20%"
             android:textColor="@color/primary40"
             android:textFontWeight="600"
             android:textSize="14sp"
             android:layout_marginEnd="8dp"/>
         <FrameLayout
-            android:layout_width="match_parent"
+            android:id="@+id/totalLine"
+            android:layout_width="230dp"
             android:layout_height="12dp"
             android:background="@drawable/background_color_primary90_outline"
             android:layout_gravity="center">
             <View
+                android:id="@+id/paidLine"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/primary40_bg"/>

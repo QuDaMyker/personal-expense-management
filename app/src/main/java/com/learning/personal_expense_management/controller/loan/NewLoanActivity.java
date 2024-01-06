@@ -222,7 +222,15 @@ public class NewLoanActivity extends AppCompatActivity {
                 int month = Utils.getKeyByValue(periodMap, binding.periodEdt.getText().toString());
                 inputLoan.setRepaymentPeriod(month);
 
+                double interest = calculateInterest(inputLoan.getAmount(),
+                        inputLoan.getInterestRate(),
+                        inputLoan.getRepaymentPeriod(),
+                        inputLoan.isInterestRateType());
+                inputLoan.setInterest(interest);
+
                 String res = FireStoreService.addLoan(inputLoan);
+
+                //add outcome/income transaction
                 Toast.makeText(NewLoanActivity.this, "Thêm khoản vay thành công!", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -240,5 +248,31 @@ public class NewLoanActivity extends AppCompatActivity {
         Date deadline = calendar.getTime();
 
         return sdf.format(deadline);
+    }
+
+    double calculateInterest(int amount, double interestRate, int month, boolean isPrincipal){
+        int sumInterest = 0;
+        if(isPrincipal){
+            int monthlyPrincipal = amount/month;
+            for (int i = 1; i <= month; i++) {
+                double monthlyInterest = amount*interestRate/(100*month);
+                double monthlyAmount = monthlyPrincipal + monthlyInterest;
+                //add predict transaction
+
+                sumInterest += monthlyInterest;
+            }
+        }
+        else {
+            int monthlyPrincipal = amount/month;
+            for (int i = 1; i <= month; i++) {
+                double monthlyInterest = amount*interestRate/(100*month);
+                double monthlyAmount = monthlyPrincipal + monthlyInterest;
+                amount -= monthlyPrincipal;
+                //add predict transaction
+
+                sumInterest += monthlyInterest;
+            }
+        }
+        return sumInterest;
     }
 }

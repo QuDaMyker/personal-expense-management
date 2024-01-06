@@ -1,9 +1,11 @@
 package com.learning.personal_expense_management.controller.loan.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,12 +55,17 @@ public class LoanAdapter extends RecyclerView.Adapter<LoanAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LoanAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getBorrowerNameTv().setText(loans.get(position).getBorrowerName());
-        holder.getPaidTv().setText("100000₫");
-        holder.getAmountTotalTv().setText("/" + loans.get(position).getAmount() + "₫");
-        double percent = 100000*100.0/loans.get(position).getAmount();
+        holder.getPaidTv().setText(loans.get(position).getPaid() + "₫");
+        int totalAmount = (int) (loans.get(position).getAmount() + loans.get(position).getInterest());
+        holder.getAmountTotalTv().setText("/" + totalAmount + "₫");
+
+        double percent = loans.get(position).getPaid()*100.0/totalAmount;
         holder.getPercentTv().setText(roundDouble(percent) + "%");
+        float factor = Resources.getSystem().getDisplayMetrics().density;
+        holder.getPaidLine().setLayoutParams(new FrameLayout.LayoutParams((int) (230*factor*percent/100), (int)(12*factor)));
+
         holder.getDeadlineTv().setText(loans.get(position).getDeadline());
 
         holder.getUpdateBtn().setOnClickListener(new View.OnClickListener() {
@@ -89,6 +96,7 @@ public class LoanAdapter extends RecyclerView.Adapter<LoanAdapter.ViewHolder> {
         private final TextView percentTv;
         private final TextView deadlineTv;
         private final MaterialButton updateBtn;
+        private final View paidLine;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +106,7 @@ public class LoanAdapter extends RecyclerView.Adapter<LoanAdapter.ViewHolder> {
             percentTv = (TextView) itemView.findViewById(R.id.percentTv);
             deadlineTv = (TextView) itemView.findViewById(R.id.deadlineTv);
             updateBtn = (MaterialButton) itemView.findViewById(R.id.updateBtn);
+            paidLine = (View) itemView.findViewById(R.id.paidLine);
         }
 
         public TextView getBorrowerNameTv() {
@@ -122,6 +131,10 @@ public class LoanAdapter extends RecyclerView.Adapter<LoanAdapter.ViewHolder> {
 
         public MaterialButton getUpdateBtn() {
             return updateBtn;
+        }
+
+        public View getPaidLine() {
+            return paidLine;
         }
     }
 

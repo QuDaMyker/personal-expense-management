@@ -14,15 +14,17 @@ public class Loan implements Serializable {
     private String timestamp;
     private int repaymentPeriod;
     private boolean hasInterestRate;
-    private int interestRate;
+    private double interestRate;
     private boolean interestRateType; //true = based on pricipal debt
     private boolean isLend;
     private String deadline;
+    private double interest;
+    private int paid;
 
     public Loan() {
     }
 
-    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, int interestRate, boolean interestRateType, boolean isLend, String deadline) {
+    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid) {
         this.id = id;
         this.ownerId = ownerId;
         this.borrowerName = borrowerName;
@@ -35,6 +37,8 @@ public class Loan implements Serializable {
         this.interestRateType = interestRateType;
         this.isLend = isLend;
         this.deadline = deadline;
+        this.interest = interest;
+        this.paid = paid;
     }
 
     public Loan(QueryDocumentSnapshot document) {
@@ -46,10 +50,12 @@ public class Loan implements Serializable {
         this.timestamp = document.getString("timestamp");
         this.repaymentPeriod = Integer.valueOf(Math.toIntExact(document.getLong("repaymentPeriod")));
         this.hasInterestRate = Boolean.TRUE.equals(document.getBoolean("hasInterestRate"));
-        this.interestRate = Integer.valueOf(Math.toIntExact(document.getLong("interestRate")));
+        this.interestRate = document.getDouble("interestRate");
         this.interestRateType = Boolean.TRUE.equals(document.getBoolean("interestRateType"));
         this.isLend = Boolean.TRUE.equals(document.getBoolean("isLend"));
         this.deadline = document.getString("deadline");
+        this.interest = document.getDouble("interest");
+        this.paid = Integer.valueOf(Math.toIntExact(document.getLong("paid")));
     }
 
     @Override
@@ -67,6 +73,8 @@ public class Loan implements Serializable {
                 ", interestRateType=" + interestRateType +
                 ", isLend=" + isLend +
                 ", deadline='" + deadline + '\'' +
+                ", interest=" + interest +
+                ", paid=" + paid +
                 '}';
     }
 
@@ -134,11 +142,11 @@ public class Loan implements Serializable {
         this.hasInterestRate = hasInterestRate;
     }
 
-    public int getInterestRate() {
+    public double getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(int interestRate) {
+    public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
 
@@ -164,5 +172,21 @@ public class Loan implements Serializable {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public double getInterest() {
+        return interest;
+    }
+
+    public void setInterest(double interest) {
+        this.interest = interest;
+    }
+
+    public int getPaid() {
+        return paid;
+    }
+
+    public void setPaid(int paid) {
+        this.paid = paid;
     }
 }
