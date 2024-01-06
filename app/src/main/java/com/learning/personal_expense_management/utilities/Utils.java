@@ -28,4 +28,16 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
+
+    public static String convertTimestampToDateString(long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    public static String convertTimestampToTimeString(long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return sdf.format(date);
+    }
 }

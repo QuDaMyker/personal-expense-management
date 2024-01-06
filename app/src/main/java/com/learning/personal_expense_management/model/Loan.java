@@ -3,7 +3,9 @@ package com.learning.personal_expense_management.model;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
-public class Loan {
+import java.io.Serializable;
+
+public class Loan implements Serializable {
     private String id;
     private String ownerId;
     private String borrowerName;
