@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -19,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.CategoryAdapter;
+import com.learning.personal_expense_management.controller.home.fragment.HomeFragment;
+import com.learning.personal_expense_management.controller.login.LoginActivity;
 import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.services.CategoryListener;
 import com.learning.personal_expense_management.services.FireStoreService;
@@ -30,6 +33,7 @@ public class CategoriesActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private ImageButton btnBack;
     private List<Category> listDisplay;
     private List<Category> listCats;
     private List<Category> listIncome;
@@ -56,6 +60,8 @@ public class CategoriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
+        btnBack = findViewById(R.id.btn_Back);
+
         tabInOut = findViewById(R.id.InOut);
 
         currentUser = mAuth.getInstance().getUid();
@@ -74,6 +80,14 @@ public class CategoriesActivity extends AppCompatActivity {
         listDisplay = new ArrayList<Category>();
         listIncome = new ArrayList<Category>();
         listOutCome = new ArrayList<Category>();
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoriesActivity.this, HomeFragment.class);
+                startActivity(intent);
+            }
+        });
 
         rcvCats.setAdapter(categoryAdapter);
 

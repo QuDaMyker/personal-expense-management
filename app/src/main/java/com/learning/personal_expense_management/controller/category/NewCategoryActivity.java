@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -33,8 +34,10 @@ public class NewCategoryActivity extends AppCompatActivity {
 
     private boolean isEdit = false;
     private Category updateCat;
+    
 
     private String userCurrent;
+    private ImageButton btnBack;
     private TextInputEditText txTitle;
     private RadioGroup grColor;
     private RadioGroup grColor1;
@@ -76,7 +79,8 @@ public class NewCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_category);
 
         userCurrent = FirebaseAuth.getInstance().getUid();
-
+        
+        btnBack = findViewById(R.id.btn_Back);
         txTitle = findViewById(R.id.tvTitleNewCat);
 
 
@@ -107,8 +111,14 @@ public class NewCategoryActivity extends AppCompatActivity {
         grIsIncome = findViewById(R.id.grIsIncome);
         btnCreateNewCat = findViewById(R.id.btnCreateNewCat);
 
-//        setupRadioButtonGRColor(grColor1);
-//        setupRadioButtonGRColor(grColor2);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         setupRadioButtonGRIcon(grIcon1);
         setupRadioButtonGRIcon(grIcon2);
@@ -117,6 +127,7 @@ public class NewCategoryActivity extends AppCompatActivity {
         setupRadioButtonGRIcon(grIcon5);
         setupRadioButtonGRIcon(grIcon6);
         setupRadioButtonGRIcon(grIcon7);
+        
         selectedColorBtn = findViewById(R.id.clItem1);
 
         Intent intent = getIntent();
@@ -370,8 +381,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                     break;
             }
         }
-
-
+        
         grIsIncome.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -390,152 +400,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                     if (!isEdit) {
                         Category newCat = new Category();
                         try {
-                            switch (selectedColorBtn.getId()) {
-                                case R.id.clItem1:
-                                    newCat.setBackGround(R.color.colorItem1);
-                                    newCat.setColorIcon(R.color.colorIcon1);
-                                    break;
-                                case R.id.clItem2:
-                                    newCat.setBackGround(R.color.colorItem2);
-                                    newCat.setColorIcon(R.color.colorIcon2);
-                                    break;
-                                case R.id.clItem3:
-                                    newCat.setBackGround(R.color.colorItem3);
-                                    newCat.setColorIcon(R.color.colorIcon3);
-                                    break;
-                                case R.id.clItem4:
-                                    newCat.setBackGround(R.color.colorItem4);
-                                    newCat.setColorIcon(R.color.colorIcon4);
-                                    break;
-                                case R.id.clItem5:
-                                    newCat.setBackGround(R.color.colorItem5);
-                                    newCat.setColorIcon(R.color.colorIcon5);
-                                    break;
-                                case R.id.clItem6:
-                                    newCat.setBackGround(R.color.colorItem6);
-                                    newCat.setColorIcon(R.color.colorIcon6);
-                                    break;
-                                case R.id.clItem7:
-                                    newCat.setBackGround(R.color.colorItem7);
-                                    newCat.setColorIcon(R.color.colorIcon7);
-                                    break;
-                                case R.id.clItem8:
-                                    newCat.setBackGround(R.color.colorItem8);
-                                    newCat.setColorIcon(R.color.green);
-                                    break;
-                            }
-
-                            int icon = 0;
-                            switch (selectedIconBtn.getId()) {
-                                case R.id.icMoney:
-                                    icon = R.drawable.ic_money;
-                                    break;
-                                case R.id.icBeauty:
-                                    icon = R.drawable.ic_beauty_heart;
-                                    break;
-                                case R.id.icPlane:
-                                    icon = R.drawable.ic_airplane;
-                                    break;
-                                case R.id.icAtm:
-                                    icon = R.drawable.ic_atm;
-                                    break;
-                                case R.id.icRepair:
-                                    icon = R.drawable.ic_repair;
-                                    break;
-                                case R.id.icCaseTravel:
-                                    icon = R.drawable.ic_case_travel;
-                                    break;
-                                case R.id.icMetro:
-                                    icon = R.drawable.ic_train_metro;
-                                    break;
-                                case R.id.icFeeTax:
-                                    icon = R.drawable.ic_fee_tax;
-                                    break;
-                                case R.id.icLetter:
-                                    icon = R.drawable.ic_envelope;
-                                    break;
-                                case R.id.icShopping:
-                                    icon = R.drawable.icon_shopping;
-                                    break;
-                                case R.id.icGear:
-                                    icon = R.drawable.ic_gear;
-                                    break;
-                                case R.id.icSafeSaving:
-                                    icon = R.drawable.ic_safe_saving;
-                                    break;
-                                case R.id.icWallet:
-                                    icon = R.drawable.icon_wallet_earnings;
-                                    break;
-                                case R.id.icFork:
-                                    icon = R.drawable.ic_restaurant_fork;
-                                    break;
-                                case R.id.icMedicine:
-                                    icon = R.drawable.icon_drugs;
-                                    break;
-                                case R.id.icClock:
-                                    icon = R.drawable.ic_pending_time_wait_transaction_clock;
-                                    break;
-                                case R.id.icWater:
-                                    icon = R.drawable.ic_water_tap;
-                                    break;
-                                case R.id.icCash:
-                                    icon = R.drawable.ic_interest;
-                                    break;
-                                case R.id.icSnow:
-                                    icon = R.drawable.ic_snow;
-                                    break;
-                                case R.id.icTag:
-                                    icon = R.drawable.ic_label_price;
-                                    break;
-                                case R.id.icKid:
-                                    icon = R.drawable.ic_kid_care_stroller;
-                                    break;
-                                case R.id.icSheld:
-                                    icon = R.drawable.ic_insurance_shield;
-                                    break;
-                                case R.id.icHome:
-                                    icon = R.drawable.ic_home;
-                                    break;
-                                case R.id.icKite:
-                                    icon = R.drawable.ic_kite_hobby;
-                                    break;
-                                case R.id.icHospotal:
-                                    icon = R.drawable.ic_hospital;
-                                    break;
-                                case R.id.icGym:
-                                    icon = R.drawable.ic_sport_gym;
-                                    break;
-                                case R.id.icGift:
-                                    icon = R.drawable.ic_gift_box;
-                                    break;
-                                case R.id.icFuel:
-                                    icon = R.drawable.ic_station_fuel;
-                                    break;
-                                case R.id.icApple:
-                                    icon = R.drawable.ic_apple;
-                                    break;
-                                case R.id.icMask:
-                                    icon = R.drawable.ic_mask;
-                                    break;
-                                case R.id.icComputer:
-                                    icon = R.drawable.ic_computer;
-                                    break;
-                                case R.id.icHeartCalender:
-                                    icon = R.drawable.ic_social_heart_donation_care_calendar;
-                                    break;
-                                case R.id.icTshirt:
-                                    icon = R.drawable.ic_tshirt;
-                                    break;
-                                case R.id.icCar:
-                                    icon = R.drawable.ic_car_drive;
-                                    break;
-                                case R.id.icDrink:
-                                    icon = R.drawable.ic_coffee_bistro;
-                                    break;
-                                default:
-                                    break;
-                            }
-
+                            
                             switch (btnIsIncome.getId()) {
                                 case R.id.radioIsIcome:
                                     newCat.setIncome(1);
@@ -549,10 +414,9 @@ public class NewCategoryActivity extends AppCompatActivity {
                                 default:
                                     break;
                             }
-
                             newCat.setOwnerId(userCurrent);
                             newCat.setName(txTitle.getText().toString());
-                            newCat.setIcon(icon);
+                            setUpColorForCat(newCat, selectedColorBtn, selectedIconBtn);
 
                             Log.d("newCat", newCat.toString());
 
@@ -578,152 +442,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                     } else {
                         try {
                             updateCat.setName(txTitle.getText().toString());
-                            switch (selectedColorBtn.getId()) {
-                                case R.id.clItem1:
-                                    updateCat.setBackGround(R.color.colorItem1);
-                                    updateCat.setColorIcon(R.color.colorIcon1);
-                                    break;
-                                case R.id.clItem2:
-                                    updateCat.setBackGround(R.color.colorItem2);
-                                    updateCat.setColorIcon(R.color.colorIcon2);
-                                    break;
-                                case R.id.clItem3:
-                                    updateCat.setBackGround(R.color.colorItem3);
-                                    updateCat.setColorIcon(R.color.colorIcon3);
-                                    break;
-                                case R.id.clItem4:
-                                    updateCat.setBackGround(R.color.colorItem4);
-                                    updateCat.setColorIcon(R.color.colorIcon4);
-                                    break;
-                                case R.id.clItem5:
-                                    updateCat.setBackGround(R.color.colorItem5);
-                                    updateCat.setColorIcon(R.color.colorIcon5);
-                                    break;
-                                case R.id.clItem6:
-                                    updateCat.setBackGround(R.color.colorItem6);
-                                    updateCat.setColorIcon(R.color.colorIcon6);
-                                    break;
-                                case R.id.clItem7:
-                                    updateCat.setBackGround(R.color.colorItem7);
-                                    updateCat.setColorIcon(R.color.colorIcon7);
-                                    break;
-                                case R.id.clItem8:
-                                    updateCat.setBackGround(R.color.colorItem8);
-                                    updateCat.setColorIcon(R.color.green);
-                                    break;
-                            }
-
-                            int icon = 0;
-                            switch (selectedIconBtn.getId()) {
-                                case R.id.icMoney:
-                                    icon = R.drawable.ic_money;
-                                    break;
-                                case R.id.icBeauty:
-                                    icon = R.drawable.ic_beauty_heart;
-                                    break;
-                                case R.id.icPlane:
-                                    icon = R.drawable.ic_airplane;
-                                    break;
-                                case R.id.icAtm:
-                                    icon = R.drawable.ic_atm;
-                                    break;
-                                case R.id.icRepair:
-                                    icon = R.drawable.ic_repair;
-                                    break;
-                                case R.id.icCaseTravel:
-                                    icon = R.drawable.ic_case_travel;
-                                    break;
-                                case R.id.icMetro:
-                                    icon = R.drawable.ic_train_metro;
-                                    break;
-                                case R.id.icFeeTax:
-                                    icon = R.drawable.ic_fee_tax;
-                                    break;
-                                case R.id.icLetter:
-                                    icon = R.drawable.ic_envelope;
-                                    break;
-                                case R.id.icShopping:
-                                    icon = R.drawable.icon_shopping;
-                                    break;
-                                case R.id.icGear:
-                                    icon = R.drawable.ic_gear;
-                                    break;
-                                case R.id.icSafeSaving:
-                                    icon = R.drawable.ic_safe_saving;
-                                    break;
-                                case R.id.icWallet:
-                                    icon = R.drawable.icon_wallet_earnings;
-                                    break;
-                                case R.id.icFork:
-                                    icon = R.drawable.ic_restaurant_fork;
-                                    break;
-                                case R.id.icMedicine:
-                                    icon = R.drawable.icon_drugs;
-                                    break;
-                                case R.id.icClock:
-                                    icon = R.drawable.ic_pending_time_wait_transaction_clock;
-                                    break;
-                                case R.id.icWater:
-                                    icon = R.drawable.ic_water_tap;
-                                    break;
-                                case R.id.icCash:
-                                    icon = R.drawable.ic_interest;
-                                    break;
-                                case R.id.icSnow:
-                                    icon = R.drawable.ic_snow;
-                                    break;
-                                case R.id.icTag:
-                                    icon = R.drawable.ic_label_price;
-                                    break;
-                                case R.id.icKid:
-                                    icon = R.drawable.ic_kid_care_stroller;
-                                    break;
-                                case R.id.icSheld:
-                                    icon = R.drawable.ic_insurance_shield;
-                                    break;
-                                case R.id.icHome:
-                                    icon = R.drawable.ic_home;
-                                    break;
-                                case R.id.icKite:
-                                    icon = R.drawable.ic_kite_hobby;
-                                    break;
-                                case R.id.icHospotal:
-                                    icon = R.drawable.ic_hospital;
-                                    break;
-                                case R.id.icGym:
-                                    icon = R.drawable.ic_sport_gym;
-                                    break;
-                                case R.id.icGift:
-                                    icon = R.drawable.ic_gift_box;
-                                    break;
-                                case R.id.icFuel:
-                                    icon = R.drawable.ic_station_fuel;
-                                    break;
-                                case R.id.icApple:
-                                    icon = R.drawable.ic_apple;
-                                    break;
-                                case R.id.icMask:
-                                    icon = R.drawable.ic_mask;
-                                    break;
-                                case R.id.icComputer:
-                                    icon = R.drawable.ic_computer;
-                                    break;
-                                case R.id.icHeartCalender:
-                                    icon = R.drawable.ic_social_heart_donation_care_calendar;
-                                    break;
-                                case R.id.icTshirt:
-                                    icon = R.drawable.ic_tshirt;
-                                    break;
-                                case R.id.icCar:
-                                    icon = R.drawable.ic_car_drive;
-                                    break;
-                                case R.id.icDrink:
-                                    icon = R.drawable.ic_coffee_bistro;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            updateCat.setIcon(icon);
+                            setUpColorForCat(updateCat, selectedColorBtn, selectedIconBtn);
 
                             switch (btnIsIncome.getId()) {
                                 case R.id.radioIsIcome:
@@ -742,7 +461,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                             FireStoreService.updateCategory(updateCat, new FirestoreCallback() {
                                 @Override
                                 public void onCallback(String result) {
-Log.d("isUpdate", "true");
+                                    Log.d("isUpdate", "true");
                                     if ("success".equals(result)) {
                                         Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
                                         startActivity(intent);
@@ -789,64 +508,209 @@ Log.d("isUpdate", "true");
             }
         }
     };
-
-    private void setupRadioButtonGRColor(RadioGroup grChecked) {
-        grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                selectedColorBtn = findViewById(checkedId);
-                if (preCheckedGrColorID != -1 && group.getId() != preCheckedGrColorID) {
-                    // Uncheck ở `preCheckedGrID`
-                    final int newCheckedId = checkedId;
-                    RadioGroup preCheckedGr = findViewById(preCheckedGrColorID);
-                    preCheckedGr.clearCheck();
-
-
-                }
-
-                preCheckedGrColorID = group.getId();
-
-                if (selectedColorBtn != null) {
-                    Toast.makeText(NewCategoryActivity.this, "chnage", Toast.LENGTH_SHORT).show();
-                    RadioGroup preCheckedGr = findViewById(preCheckedGrColorID);
-                    preCheckedGr.check(selectedColorBtn.getId());
-                    String test = Integer.toString(selectedColorBtn.getId());
-                } else {
-                    Toast.makeText(NewCategoryActivity.this, " no chnage", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-    }
-
+    
+    private int needClearId;
     private void setupRadioButtonGRIcon(RadioGroup grChecked) {
         grChecked.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                selectedIconBtn = findViewById(checkedId);
 
-                //k chọn lại gr hoặc k phải lần đầu
-                if (preCheckedGrIconID != -1 && group.getId() != preCheckedGrIconID) {
-                    // Uncheck ở `preCheckedGrID`
-                    RadioGroup preCheckedGr = findViewById(preCheckedGrIconID);
-                    preCheckedGr.clearCheck();
+                if (group.getId() != needClearId)
+                {
+                    Log.d("test", "checkedID" + checkedId + " gr " + group.getId());
+
+                    //chọn gr khác => preCheckedGrId đã có
+                    if (preCheckedGrIconID != -1 && group.getId() != preCheckedGrIconID) {
+                        // Uncheck ở `preCheckedGrID`
+                        needClearId = preCheckedGrIconID; //có
+
+                        Log.d("test", "idNeedClear: " + needClearId);
+
+                        preCheckedGrIconID = group.getId(); // thay bằng gr mới
+                        Log.d("test", "idPreGR: " + preCheckedGrIconID);
+
+                        if (checkedId != -1) {
+
+                            Log.d("test", "giờ clear: " + needClearId);
+                            RadioGroup needClear = findViewById(needClearId);
+                            needClear.clearCheck();
+
+                            selectedIconBtn = findViewById(checkedId);
+                            RadioGroup preCheckedGr = findViewById(preCheckedGrIconID);
+                            preCheckedGr.check(selectedIconBtn.getId());
+                            Log.d("test", "đã set chọn:" + selectedIconBtn.getId() + "gr" + preCheckedGrIconID);
+
+                            //fromClearCheck = true;
+
+                        }
+                    }
+                    else {
+                        //chọn lần đầu
+                        if (preCheckedGrIconID == -1)
+                        {
+                            preCheckedGrIconID = group.getId();
+                            selectedIconBtn = findViewById(checkedId);
+                        }
+                    }
                 }
-
-                preCheckedGrIconID = group.getId();
-
-                if (selectedIconBtn != null) {
-                    RadioGroup preCheckedGr = findViewById(preCheckedGrIconID);
-                    preCheckedGr.check(selectedIconBtn.getId());
+                else
+                {
+                    return;
                 }
-
-                // Xử lý
-//                if (selectedIconBtn != null) {
-//                    Toast.makeText(NewCategoryActivity.this, "Selected: " + selectedIconBtn.getDrawableState(), Toast.LENGTH_SHORT).show();
-//
-//                }
+                
             }
         });
+    }
+    
+    private void setUpColorForCat (Category cat, RadioButton selectedColorBtn, RadioButton selectedIconBtn )
+    {
+        switch (selectedColorBtn.getId()) {
+            case R.id.clItem1:
+                cat.setBackGround(R.color.colorItem1);
+                cat.setColorIcon(R.color.colorIcon1);
+                break;
+            case R.id.clItem2:
+                cat.setBackGround(R.color.colorItem2);
+                cat.setColorIcon(R.color.colorIcon2);
+                break;
+            case R.id.clItem3:
+                cat.setBackGround(R.color.colorItem3);
+                cat.setColorIcon(R.color.colorIcon3);
+                break;
+            case R.id.clItem4:
+                cat.setBackGround(R.color.colorItem4);
+                cat.setColorIcon(R.color.colorIcon4);
+                break;
+            case R.id.clItem5:
+                cat.setBackGround(R.color.colorItem5);
+                cat.setColorIcon(R.color.colorIcon5);
+                break;
+            case R.id.clItem6:
+                cat.setBackGround(R.color.colorItem6);
+                cat.setColorIcon(R.color.colorIcon6);
+                break;
+            case R.id.clItem7:
+                cat.setBackGround(R.color.colorItem7);
+                cat.setColorIcon(R.color.colorIcon7);
+                break;
+            case R.id.clItem8:
+                cat.setBackGround(R.color.colorItem8);
+                cat.setColorIcon(R.color.green);
+                break;
+        }
+
+        int icon = 0;
+        switch (selectedIconBtn.getId()) {
+            case R.id.icMoney:
+                icon = R.drawable.ic_money;
+                break;
+            case R.id.icBeauty:
+                icon = R.drawable.ic_beauty_heart;
+                break;
+            case R.id.icPlane:
+                icon = R.drawable.ic_airplane;
+                break;
+            case R.id.icAtm:
+                icon = R.drawable.ic_atm;
+                break;
+            case R.id.icRepair:
+                icon = R.drawable.ic_repair;
+                break;
+            case R.id.icCaseTravel:
+                icon = R.drawable.ic_case_travel;
+                break;
+            case R.id.icMetro:
+                icon = R.drawable.ic_train_metro;
+                break;
+            case R.id.icFeeTax:
+                icon = R.drawable.ic_fee_tax;
+                break;
+            case R.id.icLetter:
+                icon = R.drawable.ic_envelope;
+                break;
+            case R.id.icShopping:
+                icon = R.drawable.icon_shopping;
+                break;
+            case R.id.icGear:
+                icon = R.drawable.ic_gear;
+                break;
+            case R.id.icSafeSaving:
+                icon = R.drawable.ic_safe_saving;
+                break;
+            case R.id.icWallet:
+                icon = R.drawable.icon_wallet_earnings;
+                break;
+            case R.id.icFork:
+                icon = R.drawable.ic_restaurant_fork;
+                break;
+            case R.id.icMedicine:
+                icon = R.drawable.icon_drugs;
+                break;
+            case R.id.icClock:
+                icon = R.drawable.ic_pending_time_wait_transaction_clock;
+                break;
+            case R.id.icWater:
+                icon = R.drawable.ic_water_tap;
+                break;
+            case R.id.icCash:
+                icon = R.drawable.ic_interest;
+                break;
+            case R.id.icSnow:
+                icon = R.drawable.ic_snow;
+                break;
+            case R.id.icTag:
+                icon = R.drawable.ic_label_price;
+                break;
+            case R.id.icKid:
+                icon = R.drawable.ic_kid_care_stroller;
+                break;
+            case R.id.icSheld:
+                icon = R.drawable.ic_insurance_shield;
+                break;
+            case R.id.icHome:
+                icon = R.drawable.ic_home;
+                break;
+            case R.id.icKite:
+                icon = R.drawable.ic_kite_hobby;
+                break;
+            case R.id.icHospotal:
+                icon = R.drawable.ic_hospital;
+                break;
+            case R.id.icGym:
+                icon = R.drawable.ic_sport_gym;
+                break;
+            case R.id.icGift:
+                icon = R.drawable.ic_gift_box;
+                break;
+            case R.id.icFuel:
+                icon = R.drawable.ic_station_fuel;
+                break;
+            case R.id.icApple:
+                icon = R.drawable.ic_apple;
+                break;
+            case R.id.icMask:
+                icon = R.drawable.ic_mask;
+                break;
+            case R.id.icComputer:
+                icon = R.drawable.ic_computer;
+                break;
+            case R.id.icHeartCalender:
+                icon = R.drawable.ic_social_heart_donation_care_calendar;
+                break;
+            case R.id.icTshirt:
+                icon = R.drawable.ic_tshirt;
+                break;
+            case R.id.icCar:
+                icon = R.drawable.ic_car_drive;
+                break;
+            case R.id.icDrink:
+                icon = R.drawable.ic_coffee_bistro;
+                break;
+            default:
+                break;
+        }
+        
+        cat.setIcon(icon);
     }
 
 }

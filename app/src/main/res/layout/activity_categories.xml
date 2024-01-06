@@ -16,9 +16,8 @@
         >
         <ImageButton
             android:id="@+id/btn_Back"
-            android:layout_width="20dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
             android:background="@color/white"
             android:padding="10dp"
             android:src="@drawable/ic_arrow_left"
@@ -34,14 +33,14 @@
             android:textColor="@color/primary40"
             android:textSize="24sp" />
 
-        <ImageButton
-            android:id="@+id/btnToTransaction"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right"
-            app:srcCompat="@drawable/icon_search"
-            android:background="@drawable/custom_button_bg"
-            app:iconGravity="textTop" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/btnToTransaction"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="right"-->
+<!--            app:srcCompat="@drawable/icon_search"-->
+<!--            android:background="@drawable/custom_button_bg"-->
+<!--            app:iconGravity="textTop" />-->
 
     </com.google.android.material.appbar.MaterialToolbar>
     <com.google.android.material.tabs.TabLayout
@@ -70,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Thu nhập"
-            android:id="@+id/itemIn"/>
+            android:id="@+id/itemIn" />
 
     </com.google.android.material.tabs.TabLayout>
 
