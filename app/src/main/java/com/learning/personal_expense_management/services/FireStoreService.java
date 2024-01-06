@@ -642,6 +642,45 @@ public class FireStoreService {
             listener.onError(e.getMessage());
         }
     }
+
+    public  static void updateCategory (Category category, FirestoreCallback callback){
+        try
+        {
+            DocumentReference docRef = db.collection(Constants.KEY_CATEGORY).document();
+            String id = category.getId();
+            category.setId(id);
+
+            Map<String, Object> categoryMap = new HashMap<>();
+            categoryMap.put("ownerId", category.getOwnerId());
+            categoryMap.put("id", id);
+            categoryMap.put("categoryName", category.getName());
+            categoryMap.put("background", category.getBackGround());
+            categoryMap.put("icon", category.getIcon());
+            categoryMap.put("colorIcon", category.getColorIcon());
+            categoryMap.put("isIncome", category.getIsIncome());
+
+            db.collection(Constants.KEY_CATEGORY).document(category.getId()).update(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        callback.onCallback("success");
+
+                    } else {
+                        callback.onCallback("error");
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    callback.onCallback("er");
+                }
+            });
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
     public static void deleteCategory(String ownerId, String categoryId, FirestoreCallback callback) {
         db.collection(Constants.KEY_CATEGORY).document(categoryId)
                 .delete()

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,9 +139,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     }
                 });
 
-                // thành cong
-
-
             }
         });
 
@@ -154,8 +152,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 Intent intent = new Intent(context, NewCategoryActivity.class);
 
                 // Đưa dữ liệu vào Intent
-                intent.putExtra("catId", catId);
+                intent.putExtra("userCat", cat.getOwnerId());
+                intent.putExtra("catId", cat.getId());
+                intent.putExtra("backgroundColor", cat.getBackGround());
+                intent.putExtra("colorIcon", cat.getColorIcon());
+                intent.putExtra("icon", cat.getIcon());
+                intent.putExtra("catName", cat.getName());
+                intent.putExtra("catIsInCome", cat.getIsIncome());
 
+                Log.d("startIntnet", "onClick:bắt đầu qua activityNew");
                 context.startActivity(intent);
             }
         });
