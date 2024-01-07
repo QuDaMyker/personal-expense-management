@@ -4,6 +4,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Loan implements Serializable {
     private String id;
@@ -20,11 +21,12 @@ public class Loan implements Serializable {
     private String deadline;
     private double interest;
     private int paid;
+    private List<String> predictTransactions;
 
     public Loan() {
     }
 
-    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid) {
+    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid, List<String> predictTransactions) {
         this.id = id;
         this.ownerId = ownerId;
         this.borrowerName = borrowerName;
@@ -39,6 +41,7 @@ public class Loan implements Serializable {
         this.deadline = deadline;
         this.interest = interest;
         this.paid = paid;
+        this.predictTransactions = predictTransactions;
     }
 
     public Loan(QueryDocumentSnapshot document) {
@@ -56,6 +59,7 @@ public class Loan implements Serializable {
         this.deadline = document.getString("deadline");
         this.interest = document.getDouble("interest");
         this.paid = Integer.valueOf(Math.toIntExact(document.getLong("paid")));
+        this.predictTransactions = (List<String>) document.get("predictTransactions");
     }
 
     @Override
@@ -75,6 +79,7 @@ public class Loan implements Serializable {
                 ", deadline='" + deadline + '\'' +
                 ", interest=" + interest +
                 ", paid=" + paid +
+                ", predictTransactions=" + predictTransactions +
                 '}';
     }
 
@@ -188,5 +193,13 @@ public class Loan implements Serializable {
 
     public void setPaid(int paid) {
         this.paid = paid;
+    }
+
+    public List<String> getPredictTransactions() {
+        return predictTransactions;
+    }
+
+    public void setPredictTransactions(List<String> predictTransactions) {
+        this.predictTransactions = predictTransactions;
     }
 }

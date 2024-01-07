@@ -135,7 +135,7 @@ public class FireStoreService {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        callback.onCallback("success");
+                        callback.onCallback(id);
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
@@ -717,7 +717,7 @@ public class FireStoreService {
                 });
     }
 
-    public static String addLoan(Loan loan) {
+    public static String addLoan(Loan loan, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
 
         try {
@@ -739,6 +739,7 @@ public class FireStoreService {
             loanMap.put("deadline", loan.getDeadline());
             loanMap.put("interest", loan.getInterest());
             loanMap.put("paid", loan.getPaid());
+            loanMap.put("predictTransactions", loan.getPredictTransactions());
 
 
 
@@ -746,9 +747,11 @@ public class FireStoreService {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        callback.onCallback(id);
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
+                        callback.onCallback("error");
                         result[0] = "error";
                         Log.d("rs", result[0]);
                     }
@@ -850,5 +853,13 @@ public class FireStoreService {
             }
         });
 
+    }
+    public static void updateLoan(String loanId, String field, Object value){
+        db.collection(Constants.KEY_LOAN).document(loanId).update(field, value).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.e("Update " + field, value.toString()) ;
+            }
+        });
     }
 }

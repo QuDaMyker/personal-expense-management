@@ -279,7 +279,7 @@ public class TransactionAddActivity extends AppCompatActivity {
                         FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                             @Override
                             public void onCallback(String result) {
-                                if (result.equals("success")) {
+                                if (!result.equals("error")) {
                                     finish();
                                 }
                             }
@@ -335,7 +335,7 @@ public class TransactionAddActivity extends AppCompatActivity {
                         FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                             @Override
                             public void onCallback(String result) {
-                                if (result.equals("success")) {
+                                if (!result.equals("error")) {
                                     finish();
                                 }
                             }

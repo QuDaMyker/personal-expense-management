@@ -135,6 +135,24 @@ public class LoanActivity extends AppCompatActivity {
                         public void onLoanLoaded(List<Loan> loans) {
                             loanList = loans;
                             loanAdapter = new LoanAdapter(loanList);
+                            loanAdapter.setOnBtnClickListener(new LoanAdapter.OnBtnClickListener() {
+                                @Override
+                                public void onBtnClick(Loan loan) {
+                                    UpdateLoanDialog dialog = new UpdateLoanDialog(LoanActivity.this, loan);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialog.show();
+                                    dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    dialog.getWindow().setGravity(Gravity.CENTER);
+                                }
+                            });
+                            loanAdapter.setOnItemClickListener(new LoanAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(Loan loan) {
+                                    Intent intent = new Intent(LoanActivity.this, LoanDetailActivity.class);
+                                    intent.putExtra("selected_item", loan);
+                                    startActivity(intent);
+                                }
+                            });
                             recyclerView.setAdapter(loanAdapter);
                         }
 

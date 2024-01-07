@@ -16,12 +16,15 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.type.DateTime;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.account.AddAccountActivity;
 import com.learning.personal_expense_management.databinding.ActivityLoanBinding;
 import com.learning.personal_expense_management.databinding.ActivityNewLoanBinding;
 import com.learning.personal_expense_management.model.Loan;
+import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.utilities.Utils;
 
 import java.text.ParseException;
@@ -221,14 +224,23 @@ public class NewLoanActivity extends AppCompatActivity {
                 inputLoan.setOwnerId(FirebaseAuth.getInstance().getUid());
                 int month = Utils.getKeyByValue(periodMap, binding.periodEdt.getText().toString());
                 inputLoan.setRepaymentPeriod(month);
+                inputLoan.setPredictTransactions(new ArrayList<>());
+                String res = FireStoreService.addLoan(inputLoan, new FirestoreCallback(){
 
-                double interest = calculateInterest(inputLoan.getAmount(),
-                        inputLoan.getInterestRate(),
-                        inputLoan.getRepaymentPeriod(),
-                        inputLoan.isInterestRateType());
-                inputLoan.setInterest(interest);
-
-                String res = FireStoreService.addLoan(inputLoan);
+                    @Override
+                    public void onCallback(String result) {
+                        if(result != "error"){
+                            inputLoan.setId(result);
+                            double interest = 0;
+                            try {
+                                interest = calculateInterest(inputLoan);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            FireStoreService.updateLoan(result, "interest", interest);
+                        }
+                    }
+                });
 
                 //add outcome/income transaction
                 Toast.makeText(NewLoanActivity.this, "Thêm khoản vay thành công!", Toast.LENGTH_SHORT).show();
@@ -250,26 +262,76 @@ public class NewLoanActivity extends AppCompatActivity {
         return sdf.format(deadline);
     }
 
-    double calculateInterest(int amount, double interestRate, int month, boolean isPrincipal){
+    double calculateInterest(Loan loan) throws ParseException {
+        int amount = loan.getAmount();
         int sumInterest = 0;
-        if(isPrincipal){
-            int monthlyPrincipal = amount/month;
-            for (int i = 1; i <= month; i++) {
-                double monthlyInterest = amount*interestRate/(100*month);
+        List<String> predictTransactions = new ArrayList<>();
+        if(loan.isInterestRateType()){
+            int monthlyPrincipal = amount/loan.getRepaymentPeriod();
+            for (int i = 1; i <= loan.getRepaymentPeriod(); i++) {
+                double monthlyInterest = amount*loan.getInterestRate()/(100*loan.getRepaymentPeriod());
                 double monthlyAmount = monthlyPrincipal + monthlyInterest;
                 //add predict transaction
-
+                String date  = calculateDeadline(Utils.convertTimestampToDateString(Long.parseLong(loan.getTimestamp())), i);
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Transaction newTransaction = new Transaction(
+                        FirebaseAuth.getInstance().getUid(),
+                        "idLater",
+                        2,
+                        (int) monthlyAmount,
+                        loan.isLend() ? "Nhận lãi cho vay " + loan.getBorrowerName() : "Trả lãi vay " + loan.getBorrowerName(),
+                        date,
+                        "00:00",
+                        "",
+                        "",
+                        "c1r3RCrV1Mzj8C5jvQIb",
+                        new com.google.firebase.Timestamp(format.parse(date)),
+                        true
+                );
+                FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                    @Override
+                    public void onCallback(String result) {
+                        if (!result.equals("error")) {
+                            predictTransactions.add(result);
+                            FireStoreService.updateLoan(loan.getId(), "predictTransactions", predictTransactions);
+                        }
+                    }
+                });
                 sumInterest += monthlyInterest;
             }
         }
         else {
-            int monthlyPrincipal = amount/month;
-            for (int i = 1; i <= month; i++) {
-                double monthlyInterest = amount*interestRate/(100*month);
+            int monthlyPrincipal = amount/loan.getRepaymentPeriod();
+            for (int i = 1; i <= loan.getRepaymentPeriod(); i++) {
+                double monthlyInterest = amount*loan.getInterestRate()/(100*loan.getRepaymentPeriod());
                 double monthlyAmount = monthlyPrincipal + monthlyInterest;
                 amount -= monthlyPrincipal;
                 //add predict transaction
-
+                String date  = calculateDeadline(Utils.convertTimestampToDateString(Long.parseLong(loan.getTimestamp())), i);
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Transaction newTransaction = new Transaction(
+                        FirebaseAuth.getInstance().getUid(),
+                        "idLater",
+                        2,
+                        (int) monthlyAmount,
+                        loan.isLend() ? "Nhận lãi cho vay " + loan.getBorrowerName()  : "Trả lãi vay " + loan.getBorrowerName(),
+                        date,
+                        "00:00",
+                        "",
+                        "",
+                        "c1r3RCrV1Mzj8C5jvQIb",
+                        new com.google.firebase.Timestamp(format.parse(date)),
+                        true
+                );
+                FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                    @Override
+                    public void onCallback(String result) {
+                        if (!result.equals("error")) {
+                            predictTransactions.add(result);
+                            FireStoreService.updateLoan(loan.getId(), "predictTransactions", predictTransactions);
+                        }
+                    }
+                });
                 sumInterest += monthlyInterest;
             }
         }

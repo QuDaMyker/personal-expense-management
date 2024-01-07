@@ -66,9 +66,11 @@ public class LoanDetailActivity extends AppCompatActivity {
         if(loan.isHasInterestRate()){
             binding.principalTv.setText(loan.getAmount() + "₫");
             binding.principalLayout.setVisibility(View.VISIBLE);
+            binding.interestLayout.setVisibility(View.VISIBLE);
         }
         else{
             binding.principalLayout.setVisibility(View.GONE);
+            binding.interestLayout.setVisibility(View.GONE);
         }
         double percent = loan.getPaid()*100.0/totalAmount;
         binding.percentTv.setText(roundDouble(percent) + "%");
