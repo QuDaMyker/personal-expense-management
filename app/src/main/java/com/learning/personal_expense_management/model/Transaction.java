@@ -11,7 +11,7 @@ import com.google.type.DateTime;
 
 import java.io.Serializable;
 
-public class Transaction implements Serializable{
+public class Transaction implements Serializable {
     private String ownerId;
     private String id;
     private int transactionType;
@@ -21,10 +21,11 @@ public class Transaction implements Serializable{
     private String transactionTime;
     private String sourceAccount;
     private String destinationAccount;
+    private String categoryId;
     private Timestamp timeStamp;
     private String month;
     private String year;
-
+    private boolean isFuture;
 
 
     public Transaction(QueryDocumentSnapshot document) {
@@ -37,9 +38,11 @@ public class Transaction implements Serializable{
         this.transactionTime = document.getString("transactionTime");
         this.sourceAccount = document.getString("sourceAccount");
         this.destinationAccount = document.getString("destinationAccount");
+        this.categoryId = document.getString("categoryId");
         this.timeStamp = document.getTimestamp("timeStamp");
         this.month = document.getString("month");
         this.year = document.getString("year");
+        this.isFuture = document.getBoolean("isFuture");
     }
 
     @Override
@@ -54,10 +57,20 @@ public class Transaction implements Serializable{
                 ", transactionTime='" + transactionTime + '\'' +
                 ", sourceAccount='" + sourceAccount + '\'' +
                 ", destinationAccount='" + destinationAccount + '\'' +
+                ", categoryId='" + categoryId + '\'' +
                 ", timeStamp=" + timeStamp +
                 ", month='" + month + '\'' +
                 ", year='" + year + '\'' +
+                ", isFuture='" + isFuture + '\'' +
                 '}';
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getMonth() {
@@ -148,7 +161,15 @@ public class Transaction implements Serializable{
         this.timeStamp = timeStamp;
     }
 
-    public Transaction(String ownerId, String id, int transactionType, int amount, String note, String transactionDate, String transactionTime, String sourceAccount, String destinationAccount, Timestamp timeStamp) {
+    public boolean isFuture() {
+        return isFuture;
+    }
+
+    public void setFuture(boolean future) {
+        isFuture = future;
+    }
+
+    public Transaction(String ownerId, String id, int transactionType, int amount, String note, String transactionDate, String transactionTime, String sourceAccount, String destinationAccount, String categoryId, Timestamp timeStamp, boolean isFuture) {
         this.ownerId = ownerId;
         this.id = id;
         this.transactionType = transactionType;
@@ -158,9 +179,11 @@ public class Transaction implements Serializable{
         this.transactionTime = transactionTime;
         this.sourceAccount = sourceAccount;
         this.destinationAccount = destinationAccount;
+        this.categoryId = categoryId;
         this.timeStamp = timeStamp;
         this.month = this.transactionDate.split("/")[1];
         this.year = this.transactionDate.split("/")[2];
+        this.isFuture = isFuture;
     }
 
 

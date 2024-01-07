@@ -9,17 +9,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
-import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.Loan;
@@ -28,7 +22,6 @@ import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.utilities.Constants;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,21 +30,18 @@ import java.util.Map;
 public class FireStoreService {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public static boolean isExistAccount(UserProfile userProfile, UserProfileListener listener) {
-        boolean result = false;
-
-        try {
-            db.collection(Constants.KEY_USER_PROFILE).whereEqualTo("id", userProfile.getId()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    listener.onExist(true);
-                } else {
-                    listener.onExist(false);
-                }
-            });
-        } catch (Exception e) {
-            listener.onError(e.getMessage());
-        }
-        return result;
+    public static void isExistAccount(UserProfile userProfile, UserProfileListener listener) {
+        db.collection(Constants.KEY_USER_PROFILE)
+                .whereEqualTo("id", userProfile.getId())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        boolean exists = !task.getResult().isEmpty();
+                        listener.onExist(exists);
+                    } else {
+                        listener.onError("Error checking account existence: " + task.getException().getMessage());
+                    }
+                });
     }
 
     public static String addUserProfile(UserProfile userProfile) {
@@ -115,7 +105,7 @@ public class FireStoreService {
         }
     }
 
-    public static String addTransaction(Transaction transaction) {
+    public static String addTransaction(Transaction transaction, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
 
         try {
@@ -132,18 +122,22 @@ public class FireStoreService {
             transactionMap.put("transactionTime", String.valueOf(transaction.getTransactionTime()));
             transactionMap.put("sourceAccount", String.valueOf(transaction.getSourceAccount()));
             transactionMap.put("destinationAccount", String.valueOf(transaction.getDestinationAccount()));
+            transactionMap.put("categoryId", String.valueOf(transaction.getCategoryId()));
             transactionMap.put("timeStamp", transaction.getTimeStamp());
             transactionMap.put("month", transaction.getMonth());
             transactionMap.put("year", transaction.getYear());
+            transactionMap.put("isFuture", transaction.isFuture());
             //transactionMap.put("timeStamp", FieldValue.serverTimestamp());
 
             db.collection(Constants.KEY_TRANSACTION).document(id).set(transactionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        callback.onCallback("success");
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
+                        callback.onCallback("error");
                         result[0] = "error";
                         Log.d("rs", result[0]);
                     }
@@ -173,7 +167,7 @@ public class FireStoreService {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Transaction transaction = new Transaction(document);
                                 transactionList.add(transaction);
-                                Log.d("rs", document.getData().toString());
+                                Log.d("getAllTransaction", document.getData().toString());
                             }
                             listener.onTransactionsLoaded(transactionList);
                         } else {
@@ -614,28 +608,33 @@ public class FireStoreService {
                 });
     }
 
-    public static String addCategory(Category category) {
+    public static String addCategory(Category category, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
 
         try {
             DocumentReference docRef = db.collection(Constants.KEY_CATEGORY).document();
             String id = docRef.getId();
+            category.setId(id);
 
             Map<String, Object> categoryMap = new HashMap<>();
             categoryMap.put("ownerId", category.getOwnerId());
             categoryMap.put("id", id);
-            categoryMap.put("categoryName", category.getCategoryName());
-            categoryMap.put("colorCode", category.getColorCode());
-            categoryMap.put("icon", category.getColorCode());
+            categoryMap.put("categoryName", category.getName());
+            categoryMap.put("background", category.getBackGround());
+            categoryMap.put("icon", category.getIcon());
+            categoryMap.put("colorIcon", category.getColorIcon());
+            categoryMap.put("isIncome", category.getIsIncome());
 
 
             db.collection(Constants.KEY_CATEGORY).document(category.getId()).set(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        callback.onCallback("success");
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
+                        callback.onCallback("error");
                         result[0] = "error";
                         Log.d("rs", result[0]);
                     }
@@ -674,19 +673,82 @@ public class FireStoreService {
         }
     }
 
-    public static void deleteCategory(String ownerId, String categoryId) {
+    public static void getOneCategory(String categoryId, OneCategoryListener listener) {
+        Log.d("getOneCategory", categoryId);
+        try {
+            db.collection(Constants.KEY_CATEGORY).whereEqualTo("categoryId", categoryId).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        Category category = new Category((QueryDocumentSnapshot) documentSnapshot);
+                        Log.d("getOneCategory", category.toString());
+                        listener.getCategory(category);
+                    }
+                } else {
+                    Log.d("rs", "Error getting document: " + task.getException());
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void updateCategory(Category category, FirestoreCallback callback) {
+        try {
+
+            String id = category.getId();
+            category.setId(id);
+
+            Map<String, Object> categoryMap = new HashMap<>();
+            categoryMap.put("ownerId", category.getOwnerId());
+            categoryMap.put("id", id);
+            categoryMap.put("categoryName", category.getName());
+            categoryMap.put("background", category.getBackGround());
+            categoryMap.put("icon", category.getIcon());
+            categoryMap.put("colorIcon", category.getColorIcon());
+            categoryMap.put("isIncome", category.getIsIncome());
+            Log.d("id", category.getId());
+
+            db.collection(Constants.KEY_CATEGORY).document(category.getId()).update(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        callback.onCallback("success");
+
+                    } else {
+                        callback.onCallback("error");
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    callback.onCallback("er");
+                }
+            });
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static void deleteCategory(String ownerId, String categoryId, FirestoreCallback callback) {
         db.collection(Constants.KEY_CATEGORY).document(categoryId)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("rs - delete - category", "DocumentSnapshot successfully deleted!");
+                        callback.onCallback("success");
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("rs - delete - category", "Error deleting document", e);
+                        callback.onCallback("error");
+
                     }
                 });
     }
@@ -731,6 +793,7 @@ public class FireStoreService {
         }
         return result[0];
     }
+
     public static void getLoan(String ownerId, LoanListener listener) {
         List<Loan> loanList = new ArrayList<>();
 

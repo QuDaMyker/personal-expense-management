@@ -1,4 +1,5 @@
 package com.learning.personal_expense_management.controller.login;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -37,13 +38,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.RootActivity;
 import com.learning.personal_expense_management.databinding.ActivityLoginBinding;
+import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.services.UserProfileListener;
 import com.learning.personal_expense_management.utilities.Constants;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -101,17 +105,61 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                String uid = FirebaseAuth.getInstance().getUid();
-                                Intent intent = new Intent(LoginActivity.this, RootActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(LoginActivity.this, uid, Toast.LENGTH_SHORT).show();
-                                finish();
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                UserProfile userProfile = new UserProfile(
+                                        user.getUid(),
+                                        user.getDisplayName(),
+                                        user.getEmail(),
+                                        "VND",
+                                        "Vietnamese",
+                                        "NO",
+                                        false,
+                                        false,
+                                        false
+                                );
+
+                                FireStoreService.isExistAccount(userProfile, new UserProfileListener() {
+                                    @Override
+                                    public void onExist(boolean isExist) {
+                                        if (!isExist) {
+                                            Log.d("noti", "vao day");
+                                            FireStoreService.addUserProfile(userProfile);
+                                            List<Category> categoryList = createDefaultLisCategories(user.getUid());
+                                            for (int i = 0; i < categoryList.size(); i++) {
+                                                FireStoreService.addCategory(categoryList.get(i), new FirestoreCallback() {
+                                                    @Override
+                                                    public void onCallback(String result) {
+                                                        if(result.equals("success")) {
+
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            Toast.makeText(LoginActivity.this, "Đã thêm Category mặc định", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(LoginActivity.this, RootActivity.class));
+                                            finish();
+                                        } else {
+                                            startActivity(new Intent(LoginActivity.this, RootActivity.class));
+                                            finish();
+                                        }
+                                    }
+                                    @Override
+                                    public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
+
+                                    }
+                                    @Override
+                                    public void onError(String errorMessage) {
+                                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                             } else {
                                 Toast.makeText(LoginActivity.this, "Some thing error", Toast.LENGTH_SHORT).show();
                             }
+                            progressDialog.dismiss();
                         }
                     });
-
 
 
         });
@@ -171,35 +219,40 @@ public class LoginActivity extends AppCompatActivity {
                                             FireStoreService.isExistAccount(userProfile, new UserProfileListener() {
                                                 @Override
                                                 public void onExist(boolean isExist) {
-                                                    if(isExist) {
+                                                    if (!isExist) {
+                                                        Log.d("noti", "vao day");
                                                         FireStoreService.addUserProfile(userProfile);
-                                                    }
-                                                    startActivity(new Intent(LoginActivity.this, RootActivity.class));
-                                                    finish();
-                                                }
+                                                        List<Category> categoryList = createDefaultLisCategories(user.getUid());
+                                                        for (int i = 0; i < categoryList.size(); i++) {
+                                                            FireStoreService.addCategory(categoryList.get(i), new FirestoreCallback() {
+                                                                @Override
+                                                                public void onCallback(String result) {
+                                                                    if(result.equals("success")) {
 
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                        Toast.makeText(LoginActivity.this, "Đã thêm Category mặc định", Toast.LENGTH_SHORT).show();
+                                                        startActivity(new Intent(LoginActivity.this, RootActivity.class));
+                                                        finish();
+                                                    } else {
+                                                        startActivity(new Intent(LoginActivity.this, RootActivity.class));
+                                                        finish();
+                                                    }
+                                                }
                                                 @Override
                                                 public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
 
                                                 }
-
                                                 @Override
                                                 public void onError(String errorMessage) {
                                                     Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-
-
-
                                         }
                                     } else {
-                                        // Đăng nhập thất bại
-                                        //pushFailerNotification();
-                                        //CommonUtils.showNotification(getApplicationContext(), "Trạng thái đăng nhập", "Thất bại", R.drawable.ic_phobien_1);
                                         Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-
-                                        //Toast.makeText(getApplicationContext(), "Thất bại", Toast.LENGTH_SHORT).show();
-
                                     }
                                 }
                             });
@@ -212,6 +265,47 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             }
+            progressDialog.dismiss();
         }
     });
+
+    private List<Category> createDefaultLisCategories(String userID) {
+        List<Category> listCats = new ArrayList<Category>();
+        listCats.add(new Category(userID, "Thưởng", R.color.colorItem1, R.drawable.ic_money, R.color.colorIcon1, 1));
+        listCats.add(new Category(userID, "Làm đẹp", R.color.colorItem2, R.drawable.ic_beauty_heart, R.color.colorIcon2, 0));
+        listCats.add(new Category(userID, "Máy bay", R.color.colorItem1, R.drawable.ic_airplane, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Sửa chữa", R.color.colorItem3, R.drawable.ic_repair, R.color.colorIcon3, 0));
+        listCats.add(new Category(userID, "Du lịch", R.color.colorItem6, R.drawable.ic_case_travel, R.color.colorIcon4, 0));
+        listCats.add(new Category(userID, "Tàu điện", R.color.colorItem3, R.drawable.ic_train_metro, R.color.colorIcon3, 0));
+        listCats.add(new Category(userID, "Hóa đơn", R.color.colorItem5, R.drawable.ic_fee_tax, R.color.colorIcon5, 0));
+        listCats.add(new Category(userID, "Thư", R.color.colorItem4, R.drawable.ic_envelope, R.color.colorIcon6, 0));
+        listCats.add(new Category(userID, "Mua sắm", R.color.colorItem1, R.drawable.icon_shopping, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Két sắt", R.color.colorItem5, R.drawable.ic_safe_saving, R.color.colorIcon5, 1));
+        listCats.add(new Category(userID, "Lương", R.color.colorItem8, R.drawable.icon_wallet_earnings, R.color.green, 1));
+        listCats.add(new Category(userID, "Thức ăn", R.color.colorItem7, R.drawable.ic_restaurant_fork, R.color.colorIcon7, 0));
+        listCats.add(new Category(userID, "Thuốc", R.color.colorItem2, R.drawable.icon_drugs, R.color.colorIcon2, 0));
+        listCats.add(new Category(userID, "Nước uống", R.color.colorItem6, R.drawable.ic_coffee_bistro, R.color.colorIcon4, 0));
+        listCats.add(new Category(userID, "Thời gian chờ", R.color.colorItem3, R.drawable.ic_pending_time_wait_transaction_clock, R.color.colorIcon3, 0));
+        listCats.add(new Category(userID, "Nước", R.color.colorItem1, R.drawable.ic_water_tap, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Lãi", R.color.colorItem8, R.drawable.ic_interest, R.color.green, 1));
+        listCats.add(new Category(userID, "Em bé", R.color.colorItem7, R.drawable.ic_kid_care_stroller, R.color.colorIcon7, 0));
+        listCats.add(new Category(userID, "Bảo hiểm", R.color.colorItem5, R.drawable.ic_insurance_shield, R.color.colorIcon5, 0));
+        listCats.add(new Category(userID, "Nhà", R.color.colorItem4, R.drawable.ic_home, R.color.colorIcon6, 0));
+        listCats.add(new Category(userID, "Sở thích", R.color.colorItem4, R.drawable.ic_kite_hobby, R.color.colorIcon6, 0));
+        listCats.add(new Category(userID, "Y tế", R.color.colorItem2, R.drawable.ic_hospital, R.color.colorIcon2, 0));
+        listCats.add(new Category(userID, "Thể thao", R.color.colorItem1, R.drawable.ic_sport_gym, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Quần áo", R.color.colorItem1, R.drawable.ic_tshirt, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Quà tặng", R.color.colorItem2, R.drawable.ic_gift_box, R.color.colorIcon2, 1));
+        listCats.add(new Category(userID, "Trái cây", R.color.colorItem8, R.drawable.ic_apple, R.color.green, 0));
+        listCats.add(new Category(userID, "Giải trí", R.color.colorItem6, R.drawable.ic_mask, R.color.colorIcon4, 0));
+        listCats.add(new Category(userID, "Di chuyển", R.color.colorItem1, R.drawable.ic_car_drive, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Xăng dầu", R.color.colorItem4, R.drawable.ic_station_fuel, R.color.colorIcon6, 0));
+        listCats.add(new Category(userID, "Thiết bi", R.color.colorItem1, R.drawable.ic_computer, R.color.colorIcon1, 0));
+        listCats.add(new Category(userID, "Từ thiện", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
+        listCats.add(new Category(userID, "Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
+        listCats.add(new Category(userID, "Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
+        listCats.add(new Category(userID, "Từ thiện", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
+        return listCats;
+
+    }
 }
