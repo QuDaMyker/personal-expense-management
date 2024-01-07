@@ -1,15 +1,20 @@
 package com.learning.personal_expense_management.controller.wallet;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -18,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.type.DateTime;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.databinding.ActivityNewWalletBinding;
 import com.learning.personal_expense_management.model.Wallet;
@@ -25,17 +31,23 @@ import com.learning.personal_expense_management.services.FireStoreService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NewWalletActivity extends AppCompatActivity {
     private ActivityNewWalletBinding binding;
     private Wallet inputWallet = new Wallet();
     private List<String> items_period = new ArrayList<>();
+    private Wallet editWallet;
+    private boolean isEdit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityNewWalletBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Intent intent = getIntent();
+        isEdit = (boolean) intent.getBooleanExtra("isEdit",false);
+
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,18 +76,171 @@ public class NewWalletActivity extends AppCompatActivity {
             }
         });
 
-        binding.etDeadline.setInputType(InputType.TYPE_CLASS_DATETIME);
+        binding.etDeadline.setKeyListener(null);
 
         binding.btnNewWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewWallet();
+                if(checkInfor()) {
+                    if (isEdit) {
+                        EditWallet();
+                    } else {
+                        NewWallet();
+                    }
+                }
+                else{
+                    showDialog();
+                }
             }
         });
 
+        if(isEdit){
+            editWallet = (Wallet) intent.getSerializableExtra("selectedWallet");
+
+            binding.btnNewWallet.setText("Cập nhật ví tiền");
+            binding.etNameWallet.setText(editWallet.getWalletName());
+            binding.etDeadline.setText(editWallet.getSavingsDeadline());
+            binding.etPeriod.setText(String.valueOf(editWallet.getFrequency()));
+
+            boolean isGoal = editWallet.isGoalSavingsEnabled();
+            binding.switchPretension.setChecked(isGoal);
+            if(isGoal){
+                binding.etPretensionMoneyWallet.setText(String.valueOf(editWallet.getGoalAmount()));
+            }
+
+            boolean isLow = editWallet.isLowBalanceAlert();
+            binding.switchWarning.setChecked(isLow);
+            if(isLow){
+                binding.etMinimunMoneyWallet.setText(String.valueOf(editWallet.getMinimumBalance()));
+            }
+
+            if (binding.switchWarning.isChecked()){
+                binding.tvRemindWarning.setVisibility(View.GONE);}
+            binding.tvRemindPeriod.setVisibility(View.GONE);
+            binding.tvRemindDeadline.setVisibility(View.GONE);
+            if (binding.switchPretension.isChecked()){
+                binding.tvRemindPretension.setVisibility(View.GONE);}
+            binding.tvRemindNameWallet.setVisibility(View.GONE);
+        }
+
+        binding.etNameWallet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().trim().isEmpty()){
+                    binding.tvRemindNameWallet.setVisibility(View.GONE);
+                }
+                else {
+                    binding.tvRemindNameWallet.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        binding.etMinimunMoneyWallet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {  }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String stringEditable = editable.toString();
+                if (stringEditable.length()<5){
+                    binding.tvRemindWarning.setVisibility(View.VISIBLE);
+                    if(stringEditable.length()!=0){
+                        binding.tvRemindWarning.setText("Vui lòng nhập tối thiểu 10 000 đ");
+                    }
+                }
+                else {
+                    binding.tvRemindWarning.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        binding.etPretensionMoneyWallet.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {  }
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {  }
+           @Override
+           public void afterTextChanged(Editable editable) {
+               String stringEditable = editable.toString();
+               if (stringEditable.length()<6){
+                   binding.tvRemindPretension.setVisibility(View.VISIBLE);
+                   binding.tvRemindPretension.setText("Vui lòng nhập tối thiểu 100 000 đ");
+               }
+               else {
+                   binding.tvRemindPretension.setVisibility(View.GONE);
+               }
+           }
+        });
+
+        binding.etDeadline.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().trim().isEmpty()){
+                    binding.tvRemindDeadline.setVisibility(View.GONE);
+                }
+                else {
+                    binding.tvRemindDeadline.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        binding.etPeriod.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String stringEditable = editable.toString();
+                if(stringEditable.trim().isEmpty()){
+                    binding.tvRemindPeriod.setVisibility(View.VISIBLE);
+                }
+                else {
+                    if (Integer.valueOf(stringEditable)==0 || Integer.valueOf(stringEditable)>12) {
+                        binding.tvRemindPeriod.setVisibility(View.VISIBLE);
+                        binding.tvRemindPeriod.setText("Vui lòng nhập từ 1 đến 12");
+                    }
+                    else {
+                        binding.tvRemindPeriod.setVisibility(View.GONE);
+                    }
+                }
+
+            }
+        });
     }
 
-    private void NewWallet(){
+    private boolean checkInfor(){
+        if (binding.tvRemindDeadline.getVisibility() == View.GONE
+                && binding.tvRemindNameWallet.getVisibility() == View.GONE
+                && binding.tvRemindPeriod.getVisibility() == View.GONE
+                && (binding.tvRemindPretension.getVisibility() == View.GONE
+                        || binding.linePretensionWallet.getVisibility() == View.GONE)
+                && (binding.tvRemindWarning.getVisibility() == View.GONE
+                    || binding.lineWarningWallet.getVisibility() == View.GONE)) {
+            return true;
+        }
+        return false;
+    }
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Vui lòng nhập đầy đủ và hợp lệ tất cả các thông tin!");
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void GetInputWallet(){
         inputWallet.setOwnerId(FirebaseAuth.getInstance().getUid());
         inputWallet.setWalletName(binding.etNameWallet.getText().toString());
         inputWallet.setSavingsDeadline(binding.etDeadline.getText().toString());
@@ -96,7 +261,9 @@ public class NewWalletActivity extends AppCompatActivity {
         else{
             inputWallet.setGoalSavingsEnabled(false);
         }
-
+    }
+    private void NewWallet(){
+       GetInputWallet();
         try {
             String res = FireStoreService.addWallet(inputWallet);
             Toast.makeText(this, "Thêm ví tiền thành công!",Toast.LENGTH_SHORT).show();
@@ -107,21 +274,33 @@ public class NewWalletActivity extends AppCompatActivity {
 
     }
 
+    private void EditWallet(){
+        GetInputWallet();
+        inputWallet.setId(editWallet.getId());
+        try {
+            String res = FireStoreService.editWallet(inputWallet);
+            Toast.makeText(this, "Cập nhật ví tiền thành công!",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, WalletActivity.class);
+            startActivity(intent);
+        }
+        catch (Exception e){}
+    }
+
     private void SwitchLineWarning(){
         if (binding.switchWarning.isChecked()) {
-            binding.lineWarning.setVisibility(View.VISIBLE);
+            binding.lineWarningWallet.setVisibility(View.VISIBLE);
         }
         else {
-            binding.lineWarning.setVisibility(View.GONE);
+            binding.lineWarningWallet.setVisibility(View.GONE);
         }
     }
 
     private void SwitchLinePretension(){
         if (binding.switchPretension.isChecked()) {
-            binding.linePretension.setVisibility(View.VISIBLE);
+            binding.linePretensionWallet.setVisibility(View.VISIBLE);
         }
         else {
-            binding.linePretension.setVisibility(View.GONE);
+            binding.linePretensionWallet.setVisibility(View.GONE);
         }
     }
 

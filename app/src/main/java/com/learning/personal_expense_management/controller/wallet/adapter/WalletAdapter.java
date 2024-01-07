@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,18 +44,26 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         Wallet wallet = wallets.get(position);
         holder.getTv_title().setText(wallet.getWalletName());
-        holder.getTv_current_money().setText(String.valueOf(wallet.getCurrentMoney()));
+        holder.getTv_current_money().setText(String.valueOf(wallet.getCurrentMoney())+" đ");
         holder.getTv_date_wallet().setText(wallet.getSavingsDeadline());
         holder.getCheckBox().setVisibility(View.GONE);
 
         int max_money = wallet.getGoalAmount();
+        int current_money = wallet.getCurrentMoney();
         if (max_money>0) {
-            holder.getTv_max_money().setText(String.valueOf(max_money));
-            holder.getTv_saving_per_month().setText(String.valueOf(max_money/wallet.getFrequency()));
+            holder.getTv_max_money().setText(String.valueOf(max_money) +" đ");
+            holder.getTv_saving_per_month().setText(String.valueOf(max_money/wallet.getFrequency())+ "đ mỗi tháng");
+            holder.progressBar.setProgress((int)((float) current_money/max_money*100));
         }
         else {
             holder.getTv_max_money().setText("");
             holder.getTv_saving_per_month().setText("");
+            if (current_money==0){
+                holder.progressBar.setProgress(0);
+            }
+            else {
+                holder.progressBar.setProgress(100);
+            }
         }
     }
 
@@ -73,7 +82,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
         private OnItemClickListener itemClickListener;
         private final CheckBox checkBox;
 
-        // private final ProgressBar progressBar;
+        private final ProgressBar progressBar;
         public ViewHolder(@NonNull View itemView, OnItemClickListener itemClickListener) {
             super(itemView);
             this.itemClickListener = itemClickListener;
@@ -85,7 +94,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
             tv_max_money = (TextView) itemView.findViewById(R.id.tv_max_money);
             tv_date_wallet = (TextView) itemView.findViewById(R.id.tv_date_wallet);
             checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
-            // progressBar = (ProgressBar) imageView.findViewById(R.id.progressBar);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
             itemView.setOnClickListener(this);
         }
 
@@ -113,6 +122,8 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
         public CheckBox getCheckBox() {
             return checkBox;
         }
+
+
         @Override
         public void onClick(View view) {
             if (itemClickListener != null) {

@@ -31,9 +31,9 @@
 
             <ImageView
                 android:id="@+id/imageWallet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_plane"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:src="@drawable/ic_money"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +58,7 @@
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:text="Du lịch Mỹ"
                 android:textColor="@color/black"
@@ -70,12 +70,12 @@
             <TextView
                 android:id="@+id/tv_sub_title"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:text="500,000₫ mỗi tháng"
                 android:textColor="@color/secondary50"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -97,7 +97,7 @@
                 android:fontFamily="@font/quicksand_bold"
                 android:text="10 triệu"
                 android:textColor="@color/secondary20"
-                android:textSize="8sp"
+                android:textSize="9sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -109,7 +109,7 @@
                 android:fontFamily="@font/quicksand_bold"
                 android:text="100,5 triệu"
                 android:textColor="@color/black"
-                android:textSize="8sp"
+                android:textSize="9sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

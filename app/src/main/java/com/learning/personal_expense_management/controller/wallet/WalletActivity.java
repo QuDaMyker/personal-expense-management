@@ -1,5 +1,6 @@
 package com.learning.personal_expense_management.controller.wallet;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.learning.personal_expense_management.controller.login.LoginActivity;
 import com.learning.personal_expense_management.controller.wallet.adapter.OnItemClickListener;
 import com.learning.personal_expense_management.controller.wallet.adapter.WalletAdapter;
 import com.learning.personal_expense_management.databinding.ActivityWalletBinding;
@@ -24,12 +26,17 @@ public class WalletActivity extends AppCompatActivity implements OnItemClickList
     private ActivityWalletBinding binding;
     private Wallet temp_wallet = new Wallet("bDkadbr5yzTe208V8CYq5Ifk98q1", "tF0hdXd6aztDgski0wjU", "Dulich", false, 0, false, 0, "2024-4-4", 1);
     private List<Wallet> walletList;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityWalletBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        progressDialog = new ProgressDialog(WalletActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Đang xử lý dữ liệu...");
 
         walletList = new ArrayList<>();
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +50,7 @@ public class WalletActivity extends AppCompatActivity implements OnItemClickList
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WalletActivity.this, NewWalletActivity.class);
+                intent.putExtra("isEdit",false);
                 startActivity(intent);
             }
         });

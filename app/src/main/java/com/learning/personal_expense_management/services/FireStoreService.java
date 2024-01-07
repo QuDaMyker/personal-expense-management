@@ -460,6 +460,43 @@ public class FireStoreService {
         return result[0];
     }
 
+    public static String editWallet(Wallet wallet) {
+        String[] result = {"Some thing went wrong"};
+
+        try {
+            String walletId = wallet.getId();
+
+            Map<String, Object> walletMap = new HashMap<>();
+            walletMap.put("walletName", wallet.getWalletName());
+            walletMap.put("lowBalanceAlert", wallet.isLowBalanceAlert());
+            walletMap.put("minimumBalance", wallet.getMinimumBalance());
+            walletMap.put("goalSavingsEnabled", wallet.isGoalSavingsEnabled());
+            walletMap.put("goalAmount", wallet.getGoalAmount());
+            walletMap.put("savingsDeadline", wallet.getSavingsDeadline());
+            walletMap.put("frequency", wallet.getFrequency());
+            walletMap.put("currentMoney", wallet.getCurrentMoney());
+            //transactionMap.put("timeStamp", FieldValue.serverTimestamp());
+
+            // Thực hiện cập nhật dữ liệu trong Firebase
+            db.collection(Constants.KEY_WALLET).document(walletId)
+                    .update(walletMap)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            result[0] = "success";
+                            Log.d("rs", result[0]);
+                        } else {
+                            result[0] = "error";
+                            Log.d("rs", result[0]);
+                        }
+                    });
+
+        } catch (Exception e) {
+            result[0] = "General Exception: " + e.getMessage();
+        }
+        return result[0];
+    }
+
+
     public static void getWallet(String ownerId, WalletListener listener) {
         List<Wallet> walletList = new ArrayList<>();
 
