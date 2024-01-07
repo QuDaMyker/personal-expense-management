@@ -54,15 +54,17 @@
         <activity
             android:name=".controller.login.LoginActivity"
             android:exported="true">
-            <intent-filter>
+            <intent-filter>-->
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".controller.wallet.NewWalletActivity"
-            android:exported="false" />
+            android:exported="false"/>
+        <activity
+            android:name=".controller.wallet.WalletDetailActivity"
+            android:exported="false"/>
         <activity
             android:name=".controller.profile.NotifyActivity"
             android:exported="false" />
@@ -80,7 +82,7 @@
             android:exported="false" />
         <activity
             android:name=".controller.wallet.WalletActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".controller.loan.LoanActivity"
             android:exported="false" />
