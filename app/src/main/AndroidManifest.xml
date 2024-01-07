@@ -16,6 +16,21 @@
             android:name=".controller.loan.LoanDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".controller.category.EmptyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.transaction.activity.EmptyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.transaction.activity.ChoseCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.category.NewCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.category.CategoriesActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.BaseActivity"
             android:exported="false" />
         <activity

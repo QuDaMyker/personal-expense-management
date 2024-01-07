@@ -54,11 +54,9 @@ public class ParentItemAdapter extends RecyclerView.Adapter<ParentItemAdapter.Vi
 
         private void setData(ParentItemTransaction parentItemTransaction) {
             binding.parentItemDate.setText(parentItemTransaction.getDate());
-            Log.d("date", parentItemTransaction.getDate());
             LinearLayoutManager layoutManager = new LinearLayoutManager(binding.childRecyclerview.getContext());
             layoutManager.setInitialPrefetchItemCount(parentItemTransaction.getListTransaction().size());
-            ChildItemAdapter childItemAdapter = new ChildItemAdapter(parentItemTransaction.getListTransaction(), objectListener);
-
+            ChildItemAdapter childItemAdapter = new ChildItemAdapter(parentItemTransaction.getListTransaction(), objectListener, context);
             binding.childRecyclerview.setLayoutManager(layoutManager);
             binding.childRecyclerview.setAdapter(childItemAdapter);
             childItemAdapter.notifyDataSetChanged();
