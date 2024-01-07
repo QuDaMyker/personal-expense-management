@@ -61,6 +61,8 @@
                 android:id="@+id/et_name_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:minLines="1"
                 android:hint="Nhập tên ví tiền" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +106,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nhập số tiền tối thiểu ví tiền phải có"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:minLines="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -149,7 +153,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nhập số tiền kỳ vọng"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:minLines="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,9 +180,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:hint="Ngày"
-                android:inputType="none"
+                android:maxLines="1"
+                android:minLines="1"
+                android:inputType="datetime"
                 android:textAlignment="textStart"
-                android:drawableRight="@drawable/ic_calendar"/>
+                android:drawableRight="@drawable/ic_date_picker"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -189,31 +197,43 @@
             android:textSize="16sp"
             android:textFontWeight="600"/>
 
-            <Spinner
-                android:id="@+id/spinner_period"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_period"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_period"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:layout_marginTop="5dp"
-                android:autofillHints=""
-                style="@style/Spinner.DropDown" />
+                android:hint="Nhập chu kì tiết kiệm (tháng)"
+                android:inputType="number"
+                android:maxLines="1"
+                android:minLines="1"
+                android:max="12"
+                android:min="0"
+                android:textAlignment="textStart"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/spinner_period">
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_new_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/custom_button_bg"
                 android:padding="8dp"
                 android:text="Tạo ví tiền mới"
-                android:textSize="20sp"
                 android:textFontWeight="700"
+                android:textSize="20sp"
                 app:backgroundTint="@null"
-                android:background="@drawable/custom_button_bg"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

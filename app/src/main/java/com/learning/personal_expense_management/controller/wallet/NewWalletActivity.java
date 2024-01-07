@@ -1,93 +1,127 @@
 package com.learning.personal_expense_management.controller.wallet;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.databinding.ActivityNewWalletBinding;
+import com.learning.personal_expense_management.model.Wallet;
+import com.learning.personal_expense_management.services.FireStoreService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class NewWalletActivity extends AppCompatActivity {
-
-    MaterialSwitch switchWarning;
-    MaterialSwitch switchPretension;
-    LinearLayout lineWarning;
-    LinearLayout linePretension;
-    ImageButton btnBack;
-    TextInputEditText editTextDeadline;
-    MaterialButton btnNewWallet;
-
+    private ActivityNewWalletBinding binding;
+    private Wallet inputWallet = new Wallet();
+    private List<String> items_period = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_wallet);
-
-        btnBack = findViewById(R.id.btn_Back);
-        lineWarning = findViewById(R.id.line_warning);
-        linePretension = findViewById(R.id.line_pretension);
-        switchWarning = findViewById(R.id.switch_warning);
-        switchPretension = findViewById(R.id.switch_pretension);
-        editTextDeadline = findViewById(R.id.et_deadline);
-        btnNewWallet = findViewById(R.id.btn_new_wallet);
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        binding = ActivityNewWalletBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        switchWarning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.switchWarning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SwitchLineWarning();
             }
         });
 
-        switchPretension.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.switchPretension.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SwitchLinePretension();
             }
         });
 
-        editTextDeadline.setOnClickListener(new View.OnClickListener() {
+        binding.etDeadline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowDateSpickerDialog();
             }
         });
-        editTextDeadline.setInputType(InputType.TYPE_NULL);
+
+        binding.etDeadline.setInputType(InputType.TYPE_CLASS_DATETIME);
+
+        binding.btnNewWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewWallet();
+            }
+        });
+
+    }
+
+    private void NewWallet(){
+        inputWallet.setOwnerId(FirebaseAuth.getInstance().getUid());
+        inputWallet.setWalletName(binding.etNameWallet.getText().toString());
+        inputWallet.setSavingsDeadline(binding.etDeadline.getText().toString());
+        inputWallet.setFrequency(Integer.parseInt(binding.etPeriod.getText().toString()));
+
+        if(binding.switchWarning.isChecked()){
+            inputWallet.setLowBalanceAlert(true);
+            inputWallet.setMinimumBalance(Integer.parseInt(binding.etMinimunMoneyWallet.getText().toString()));
+        }
+        else {
+            inputWallet.setLowBalanceAlert(false);
+        }
+
+        if(binding.switchPretension.isChecked()){
+            inputWallet.setGoalSavingsEnabled(true);
+            inputWallet.setGoalAmount(Integer.parseInt(binding.etPretensionMoneyWallet.getText().toString()));
+        }
+        else{
+            inputWallet.setGoalSavingsEnabled(false);
+        }
+
+        try {
+            String res = FireStoreService.addWallet(inputWallet);
+            Toast.makeText(this, "Thêm ví tiền thành công!",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, WalletActivity.class);
+            startActivity(intent);
+        }
+        catch (Exception e){}
+
     }
 
     private void SwitchLineWarning(){
-        if (switchWarning.isChecked()) {
-            lineWarning.setVisibility(View.VISIBLE);
+        if (binding.switchWarning.isChecked()) {
+            binding.lineWarning.setVisibility(View.VISIBLE);
         }
         else {
-            lineWarning.setVisibility(View.GONE);
+            binding.lineWarning.setVisibility(View.GONE);
         }
     }
 
     private void SwitchLinePretension(){
-        if (switchPretension.isChecked()) {
-            linePretension.setVisibility(View.VISIBLE);
+        if (binding.switchPretension.isChecked()) {
+            binding.linePretension.setVisibility(View.VISIBLE);
         }
         else {
-            linePretension.setVisibility(View.GONE);
+            binding.linePretension.setVisibility(View.GONE);
         }
     }
 
@@ -103,7 +137,7 @@ public class NewWalletActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
                         String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
-                        editTextDeadline.setText(selectedDate);
+                        binding.etDeadline.setText(selectedDate);
                     }
                 },
                 year, month, day);

@@ -421,12 +421,12 @@ public class FireStoreService {
         String[] result = {"Some thing went wrong"};
 
         try {
-            DocumentReference docRef = db.collection(Constants.KEY_TRANSACTION).document();
+            DocumentReference docRef = db.collection(Constants.KEY_WALLET).document();
             String id = docRef.getId();
 
             Map<String, Object> walletMap = new HashMap<>();
             walletMap.put("ownerId", wallet.getOwnerId());
-            walletMap.put("id", wallet.getId());
+            walletMap.put("id", id);
             walletMap.put("walletName", wallet.getWalletName());
             walletMap.put("lowBalanceAlert", wallet.isLowBalanceAlert());
             walletMap.put("minimumBalance", wallet.getMinimumBalance());
@@ -434,6 +434,7 @@ public class FireStoreService {
             walletMap.put("goalAmount", wallet.getGoalAmount());
             walletMap.put("savingsDeadline", wallet.getSavingsDeadline());
             walletMap.put("frequency", wallet.getFrequency());
+            walletMap.put("currentMoney", wallet.getCurrentMoney());
             //transactionMap.put("timeStamp", FieldValue.serverTimestamp());
 
             db.collection(Constants.KEY_WALLET).document(id).set(walletMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -473,7 +474,7 @@ public class FireStoreService {
                             }
                             listener.onWalletsLoaded(walletList);
                         } else {
-                            listener.onError("Failed to fetch transactions");
+                            listener.onError("Failed to fetch wallets");
                         }
                     });
         } catch (Exception e) {
