@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -31,8 +32,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.type.DateTime;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.RootActivity;
+import com.learning.personal_expense_management.controller.category.CategoriesActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ChoseCategoryAdapter;
 import com.learning.personal_expense_management.databinding.ActivityTransactionAddBinding;
 import com.learning.personal_expense_management.databinding.ActivityTransactionFilterBinding;
+import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.FirestoreCallback;
@@ -56,6 +60,7 @@ public class TransactionAddActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Transaction transactionEdit;
     private Boolean isEdit = false;
+    private Category currentCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,7 @@ public class TransactionAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("transactionEdit")) {
-           transactionEdit = (Transaction)intent.getSerializableExtra("transactionEdit");
+            transactionEdit = (Transaction) intent.getSerializableExtra("transactionEdit");
             isEdit = true;
         }
         addWalletLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -90,6 +95,32 @@ public class TransactionAddActivity extends AppCompatActivity {
             @Override
             public void onActivityResult(ActivityResult result) {
 
+            }
+        });
+
+        addCategoryLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intentFromChoseCategory = result.getData();
+                    String ownerId = intentFromChoseCategory.getStringExtra("ownerIdCategory");
+                    String id = intentFromChoseCategory.getStringExtra("idCategory");
+                    String name = intentFromChoseCategory.getStringExtra("nameCategory");
+                    int background = intentFromChoseCategory.getIntExtra("backgroundCategory", 2131034178);
+                    int icon = intentFromChoseCategory.getIntExtra("iconCategory", 2131165746);
+                    int colorIcon = intentFromChoseCategory.getIntExtra("colorIconCategory", 2131034237);
+                    int isInCome = intentFromChoseCategory.getIntExtra("isInComeCategory", 0);
+
+
+                    currentCategory = new Category(ownerId, id, name, background, icon, colorIcon, isInCome);
+                    binding.imgDanhmuc.setImageResource(icon);
+                    binding.titleDanhmuc.setText(name);
+                    binding.subTitleDanhmuc.setVisibility(View.INVISIBLE);
+
+//                    binding.icon.setImageResource(category.getIcon());
+//                    int colorIcon = context.getResources().getColor(category.getColorIcon());
+//                    binding.icon.setColorFilter(colorIcon);
+                }
             }
         });
 
@@ -143,6 +174,33 @@ public class TransactionAddActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        binding.switchFuture.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                binding.editTransactionDay.setEnabled(!isChecked);
+//                binding.editTransactionTime.setEnabled(!isChecked);
+                if (isChecked) {
+                    binding.clTransactionDay.setVisibility(View.GONE);
+                    binding.clTransactionTime.setVisibility(View.GONE);
+                } else {
+                    binding.clTransactionDay.setVisibility(View.VISIBLE);
+                    binding.clTransactionTime.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        binding.switchChuyentienFuture.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    binding.clChuyentienTransactionDay.setVisibility(View.GONE);
+                    binding.clChuyentienTransactionTime.setVisibility(View.GONE);
+                } else {
+                    binding.clChuyentienTransactionDay.setVisibility(View.VISIBLE);
+                    binding.clChuyentienTransactionTime.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         binding.btnBack.setOnClickListener(v -> {
             finish();
         });
@@ -171,7 +229,8 @@ public class TransactionAddActivity extends AppCompatActivity {
 
 
         binding.clDanhmuc.setOnClickListener(v -> {
-            //Intent intentAddCategory = new Intent(TransactionAddActivity.this, )
+            Intent intentAddCategory = new Intent(TransactionAddActivity.this, ChoseCategoryActivity.class);
+            addCategoryLaunch.launch(intentAddCategory);
         });
 
         binding.editTransactionDay.setOnClickListener(v -> {
@@ -212,12 +271,15 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 timeStr,
                                 "Vi tien",
                                 "tien mat",
-                                new com.google.firebase.Timestamp(date));
+                                currentCategory.getId(),
+                                new com.google.firebase.Timestamp(date),
+                                false
+                        );
                         // String res = FireStoreService.addTransaction(newTransaction);
                         FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                             @Override
                             public void onCallback(String result) {
-                                if(result.equals("success")) {
+                                if (result.equals("success")) {
                                     finish();
                                 }
                             }
@@ -265,12 +327,15 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 timeStr,
                                 "Vi tien",
                                 "tien mat",
-                                new com.google.firebase.Timestamp(date));
+                                currentCategory.getId(),
+                                new com.google.firebase.Timestamp(date),
+                                false
+                        );
                         //String res = FireStoreService.addTransaction(newTransaction);
                         FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                             @Override
                             public void onCallback(String result) {
-                                if(result.equals("success")) {
+                                if (result.equals("success")) {
                                     finish();
                                 }
                             }
@@ -285,13 +350,6 @@ public class TransactionAddActivity extends AppCompatActivity {
 
                 progressDialog.dismiss();
                 finish();
-
-//                if (res == "success") {
-//                    Toast.makeText(this, "Đã thêm giao dịch", Toast.LENGTH_SHORT).show();
-//                    finish();
-//                } else {
-//                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
-//                }
             }
         });
 
