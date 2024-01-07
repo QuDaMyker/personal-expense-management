@@ -47,15 +47,31 @@ public class ChoseCategoryActivity extends AppCompatActivity {
 
     private void init() {
 
-        listCats = new ArrayList<Category>();
-        listDisplay = new ArrayList<Category>();
-        listIncome = new ArrayList<Category>();
-        listOutCome = new ArrayList<Category>();
+        listCats = new ArrayList<>();
+        listDisplay = new ArrayList<>();
+        listIncome = new ArrayList<>();
+        listOutCome = new ArrayList<>();
         btnBack = findViewById(R.id.btn_Back);
         tabInOut = findViewById(R.id.InOut);
         rcvCats = findViewById(R.id.rcvCategories);
-
-
+        choseCategoryAdapter = new ChoseCategoryAdapter(getApplicationContext(), listDisplay, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+                Category category = (Category) o;
+                Intent intent = new Intent(ChoseCategoryActivity.this, RootActivity.class);
+                intent.putExtra("ownerIdCategory", category.getOwnerId());
+                intent.putExtra("idCategory", category.getId());
+                intent.putExtra("nameCategory", category.getName());
+                intent.putExtra("backgroundCategory", category.getBackGround());
+                intent.putExtra("iconCategory", category.getIcon());
+                intent.putExtra("colorIconCategory", category.getColorIcon());
+                intent.putExtra("isInComeCategory", category.getIsIncome());
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        rcvCats.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
+        rcvCats.setAdapter(choseCategoryAdapter);
     }
 
     private void setListeners() {
@@ -80,8 +96,8 @@ public class ChoseCategoryActivity extends AppCompatActivity {
                         break;
                 }
 
-//                 choseCategoryAdapter.setList(listDisplay);
-//                 choseCategoryAdapter.notifyDataSetChanged();
+                 choseCategoryAdapter.setList(listDisplay);
+                 choseCategoryAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -124,25 +140,7 @@ public class ChoseCategoryActivity extends AppCompatActivity {
 
                 listDisplay.clear();
                 listDisplay.addAll(listOutCome);
-                choseCategoryAdapter = new ChoseCategoryAdapter(getApplicationContext(), listDisplay, new ObjectListener() {
-                    @Override
-                    public void onClick(Object o) {
-                        Category category = (Category) o;
-                        Intent intent = new Intent(ChoseCategoryActivity.this, RootActivity.class);
-                        intent.putExtra("ownerIdCategory", category.getOwnerId());
-                        intent.putExtra("idCategory", category.getId());
-                        intent.putExtra("nameCategory", category.getName());
-                        intent.putExtra("backgroundCategory", category.getBackGround());
-                        intent.putExtra("iconCategory", category.getIcon());
-                        intent.putExtra("colorIconCategory", category.getColorIcon());
-                        intent.putExtra("isInComeCategory", category.getIsIncome());
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                });
-
-                rcvCats.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
-                rcvCats.setAdapter(choseCategoryAdapter);
+                choseCategoryAdapter.setList(listDisplay);
                 choseCategoryAdapter.notifyDataSetChanged();
             }
 

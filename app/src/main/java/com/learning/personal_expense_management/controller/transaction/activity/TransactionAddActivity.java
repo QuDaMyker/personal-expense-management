@@ -36,11 +36,14 @@ import com.learning.personal_expense_management.controller.category.CategoriesAc
 import com.learning.personal_expense_management.controller.transaction.adapter.ChoseCategoryAdapter;
 import com.learning.personal_expense_management.databinding.ActivityTransactionAddBinding;
 import com.learning.personal_expense_management.databinding.ActivityTransactionFilterBinding;
+import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.FirestoreCallback;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -60,7 +63,9 @@ public class TransactionAddActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Transaction transactionEdit;
     private Boolean isEdit = false;
+    private Boolean isCard = false;
     private Category currentCategory;
+    private Account currentAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +95,67 @@ public class TransactionAddActivity extends AppCompatActivity {
 
             }
         });
-
+        NumberFormat formatter = new DecimalFormat("#,###");
         addAccountLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intentFromAccount = result.getData();
+                    String ownerId = intentFromAccount.getStringExtra("ownerId");
+                    String id = intentFromAccount.getStringExtra("id");
+                    String accountType = intentFromAccount.getStringExtra("accountType");
+                    String cardName = intentFromAccount.getStringExtra("cardName");
+                    String cardNumber = intentFromAccount.getStringExtra("cardNumber");
+                    String expirationDate = intentFromAccount.getStringExtra("expirationDate");
+                    int currentBalance = intentFromAccount.getIntExtra("currentBalance", 0);
+                    currentAccount = new Account(ownerId, id, accountType, cardName, cardNumber, expirationDate, currentBalance);
+                    
+                    
+                  
+                    switch (currentAccount.getAccountType()) {
+                        case "Tiền mặt":
+                            binding.imgTaikhoan.setImageResource(R.drawable.ic_money_2);
+                            isCard = false;
+                            break;
+                        case "Thẻ Visa":
+                            binding.imgTaikhoan.setImageResource(R.drawable.visa_logo);
+                            isCard = true;
+                            break;
+                        case "Thẻ Mastercard":
+                            binding.imgTaikhoan.setImageResource(R.drawable.mastercard_logo);
+                            isCard = true;
+                            break;
+                        case "Thẻ JCB":
+                            binding.imgTaikhoan.setImageResource(R.drawable.jcb_logo);
+                            isCard = true;
+                            break;
+                        case "Ví điện tử MoMo":
+                            binding.imgTaikhoan.setImageResource(R.drawable.momo_logo);
+                            isCard = false;
+                            break;
+                        case "Ví điện tử ShopeePay":
+                            binding.imgTaikhoan.setImageResource(R.drawable.shopeepay_logo);
+                            isCard = false;
+                            break;
+                        case "Ví điện tử ZaloPay":
+                            binding.imgTaikhoan.setImageResource(R.drawable.zalopay_logo);
+                            isCard = false;
+                            break;
+                        case "Ví điện tử khác":
+                            binding.imgTaikhoan.setImageResource(R.drawable.ic_ewallet);
+                            isCard = false;
+                            break;
+                        case "Thẻ ngân hàng":
+                            binding.imgTaikhoan.setImageResource(R.drawable.ic_credit_card);
+                            isCard = true;
+                            break;
+                        default:
+                            break;
+                    }
 
+                    binding.titleTaikhoan.setText(currentAccount.getAccountType());
+                    binding.subTitleTaikhoan.setText(String.format("Số dư: %s₫", formatter.format(currentAccount.getCurrentBalance())));
+                }
             }
         });
 
