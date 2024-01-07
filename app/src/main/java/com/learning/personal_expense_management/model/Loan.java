@@ -22,11 +22,12 @@ public class Loan implements Serializable {
     private double interest;
     private int paid;
     private List<String> predictTransactions;
+    private List<String> returnTransactions;
 
     public Loan() {
     }
 
-    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid, List<String> predictTransactions) {
+    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid, List<String> predictTransactions, List<String> returnTransactions) {
         this.id = id;
         this.ownerId = ownerId;
         this.borrowerName = borrowerName;
@@ -42,6 +43,7 @@ public class Loan implements Serializable {
         this.interest = interest;
         this.paid = paid;
         this.predictTransactions = predictTransactions;
+        this.returnTransactions = returnTransactions;
     }
 
     public Loan(QueryDocumentSnapshot document) {
@@ -60,6 +62,7 @@ public class Loan implements Serializable {
         this.interest = document.getDouble("interest");
         this.paid = Integer.valueOf(Math.toIntExact(document.getLong("paid")));
         this.predictTransactions = (List<String>) document.get("predictTransactions");
+        this.returnTransactions = (List<String>) document.get("returnTransactions");
     }
 
     @Override
@@ -80,6 +83,7 @@ public class Loan implements Serializable {
                 ", interest=" + interest +
                 ", paid=" + paid +
                 ", predictTransactions=" + predictTransactions +
+                ", returnTransactions=" + returnTransactions +
                 '}';
     }
 
@@ -201,5 +205,13 @@ public class Loan implements Serializable {
 
     public void setPredictTransactions(List<String> predictTransactions) {
         this.predictTransactions = predictTransactions;
+    }
+
+    public List<String> getReturnTransactions() {
+        return returnTransactions;
+    }
+
+    public void setReturnTransactions(List<String> returnTransactions) {
+        this.returnTransactions = returnTransactions;
     }
 }

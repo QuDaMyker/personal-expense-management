@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,7 +25,10 @@ import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.utilities.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -740,6 +744,7 @@ public class FireStoreService {
             loanMap.put("interest", loan.getInterest());
             loanMap.put("paid", loan.getPaid());
             loanMap.put("predictTransactions", loan.getPredictTransactions());
+            loanMap.put("returnTransactions", loan.getReturnTransactions());
 
 
 
@@ -844,6 +849,38 @@ public class FireStoreService {
                         }else{
                             db.collection(Constants.KEY_LOAN).document(loanId).update("paid", currentPaid + paid);
                         }
+
+                        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+                        Date c = Calendar.getInstance().getTime();
+                        String date = formatDate.format(c);
+                        String time = formatTime.format(c);
+
+                        Transaction newTransaction = new Transaction(
+                                FirebaseAuth.getInstance().getUid(),
+                                "idLater",
+                                2,
+                                Integer.parseInt(String.valueOf(paid)),
+                                "Trả tiền khoản vay " + document.get("borrowerName"),
+                                date,
+                                time,
+                                "",
+                                "",
+                                "c1r3RCrV1Mzj8C5jvQIb",
+                                new com.google.firebase.Timestamp(c),
+                                false
+                        );
+                        FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                            @Override
+                            public void onCallback(String result) {
+                                if (!result.equals("error")) {
+                                    List<String> returnTransactions = (List<String>) document.get("returnTransactions");
+                                    returnTransactions.add(result);
+                                    FireStoreService.updateLoan(loanId, "returnTransactions", returnTransactions);
+                                }
+                            }
+                        });
                     } else {
                         Log.d("TAG", "No such document");
                     }

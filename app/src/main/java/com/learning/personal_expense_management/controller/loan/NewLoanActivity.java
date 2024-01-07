@@ -225,8 +225,8 @@ public class NewLoanActivity extends AppCompatActivity {
                 int month = Utils.getKeyByValue(periodMap, binding.periodEdt.getText().toString());
                 inputLoan.setRepaymentPeriod(month);
                 inputLoan.setPredictTransactions(new ArrayList<>());
+                inputLoan.setReturnTransactions(new ArrayList<>());
                 String res = FireStoreService.addLoan(inputLoan, new FirestoreCallback(){
-
                     @Override
                     public void onCallback(String result) {
                         if(result != "error"){
