@@ -226,6 +226,8 @@ public class NewLoanActivity extends AppCompatActivity {
                 inputLoan.setRepaymentPeriod(month);
                 inputLoan.setPredictTransactions(new ArrayList<>());
                 inputLoan.setReturnTransactions(new ArrayList<>());
+                inputLoan.setInitialTransaction("");
+
                 String res = FireStoreService.addLoan(inputLoan, new FirestoreCallback(){
                     @Override
                     public void onCallback(String result) {
@@ -234,6 +236,36 @@ public class NewLoanActivity extends AppCompatActivity {
                             double interest = 0;
                             try {
                                 interest = calculateInterest(inputLoan);
+
+                                SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                                SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+                                Date c = Calendar.getInstance().getTime();
+                                String date = formatDate.format(c);
+                                String time = formatTime.format(c);
+
+                                Transaction newTransaction = new Transaction(
+                                        FirebaseAuth.getInstance().getUid(),
+                                        "idLater",
+                                        inputLoan.isLend() ? 1 : 0,
+                                        inputLoan.getAmount(),
+                                        inputLoan.isLend() ? "Xuất tiền cho vay " + inputLoan.getBorrowerName() : "Nhận tiền vay " + inputLoan.getBorrowerName(),
+                                        date,
+                                        time,
+                                        "",
+                                        "",
+                                        "c1r3RCrV1Mzj8C5jvQIb",
+                                        new com.google.firebase.Timestamp(c),
+                                        false
+                                );
+                                FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                                    @Override
+                                    public void onCallback(String result) {
+                                        if (!result.equals("error")) {
+                                            FireStoreService.updateLoan(inputLoan.getId(), "initialTransaction", result);
+                                        }
+                                    }
+                                });
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
@@ -277,7 +309,7 @@ public class NewLoanActivity extends AppCompatActivity {
                 Transaction newTransaction = new Transaction(
                         FirebaseAuth.getInstance().getUid(),
                         "idLater",
-                        2,
+                        inputLoan.isLend() ? 1 : 0,
                         (int) monthlyAmount,
                         loan.isLend() ? "Nhận lãi cho vay " + loan.getBorrowerName() : "Trả lãi vay " + loan.getBorrowerName(),
                         date,
@@ -312,7 +344,7 @@ public class NewLoanActivity extends AppCompatActivity {
                 Transaction newTransaction = new Transaction(
                         FirebaseAuth.getInstance().getUid(),
                         "idLater",
-                        2,
+                        inputLoan.isLend() ? 1 : 0,
                         (int) monthlyAmount,
                         loan.isLend() ? "Nhận lãi cho vay " + loan.getBorrowerName()  : "Trả lãi vay " + loan.getBorrowerName(),
                         date,

@@ -23,11 +23,12 @@ public class Loan implements Serializable {
     private int paid;
     private List<String> predictTransactions;
     private List<String> returnTransactions;
+    private String initialTransaction;
 
     public Loan() {
     }
 
-    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid, List<String> predictTransactions, List<String> returnTransactions) {
+    public Loan(String id, String ownerId, String borrowerName, int amount, String note, String timestamp, int repaymentPeriod, boolean hasInterestRate, double interestRate, boolean interestRateType, boolean isLend, String deadline, double interest, int paid, List<String> predictTransactions, List<String> returnTransactions, String initialTransaction) {
         this.id = id;
         this.ownerId = ownerId;
         this.borrowerName = borrowerName;
@@ -44,6 +45,7 @@ public class Loan implements Serializable {
         this.paid = paid;
         this.predictTransactions = predictTransactions;
         this.returnTransactions = returnTransactions;
+        this.initialTransaction = initialTransaction;
     }
 
     public Loan(QueryDocumentSnapshot document) {
@@ -63,6 +65,7 @@ public class Loan implements Serializable {
         this.paid = Integer.valueOf(Math.toIntExact(document.getLong("paid")));
         this.predictTransactions = (List<String>) document.get("predictTransactions");
         this.returnTransactions = (List<String>) document.get("returnTransactions");
+        this.initialTransaction = document.getString("initialTransaction");
     }
 
     @Override
@@ -84,6 +87,7 @@ public class Loan implements Serializable {
                 ", paid=" + paid +
                 ", predictTransactions=" + predictTransactions +
                 ", returnTransactions=" + returnTransactions +
+                ", initialTransaction='" + initialTransaction + '\'' +
                 '}';
     }
 
@@ -213,5 +217,13 @@ public class Loan implements Serializable {
 
     public void setReturnTransactions(List<String> returnTransactions) {
         this.returnTransactions = returnTransactions;
+    }
+
+    public String getInitialTransaction() {
+        return initialTransaction;
+    }
+
+    public void setInitialTransaction(String initialTransaction) {
+        this.initialTransaction = initialTransaction;
     }
 }

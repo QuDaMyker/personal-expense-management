@@ -745,8 +745,7 @@ public class FireStoreService {
             loanMap.put("paid", loan.getPaid());
             loanMap.put("predictTransactions", loan.getPredictTransactions());
             loanMap.put("returnTransactions", loan.getReturnTransactions());
-
-
+            loanMap.put("initialTransaction", loan.getInitialTransaction());
 
             docRef.set(loanMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -843,6 +842,7 @@ public class FireStoreService {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         int currentPaid= Integer.valueOf(Math.toIntExact(document.getLong("paid")));
+                        boolean isLend = Boolean.TRUE.equals(document.getBoolean("isLend"));
                         int totalAmount = (int) (document.getDouble("interest") + Integer.parseInt(String.valueOf(document.getLong("amount"))));
                         if(isAll){
                             db.collection(Constants.KEY_LOAN).document(loanId).update("paid", totalAmount);
@@ -860,7 +860,7 @@ public class FireStoreService {
                         Transaction newTransaction = new Transaction(
                                 FirebaseAuth.getInstance().getUid(),
                                 "idLater",
-                                2,
+                                isLend ? 1 : 0,
                                 Integer.parseInt(String.valueOf(paid)),
                                 "Trả tiền khoản vay " + document.get("borrowerName"),
                                 date,
