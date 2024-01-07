@@ -12,6 +12,15 @@ public class Account {
     private String expirationDate;
     private int currentBalance;
 
+    public Account(){
+        this.ownerId = "";
+        this.id = "";
+        this.accountType = "";
+        this.cardName = "";
+        this.cardNumber = "";
+        this.expirationDate = "";
+        this.currentBalance = 0;
+    }
     public Account(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");
