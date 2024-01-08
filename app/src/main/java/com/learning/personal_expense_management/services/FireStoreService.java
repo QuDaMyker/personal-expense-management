@@ -101,33 +101,11 @@ public class FireStoreService {
         }
     }
 
-    public static String updateUserProfile(UserProfile userProfile) {
+    public static String addTransaction(Transaction transaction, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
+
         try {
-            Map<String, Object> userProfiletMap = new HashMap<>();
-            userProfiletMap.put("name", userProfile.getName());
-            userProfiletMap.put("email", userProfile.getEmail());
-
-            db.collection(Constants.KEY_USER_PROFILE).document(userProfile.getId())
-                    .update(userProfiletMap)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            result[0] = "success";
-                            Log.d("rs", result[0]);
-                        } else {
-                            result[0] = "error";
-                            Log.d("rs", result[0]);
-                        }
-                    });
-
-        } catch (Exception e) {
-            result[0] = "General Exception: " + e.getMessage();
-        }
-        return result[0];
-    }
-
-
-
+            DocumentReference docRef = db.collection(Constants.KEY_TRANSACTION).document();
             String id = docRef.getId();
 
             Map<String, Object> transactionMap = new HashMap<>();
@@ -152,11 +130,9 @@ public class FireStoreService {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         callback.onCallback("success");
-     
-
-     
-
-        } else {
+                        result[0] = "success";
+                        Log.d("addTransaction - rs", "success");
+                    } else {
                         callback.onCallback("error");
                         result[0] = "error";
                         Log.d("addTransaction - rs", "error");
@@ -172,9 +148,7 @@ public class FireStoreService {
             result[0] = "General Exception: " + e.getMessage();
         }
 
-        return 
-
-
+        return result[0];
     }
 
     public static void getAllTransaction(String ownerId, TransactionListener listener) {
@@ -209,8 +183,6 @@ public class FireStoreService {
         try {
             if (transactionType == -1) {
                 if (isHighest == -1) {
-    
-    
                     if (isNewest == -1 || isNewest == 1) {
                         db.collection(Constants.KEY_TRANSACTION).whereEqualTo("ownerId", ownerId).whereEqualTo("month", month).whereEqualTo("year", year)
                                 //.orderBy("amount", Query.Direction.DESCENDING)
@@ -384,20 +356,18 @@ public class FireStoreService {
                         Transaction transaction = new Transaction(documentSnapshot);
                         transactionList.add(transaction);
                         Log.d("parentTransaction", documentSnapshot.getData().toString());
-                    
-                            }
-                            
-                                    listener.onTransaction
-                                    se {
-                                        ener.onError("Failed to fetch transactions");
-                             
-                                        
-                                
-                                    .onError(e.getMessage());
-                         
-                                    
-                        
-                    tatic void updateTransaction(Transaction transaction, FirestoreCallback callback) {
+                    }
+                    listener.onTransactionsLoaded(transactionList);
+                } else {
+                    listener.onError("Failed to fetch transactions");
+                }
+            });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
+    public static void updateTransaction(Transaction transaction, FirestoreCallback callback) {
         try {
 
             Map<String, Object> transactionMap = new HashMap<>();
@@ -432,27 +402,8 @@ public class FireStoreService {
                     callback.onCallback("er");
                 }
             });
-        } catch (Exception e) {e.printStackTrace();}}
-
-    public static void getTransactionWallet(String ownerId, String walletName, TransactionListener listener) {
-        List<Transaction> transactionList = new ArrayList<>();
-        try {
-            db.collection(Constants.KEY_TRANSACTION)
-                    .whereEqualTo("sourceAccount", walletName)
-                    .get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                        Transaction transaction = new Transaction(documentSnapshot);
-                        transactionList.add(transaction);
-                        Log.d("parentTransactionWallet", documentSnapshot.getData().toString());
-                    }
-                    listener.onTransactionsLoaded(transactionList);
-                } else {
-                    listener.onError("Failed to fetch transactions");
-                }
-            });
         } catch (Exception e) {
-            listener.onError(e.getMessage());
+
         }
     }
 
@@ -469,20 +420,18 @@ public class FireStoreService {
             }
         });
     }
-                
-                    
-                    tatic String addWallet(Wallet walle
-                        
-                     
-                            
-                             
-                            D
-                            String id = docRef.getId();
-                     
-                            Map<String, Object> walletMap = new HashMap<>
-                        etMap.put("ownerId", wallet.getOwnerId());
-                    w
-                    walletMap.put("walletName", wallet.getWalletName());
+
+    public static String addWallet(Wallet wallet) {
+        String[] result = {"Some thing went wrong"};
+
+        try {
+            DocumentReference docRef = db.collection(Constants.KEY_WALLET).document();
+            String id = docRef.getId();
+
+            Map<String, Object> walletMap = new HashMap<>();
+            walletMap.put("ownerId", wallet.getOwnerId());
+            walletMap.put("id", id);
+            walletMap.put("walletName", wallet.getWalletName());
             walletMap.put("lowBalanceAlert", wallet.isLowBalanceAlert());
             walletMap.put("minimumBalance", wallet.getMinimumBalance());
             walletMap.put("goalSavingsEnabled", wallet.isGoalSavingsEnabled());
@@ -499,14 +448,10 @@ public class FireStoreService {
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
-                        result[0] = "er
-
-    or";
+                        result[0] = "error";
                         Log.d("rs", result[0]);
                     }
                 }
-
-    
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -545,44 +490,39 @@ public class FireStoreService {
         try {
             String walletId = wallet.getId();
 
-
-    
-    
-
-        walletMap.put("walletName", wallet.getWalletName());
+            Map<String, Object> walletMap = new HashMap<>();
+            walletMap.put("walletName", wallet.getWalletName());
             walletMap.put("lowBalanceAlert", wallet.isLowBalanceAlert());
             walletMap.put("minimumBalance", wallet.getMinimumBalance());
-           wale
-  
-    tMap.put("go
-    l
-
-        walletMap.put("savingsDeadline", wallet.getSavingsDeadline());
+            walletMap.put("goalSavingsEnabled", wallet.isGoalSavingsEnabled());
+            walletMap.put("goalAmount", wallet.getGoalAmount());
+            walletMap.put("savingsDeadline", wallet.getSavingsDeadline());
             walletMap.put("frequency", wallet.getFrequency());
             walletMap.put("currentMoney", wallet.getCurrentMoney());
             //transactionMap.put("timeStamp", FieldValue.serverTimestamp());
-  
+
             // Thực hiện cập nhật dữ liệu trong Firebase
             db.collection(Constants.KEY_WALLET).document(walletId).update(walletMap).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     result[0] = "success";
                     Log.d("rs", result[0]);
-                 } else {
-
+                } else {
+                    result[0] = "error";
                     Log.d("rs", result[0]);
                 }
             });
 
         } catch (Exception e) {
             result[0] = "General Exception: " + e.getMessage();
-        } 
+        }
+        return result[0];
+    }
 
-            
 
     public static void getWallet(String ownerId, WalletListener listener) {
         List<Wallet> walletList = new ArrayList<>();
 
-        t
+        try {
             db.collection(Constants.KEY_WALLET).whereEqualTo("ownerId", ownerId).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -590,7 +530,7 @@ public class FireStoreService {
                         walletList.add(wallet);
                         Log.d("rs", document.getData().toString());
                     }
-         
+                    listener.onWalletsLoaded(walletList);
                 } else {
                     listener.onError("Failed to fetch wallets");
                 }
@@ -609,26 +549,24 @@ public class FireStoreService {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                
-                        Log.w
-                    }
-                        
-                    
-                
-                    tatic Str
-                    ng[] result = {"Some thing went wrong"};
-                        
-                     
-                            {
-                    DocumentReference docRef = db.colle
-                        ng id = docRef.getId();
-                    
-                    Map<String, Object> accountMap = new HashMap<
-                    accountMa
-                    accountMap.put("id", id);
-                        untMap.put("accountType", account.getAccountType());
-                    a
-                    accountMap.put("cardNumber", account.getCardNumber());
+                Log.w("rs - delete - wallet", "Error deleting document", e);
+            }
+        });
+    }
+
+    public static String addAccount(Account account) {
+        String[] result = {"Some thing went wrong"};
+
+        try {
+            DocumentReference docRef = db.collection(Constants.KEY_ACCOUNT).document();
+            String id = docRef.getId();
+
+            Map<String, Object> accountMap = new HashMap<>();
+            accountMap.put("ownerId", account.getOwnerId());
+            accountMap.put("id", id);
+            accountMap.put("accountType", account.getAccountType());
+            accountMap.put("cardName", account.getCardName());
+            accountMap.put("cardNumber", account.getCardNumber());
             accountMap.put("expirationDate", account.getExpirationDate());
             accountMap.put("currentBalance", account.getCurrentBalance());
 
@@ -656,23 +594,19 @@ public class FireStoreService {
     }
 
     public static void editAccount(Account account, FirestoreCallback callback) {
-        ty {
-
-    
-    
+        try {
             Map<String, Object> accountMap = new HashMap<>();
-             accountMap.put("id", account.getId());
+            accountMap.put("ownerId", account.getOwnerId());
+            accountMap.put("id", account.getId());
             accountMap.put("accountType", account.getAccountType());
             accountMap.put("cardName", account.getCardName());
             accountMap.put("cardNumber", account.getCardNumber());
             accountMap.put("expirationDate", account.getExpirationDate());
             accountMap.put("currentBalance", account.getCurrentBalance());
-           Logd
-
-    ("editAccoun
-     - account", account.toString());
+            Log.d("editAccount - account", account.toString());
             db.collection(Constants.KEY_ACCOUNT).document(account.getId()).update(accountMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                 public void onComplete(@NonNull Task<Void> task) {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         callback.onCallback("success");
                     } else {
@@ -709,27 +643,23 @@ public class FireStoreService {
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }
+    }
 
-    
-        
-    tatty {
-    
-    
-        db.collection(Constants.KEY_ACCOU
-            if (task.isSuccessful()) {
+    public static void getOneAccount(String id, OneAccountListener listener) {
+        try {
+            db.collection(Constants.KEY_ACCOUNT).whereEqualTo("id", id).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
 
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                         Account account = new Account((QueryDocumentSnapshot) documentSnapshot);
                         listener.getAccount(account);
-                     
+                        break;
+                    }
+                    Log.e("getOneAccount - rs", "success");
+                } else {
+                    Log.d("getOneAccount - rs", "Error getting document: " + task.getException());
 
-     
-        }
-               
-       Log.d("ge
-    O
-        
-            }
+                }
             });
         } catch (Exception e) {
 
@@ -836,8 +766,9 @@ public class FireStoreService {
     public static void updateCategory(Category category, FirestoreCallback callback) {
         try {
 
+            String id = category.getId();
+            category.setId(id);
 
-    
             Map<String, Object> categoryMap = new HashMap<>();
             categoryMap.put("ownerId", category.getOwnerId());
             categoryMap.put("id", id);
@@ -847,8 +778,9 @@ public class FireStoreService {
             categoryMap.put("colorIcon", category.getColorIcon());
             categoryMap.put("isIncome", category.getIsIncome());
 
-     
-
+            db.collection(Constants.KEY_CATEGORY).document(category.getId()).update(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         callback.onCallback("success");
 
