@@ -52,7 +52,8 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(WalletDetailActivity.this,WalletActivity.class);
+                startActivity(intent);
             }
         });
 
