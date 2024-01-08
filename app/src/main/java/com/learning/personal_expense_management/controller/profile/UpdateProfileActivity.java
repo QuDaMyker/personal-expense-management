@@ -23,8 +23,10 @@ import com.learning.personal_expense_management.controller.wallet.WalletActivity
 import com.learning.personal_expense_management.databinding.ActivityUpdateProfileBinding;
 import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.services.FireStoreService;
-import javax.mail.internet.InternetAddress;
+
 import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 
 public class UpdateProfileActivity extends AppCompatActivity {
     ActivityUpdateProfileBinding binding;
