@@ -84,8 +84,7 @@ public class CategoriesActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoriesActivity.this, HomeFragment.class);
-                startActivity(intent);
+                finish();
             }
         });
 

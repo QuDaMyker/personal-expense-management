@@ -28,7 +28,7 @@ import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.utilities.Constants;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,7 +165,6 @@ public class FireStoreService {
 
     public static void getAllTransaction(String ownerId, TransactionListener listener) {
         List<Transaction> transactionList = new ArrayList<>();
-
         try {
             db.collection(Constants.KEY_TRANSACTION).whereEqualTo("ownerId", ownerId)
                     //.orderBy("amount", Query.Direction.DESCENDING)
@@ -380,6 +379,40 @@ public class FireStoreService {
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }
+    }
+
+    public static  void getTransactionForTimePeriod(String ownerId,Date startDate, Date endDate, TransactionListener listener)
+    {
+        List<Transaction> transactionList = new ArrayList<>();
+        Timestamp startTimestamp = new Timestamp(startDate);
+        Timestamp endTimestamp = new Timestamp(endDate);
+
+       try {
+           db.collection(Constants.KEY_TRANSACTION)
+                   .whereEqualTo("ownerId", ownerId)
+                   .get()
+                   .addOnCompleteListener( task -> {
+                       if (task.isSuccessful()) {
+                           for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                               Transaction transaction = new Transaction(documentSnapshot);
+                               transactionList.add(transaction);
+                               Log.d("listTransaction", documentSnapshot.getData().toString());
+                           }
+                           listener.onTransactionsLoaded(transactionList);
+                       } else {
+                           listener.onError("Failed to fetch transactions");
+                       }
+                   })
+                   .addOnFailureListener(e -> {
+                       // Xử lý lỗi ở đây
+                       Log.d("Lỗi", "Khoogn lấy dc");
+
+                   });
+            }
+       catch (Exception ex)
+       {
+
+       }
     }
 
     public static void getParentTransaction(String ownerId, String date, TransactionListener listener) {
@@ -701,6 +734,34 @@ public class FireStoreService {
 
                     }
                 });
+    }
+
+    public static void checkCategoryIsDuplicate( Category cat, CategoryListener listener)
+    {
+        List<Category> categoryList = new ArrayList<>();
+        try {
+            db.collection(Constants.KEY_CATEGORY).whereEqualTo("ownerId", cat.getOwnerId())
+                    .whereEqualTo("categoryName", cat.getName())
+                    .whereEqualTo("background", cat.getBackGround())
+                    .whereEqualTo("colorIcon", cat.getColorIcon())
+                    .whereEqualTo("icon", cat.getIcon())
+                    .whereEqualTo("isIncome", cat.getIsIncome())
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Category category = new Category(document);
+                                categoryList.add(category);
+                                Log.d("rs", document.getData().toString());
+                            }
+                            listener.onCategoryLoaded(categoryList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+        } catch (Exception ex)
+        {
+            listener.onError(ex.getMessage());
+        }
     }
 
     public static String addLoan(Loan loan) {

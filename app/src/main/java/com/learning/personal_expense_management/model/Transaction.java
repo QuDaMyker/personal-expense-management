@@ -26,7 +26,6 @@ public class Transaction implements Serializable{
     private String year;
 
 
-
     public Transaction(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");
