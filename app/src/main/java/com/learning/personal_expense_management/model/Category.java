@@ -1,11 +1,12 @@
 package com.learning.personal_expense_management.model;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.io.Serializable;
 import java.util.List;
 
 
-public class Category  implements Serializable {
+public class Category implements Serializable {
     private String ownerId;
     private String id;
     private String name;
@@ -19,6 +20,7 @@ public class Category  implements Serializable {
     public Category() {
 
     }
+
     public Category(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");
@@ -39,6 +41,17 @@ public class Category  implements Serializable {
         this.colorIcon = iconColor;
         this.isIncome = isIncome;
     }
+
+    public Category(String idOwner, String id, String name, int backGround, int icon, int iconColor, int isIncome) {
+        this.ownerId = idOwner;
+        this.id = id;
+        this.name = name;
+        this.backGround = backGround;
+        this.icon = icon;
+        this.colorIcon = iconColor;
+        this.isIncome = isIncome;
+    }
+
     public String toString() {
         return "Category{" +
                 "ownerId='" + ownerId + '\'' +
@@ -50,6 +63,7 @@ public class Category  implements Serializable {
                 ", isIncome='" + isIncome + '\'' +
                 '}';
     }
+
     public String getOwnerId() {
         return ownerId;
     }
@@ -85,9 +99,11 @@ public class Category  implements Serializable {
     public int getIcon() {
         return icon;
     }
+
     public void setIcon(int icon) {
         this.icon = icon;
     }
+
     public int getColorIcon() {
         return colorIcon;
     }
@@ -96,7 +112,11 @@ public class Category  implements Serializable {
         this.colorIcon = colorIcon;
     }
 
-    public int getIsIncome () {return this.isIncome; };
+    public int getIsIncome() {
+        return this.isIncome;
+    }
+
+    ;
 
     public void setIncome(int income) {
         isIncome = income;

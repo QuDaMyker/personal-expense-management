@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.learning.personal_expense_management.controller.category.CategoriesActivity;
-import com.learning.personal_expense_management.controller.wallet.WalletActivity;
+import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.account.AccountActivity;
+import com.learning.personal_expense_management.controller.loan.LoanActivity;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeRecentlyActivityAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeTargetAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.ObjectListener;
+import com.learning.personal_expense_management.controller.wallet.WalletActivity;
 import com.learning.personal_expense_management.databinding.FragmentHomeBinding;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.model.Wallet;
@@ -44,7 +48,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-
 
         init();
         setListeners();
@@ -96,6 +99,19 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        binding.accountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AccountActivity.class));
+            }
+        });
+
+        binding.cardVKhoanVay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), LoanActivity.class));
+            }
+        });
     }
 
     private void getListTarget() {
@@ -116,20 +132,19 @@ public class HomeFragment extends Fragment {
                     binding.revHoatdongganday.setVisibility(View.VISIBLE);
                 }
 
-                homeRecentlyActivityAdapter = new HomeRecentlyActivityAdapter(getContext(), listRecently, new ObjectListener() {
-                    @Override
-                    public void onClick(Object o) {
-                        Transaction transaction = (Transaction) o;
-                        Toast.makeText(getContext(), transaction.getId(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                homeRecentlyActivityAdapter = new HomeRecentlyActivityAdapter(getContext(), listRecently,
+                        new ObjectListener() {
+                            @Override
+                            public void onClick(Object o) {
+                                Transaction transaction = (Transaction) o;
+                                Toast.makeText(getContext(), transaction.getTransactionTime(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                 binding.revHoatdongganday.setLayoutManager(new LinearLayoutManager(getContext()));
                 binding.revHoatdongganday.setAdapter(homeRecentlyActivityAdapter);
                 homeRecentlyActivityAdapter.notifyDataSetChanged();
             }
-
 
             @Override
             public void onError(String errorMessage) {
@@ -138,6 +153,5 @@ public class HomeFragment extends Fragment {
 
         });
     }
-
 
 }

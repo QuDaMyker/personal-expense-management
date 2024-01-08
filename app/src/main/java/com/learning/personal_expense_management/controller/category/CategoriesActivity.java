@@ -40,10 +40,7 @@ public class CategoriesActivity extends AppCompatActivity {
     private List<Category> listOutCome;
 
     private CategoryAdapter categoryAdapter;
-
-
     private String currentUser;
-
     private RecyclerView rcvCats;
 
     private TabLayout tabInOut;

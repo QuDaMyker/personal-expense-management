@@ -3,7 +3,9 @@ package com.learning.personal_expense_management.model;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
-public class Wallet {
+import java.io.Serializable;
+
+public class Wallet implements Serializable {
     private String ownerId;
     private String id;
     private String walletName;
@@ -13,17 +15,32 @@ public class Wallet {
     private int goalAmount;
     private String savingsDeadline;
     private int frequency;
+    private int currentMoney;
 
     public Wallet(QueryDocumentSnapshot document) {
         this.ownerId = document.getString("ownerId");
         this.id = document.getString("id");
         this.walletName = document.getString("walletName");
-        this.lowBalanceAlert = Boolean.parseBoolean(document.getString("lowBalanceAlert"));
-        this.minimumBalance = Integer.parseInt(document.getString("minimumBalance"));
-        this.goalSavingsEnabled = Boolean.parseBoolean(document.getString("goalSavingsEnabled"));
-        this.goalAmount = Integer.parseInt(document.getString("goalAmount"));
+        this.lowBalanceAlert = document.getBoolean("lowBalanceAlert");
+        this.minimumBalance = Integer.parseInt(String.valueOf(document.getLong("minimumBalance")));
+        this.goalSavingsEnabled = document.getBoolean("goalSavingsEnabled");
+        this.goalAmount = Integer.parseInt(String.valueOf(document.getLong("goalAmount")));
         this.savingsDeadline = document.getString("savingsDeadline");
-        this.frequency = Integer.parseInt(document.getString("frequency"));
+        this.frequency = Integer.parseInt(String.valueOf(document.getLong("frequency")));
+        this.currentMoney = Integer.parseInt(String.valueOf(document.getLong("currentMoney")));
+    }
+
+    public Wallet() {
+        this.ownerId = "";
+        this.id = "";
+        this.walletName = "";
+        this.lowBalanceAlert = false;
+        this.minimumBalance = 0;
+        this.goalSavingsEnabled = false;
+        this.goalAmount = 0;
+        this.savingsDeadline = "";
+        this.frequency = 0;
+        this.currentMoney = 0;
     }
 
     public Wallet(String ownerId, String id, String walletName, boolean lowBalanceAlert, int minimumBalance, boolean goalSavingsEnabled, int goalAmount, String savingsDeadline, int frequency) {
@@ -36,6 +53,7 @@ public class Wallet {
         this.goalAmount = goalAmount;
         this.savingsDeadline = savingsDeadline;
         this.frequency = frequency;
+        this.currentMoney = 0;
     }
 
     public String getOwnerId() {
@@ -110,6 +128,12 @@ public class Wallet {
         this.frequency = frequency;
     }
 
+    public int getCurrentMoney() {
+        return currentMoney;
+    }
+
+    public void setCurrentMoney(int currentMoney) { this.currentMoney = currentMoney;    }
+
     @Override
     public String toString() {
         return "Wallet{" +
@@ -122,6 +146,7 @@ public class Wallet {
                 ", goalAmount=" + goalAmount +
                 ", savingsDeadline='" + savingsDeadline + '\'' +
                 ", frequency=" + frequency +
-                '}';
+                ", currentMoney=" + currentMoney +
+                "}";
     }
 }
