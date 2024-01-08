@@ -845,8 +845,8 @@ public class TransactionAddActivity extends AppCompatActivity {
                         binding.chipThu.isChecked() ? 0 : 1,
                         Integer.parseInt(binding.editAmount.getText().toString().trim()),
                         binding.editNote.getText().toString().trim(),
-                        getCurrentDate(),
-                        getCurrentTime(),
+                        binding.editTransactionDay.getText().toString().trim(),
+                        binding.editTransactionTime.getText().toString().trim(),
                         currentWallet.getId(),
                         currentAccount.getId(),
                         currentCategory.getId(),
@@ -855,6 +855,7 @@ public class TransactionAddActivity extends AppCompatActivity {
                 );
             }
         } else {
+            // isFuture == true
             Date date = dateFormat.parse(getCurrentDate() + " " + getCurrentTime());
             newTransaction = new Transaction(
                     FirebaseAuth.getInstance().getUid(),
@@ -872,7 +873,7 @@ public class TransactionAddActivity extends AppCompatActivity {
             );
         }
 
-        if (!isEdit) {
+        if (isEdit) {
             currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() + oldTransaction.getAmount() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
             FireStoreService.editAccount(currentAccount, new FirestoreCallback() {
                 @Override
@@ -966,7 +967,7 @@ public class TransactionAddActivity extends AppCompatActivity {
 
         }
 
-        if (!isEdit) {
+        if (isEdit) {
             currentAccountResource.setCurrentBalance(currentAccountResource.getCurrentBalance() + oldTransaction.getAmount() - Integer.parseInt(binding.editChuyentienAmount.getText().toString().trim()));
             FireStoreService.editAccount(currentAccountResource, new FirestoreCallback() {
                 @Override

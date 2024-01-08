@@ -110,7 +110,17 @@ public class TransactionFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMonth = calendar.get(Calendar.MONTH) + 1;
+        parentItemAdapter = new ParentItemAdapter(getContext(), mainList, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+                Transaction transaction = (Transaction) o;
+                openDialog(Gravity.CENTER, transaction);
+            }
+        });
 
+        binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.parentRecycleView.setAdapter(parentItemAdapter);
+        parentItemAdapter.notifyDataSetChanged();
         setYear(currentYear);
         setMonth(currentMonth);
 
@@ -401,22 +411,6 @@ public class TransactionFragment extends Fragment {
         bindingDialog.btnOk.setOnClickListener(v -> {
             dialog.dismiss();
         });
-
-//        ImageButton imgBtnEdit = dialog.findViewById(R.id.imgBtn_edit);
-//        ImageButton imgBtnDelete = dialog.findViewById(R.id.imgBtn_delete);
-//        Button btnOK = dialog.findViewById(R.id.btn_ok);
-//
-//        imgBtnEdit.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        imgBtnDelete.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        btnOK.setOnClickListener(v -> {
-//            dialog.dismiss();
-//        });
         dialog.show();
     }
 
@@ -433,17 +427,7 @@ public class TransactionFragment extends Fragment {
             binding.tvNothinghere.setVisibility(View.VISIBLE);
             binding.parentRecycleView.setVisibility(View.GONE);
         } else {
-            parentItemAdapter = new ParentItemAdapter(getContext(), mainList, new ObjectListener() {
-                @Override
-                public void onClick(Object o) {
-                    Transaction transaction = (Transaction) o;
-                    openDialog(Gravity.CENTER, transaction);
-                }
-            });
 
-            binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-            binding.parentRecycleView.setAdapter(parentItemAdapter);
-            parentItemAdapter.notifyDataSetChanged();
             for (int i = 0; i < mainList.size(); i++) {
                 Log.d("testList", mainList.get(i).toString());
             }
@@ -472,11 +456,11 @@ public class TransactionFragment extends Fragment {
                             getListTransaction();
                         } else {
                             tempList = transactions;
+                            Log.d("tempList", tempList.size() + "");
                             for (int i = 0; i < tempList.size(); i++) {
-                                Log.d("lst", tempList.get(i).toString());
+                                Log.d("tempList", tempList.get(i).toString());
                             }
                             for (int i = 0; i < tempList.size(); i++) {
-
                                 if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
                                     List<Transaction> newList = new ArrayList<>();
                                     newList.add(tempList.get(i));
@@ -485,8 +469,8 @@ public class TransactionFragment extends Fragment {
                                 } else {
                                     map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
                                     Log.d("result Map", " TRUNG");
-
                                 }
+
                             }
 
                             map.forEach((s, transactions1) -> {
@@ -495,9 +479,9 @@ public class TransactionFragment extends Fragment {
                             });
 
                             mainList = list;
+                            parentItemAdapter.setList(list);
+                            parentItemAdapter.notifyDataSetChanged();
                             getListTransaction();
-
-
                         }
                     }
 
@@ -514,6 +498,6 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //parentItemTransactionList(-1, -1, -1);
+        parentItemTransactionList(-1, -1, -1);
     }
 }

@@ -28,6 +28,10 @@ public class ParentItemAdapter extends RecyclerView.Adapter<ParentItemAdapter.Vi
         this.objectListener = objectListener;
     }
 
+    public void setList(List<ParentItemTransaction> list) {
+        this.list = list;
+    }
+
     @NonNull
     @Override
     public ParentItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,13 +51,13 @@ public class ParentItemAdapter extends RecyclerView.Adapter<ParentItemAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ItemParentItemShowingTransactionBinding binding;
 
-        public ViewHolder(@NonNull ItemParentItemShowingTransactionBinding itemParentItemShowingTransactionBinding) {
+        public ViewHolder(ItemParentItemShowingTransactionBinding itemParentItemShowingTransactionBinding) {
             super(itemParentItemShowingTransactionBinding.getRoot());
             this.binding = itemParentItemShowingTransactionBinding;
         }
 
         private void setData(ParentItemTransaction parentItemTransaction) {
-            Log.e("date", parentItemTransaction.getDate());
+            Log.e("date - setdata", parentItemTransaction.getDate());
             binding.parentItemDate.setText(parentItemTransaction.getDate());
             LinearLayoutManager layoutManager = new LinearLayoutManager(binding.childRecyclerview.getContext());
             layoutManager.setInitialPrefetchItemCount(parentItemTransaction.getListTransaction().size());
