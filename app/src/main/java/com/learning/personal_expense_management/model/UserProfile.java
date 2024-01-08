@@ -2,7 +2,9 @@ package com.learning.personal_expense_management.model;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-public class UserProfile {
+import java.io.Serializable;
+
+public class UserProfile implements Serializable {
     private String id;
     private String name;
     private String email;
@@ -24,7 +26,17 @@ public class UserProfile {
         this.lowBalanceAlert = document.getBoolean("lowBalanceAlert");
         this.dailyReminders = document.getBoolean("dailyReminders");
     }
-
+    public UserProfile() {
+        this.id = "";
+        this.name = "";
+        this.email = "";
+        this.defaultCurrency = "";
+        this.language = "";
+        this.securityMethod = "";
+        this.tip = false;
+        this.lowBalanceAlert = false;
+        this.dailyReminders = false;
+    }
     public UserProfile(String id, String name, String email, String defaultCurrency, String language, String securityMethod, boolean tip, boolean lowBalanceAlert, boolean dailyReminders) {
         this.id = id;
         this.name = name;

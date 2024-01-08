@@ -15,9 +15,9 @@
         <activity
             android:name=".controller.category.EmptyActivity"
             android:exported="false" />
-        <activity
-            android:name=".controller.transaction.activity.EmptyActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".controller.transaction.activity.EmptyActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".controller.transaction.activity.ChoseCategoryActivity"
             android:exported="false" />
@@ -65,6 +65,9 @@
         <activity
             android:name=".controller.wallet.WalletDetailActivity"
             android:exported="false"/>
+        <activity
+            android:name=".controller.profile.UpdateProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".controller.profile.NotifyActivity"
             android:exported="false" />

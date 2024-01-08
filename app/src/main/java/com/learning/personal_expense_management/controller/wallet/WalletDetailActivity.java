@@ -6,26 +6,39 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.firebase.Timestamp;
 import com.learning.personal_expense_management.R;
 
+import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
+import com.learning.personal_expense_management.controller.transaction.adapter.TransactionAdapter;
 import com.learning.personal_expense_management.databinding.ActivityWalletDetailBinding;
+import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.TransactionListener;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class WalletDetailActivity extends AppCompatActivity {
+public class WalletDetailActivity extends AppCompatActivity implements ObjectListener{
     private ActivityWalletDetailBinding binding;
     private Wallet selectedWallet;
+    private List<Transaction> currentTransactions;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +52,8 @@ public class WalletDetailActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(WalletDetailActivity.this,WalletActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -53,7 +67,13 @@ public class WalletDetailActivity extends AppCompatActivity {
         int goalAmount = selectedWallet.getGoalAmount();
         if(goalAmount>0){
             int currentMoney = selectedWallet.getCurrentMoney();
-            int valueProgress = (int)((float) currentMoney/goalAmount*100);
+            int valueProgress;
+            if(currentMoney<goalAmount) {
+                valueProgress = (int) ((float) currentMoney / goalAmount * 100);
+            }
+            else {
+                valueProgress = 100;
+            }
             int months = Integer.valueOf(deadlineSaving[1]) - LocalDate.now().getMonthValue();
 
             binding.tvPretensionWallet.setText(String.valueOf(goalAmount)+" đ");
@@ -86,7 +106,8 @@ public class WalletDetailActivity extends AppCompatActivity {
         binding.btnTransactionWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(WalletDetailActivity.this, TransactionAddActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -102,7 +123,22 @@ public class WalletDetailActivity extends AppCompatActivity {
             }
         });
 
+        FireStoreService.getTransactionWallet(selectedWallet.getOwnerId(), selectedWallet.getWalletName(), new TransactionListener() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+//                currentTransactions = new ArrayList<>();
+//                currentTransactions.add(temp);
+                binding.rvRecentActivity.setLayoutManager(new LinearLayoutManager(binding.rvRecentActivity.getContext()));
+                TransactionAdapter transactionAdapter = new TransactionAdapter(binding.rvRecentActivity.getContext(), transactions,(ObjectListener) binding.rvRecentActivity.getContext());
+                transactionAdapter.notifyDataSetChanged();
+                binding.rvRecentActivity.setAdapter(transactionAdapter);
+            }
 
+            @Override
+            public void onError(String errorMessage) {
+                Log.e("VIEWHOLDER", "JOIN");
+            }
+        });
     }
 
     private void showDialog(){
@@ -127,7 +163,6 @@ public class WalletDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Nút No
         builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -137,5 +172,10 @@ public class WalletDetailActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onClick(Object o) {
+
     }
 }
