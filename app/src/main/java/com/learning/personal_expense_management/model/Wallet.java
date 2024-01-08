@@ -43,7 +43,7 @@ public class Wallet implements Serializable {
         this.currentMoney = 0;
     }
 
-    public Wallet(String ownerId, String id, String walletName, boolean lowBalanceAlert, int minimumBalance, boolean goalSavingsEnabled, int goalAmount, String savingsDeadline, int frequency) {
+    public Wallet(String ownerId, String id, String walletName, boolean lowBalanceAlert, int minimumBalance, boolean goalSavingsEnabled, int goalAmount, String savingsDeadline, int frequency, int currentMoney) {
         this.ownerId = ownerId;
         this.id = id;
         this.walletName = walletName;
@@ -53,7 +53,7 @@ public class Wallet implements Serializable {
         this.goalAmount = goalAmount;
         this.savingsDeadline = savingsDeadline;
         this.frequency = frequency;
-        this.currentMoney = 0;
+        this.currentMoney = currentMoney;
     }
 
     public String getOwnerId() {

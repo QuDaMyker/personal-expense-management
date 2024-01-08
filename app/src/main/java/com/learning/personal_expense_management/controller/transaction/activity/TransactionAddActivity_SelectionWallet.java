@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.learning.personal_expense_management.R;
@@ -14,7 +16,10 @@ import com.learning.personal_expense_management.controller.transaction.adapter.C
 import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
 import com.learning.personal_expense_management.databinding.ActivityTransactionAddSelectionWalletBinding;
 import com.learning.personal_expense_management.model.Wallet;
+import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.WalletListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +27,12 @@ public class TransactionAddActivity_SelectionWallet extends AppCompatActivity {
     private ActivityTransactionAddSelectionWalletBinding binding;
     private List<Wallet> listWallet;
     private ChoseWalletAdapter choseWalletAdapter;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchListWallets(FirebaseAuth.getInstance().getUid());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,7 @@ public class TransactionAddActivity_SelectionWallet extends AppCompatActivity {
             @Override
             public void onClick(Object o) {
                 Wallet wallet = (Wallet) o;
+                Log.e("wallet", wallet.toString());
                 Intent intent = new Intent(TransactionAddActivity_SelectionWallet.this, RootActivity.class);
                 intent.putExtra("ownerId", wallet.getOwnerId());
                 intent.putExtra("id", wallet.getId());
@@ -52,6 +64,7 @@ public class TransactionAddActivity_SelectionWallet extends AppCompatActivity {
                 intent.putExtra("savingsDeadline", wallet.getSavingsDeadline());
                 intent.putExtra("frequency", wallet.getFrequency());
                 intent.putExtra("currentMoney", wallet.getCurrentMoney());
+
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -70,6 +83,21 @@ public class TransactionAddActivity_SelectionWallet extends AppCompatActivity {
     }
 
     private void fetchListWallets(String uid) {
+        FireStoreService.getWallet(uid, new WalletListener() {
+            @Override
+            public void onWalletsLoaded(List<Wallet> wallets) {
+                listWallet.clear();
+                listWallet = wallets;
 
+                choseWalletAdapter.setList(listWallet);
+                choseWalletAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                listWallet.clear();
+                Toast.makeText(TransactionAddActivity_SelectionWallet.this, "Xảy ra lỗi", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
