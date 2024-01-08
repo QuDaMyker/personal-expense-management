@@ -105,6 +105,32 @@ public class FireStoreService {
         }
     }
 
+    public static String updateUserProfile(UserProfile userProfile) {
+        String[] result = {"Some thing went wrong"};
+        try {
+            Map<String, Object> userProfiletMap = new HashMap<>();
+            userProfiletMap.put("name", userProfile.getName());
+            userProfiletMap.put("email", userProfile.getEmail());
+
+            db.collection(Constants.KEY_USER_PROFILE).document(userProfile.getId())
+                    .update(userProfiletMap)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            result[0] = "success";
+                            Log.d("rs", result[0]);
+                        } else {
+                            result[0] = "error";
+                            Log.d("rs", result[0]);
+                        }
+                    });
+
+        } catch (Exception e) {
+            result[0] = "General Exception: " + e.getMessage();
+        }
+        return result[0];
+    }
+
+
     public static String addTransaction(Transaction transaction, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
 
@@ -394,6 +420,28 @@ public class FireStoreService {
         }
     }
 
+    public static void getTransactionWallet(String ownerId, String walletName, TransactionListener listener) {
+        List<Transaction> transactionList = new ArrayList<>();
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("sourceAccount", walletName)
+                    .get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        Transaction transaction = new Transaction(documentSnapshot);
+                        transactionList.add(transaction);
+                        Log.d("parentTransactionWallet", documentSnapshot.getData().toString());
+                    }
+                    listener.onTransactionsLoaded(transactionList);
+                } else {
+                    listener.onError("Failed to fetch transactions");
+                }
+            });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
     public static void deleteTransaction(String ownerId, String transactionId) {
         db.collection(Constants.KEY_TRANSACTION).document(transactionId)
                 .delete()
@@ -489,7 +537,6 @@ public class FireStoreService {
         }
         return result[0];
     }
-
 
     public static void getWallet(String ownerId, WalletListener listener) {
         List<Wallet> walletList = new ArrayList<>();

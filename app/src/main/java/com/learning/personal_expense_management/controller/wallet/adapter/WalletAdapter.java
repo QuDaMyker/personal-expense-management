@@ -53,7 +53,12 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
         if (max_money>0) {
             holder.getTv_max_money().setText(String.valueOf(max_money) +" đ");
             holder.getTv_saving_per_month().setText(String.valueOf(max_money/wallet.getFrequency())+ "đ mỗi tháng");
-            holder.progressBar.setProgress((int)((float) current_money/max_money*100));
+            if(current_money<max_money) {
+                holder.progressBar.setProgress((int) ((float) current_money / max_money * 100));
+            }
+            else {
+                holder.progressBar.setProgress(100);
+            }
         }
         else {
             holder.getTv_max_money().setText("");

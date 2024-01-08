@@ -11,9 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.learning.personal_expense_management.R;
-import com.learning.personal_expense_management.controller.fragment.AddFragment;
 import com.learning.personal_expense_management.controller.home.fragment.HomeFragment;
-import com.learning.personal_expense_management.controller.fragment.ProfileFragment;
+import com.learning.personal_expense_management.controller.profile.ProfileFragment;
 import com.learning.personal_expense_management.controller.fragment.StatisticFragment;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
 import com.learning.personal_expense_management.controller.transaction.fragment.TransactionFragment;
@@ -22,6 +21,7 @@ import com.learning.personal_expense_management.databinding.ActivityRootBinding;
 public class RootActivity extends AppCompatActivity implements DialogListener{
     private ActivityRootBinding binding;
     public ProgressDialog progressDialog;
+    private String fragmentDefault;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,17 @@ public class RootActivity extends AppCompatActivity implements DialogListener{
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
 
-        setDefaultFragment();
+        Intent intent = getIntent();
+        if(intent.hasExtra("fragment")){
+            String fragmentType = intent.getStringExtra("fragment");
+            if("ProfileFragment".equals(fragmentType)){
+                replaceFragment(new ProfileFragment());
+            }
+        }
+        else {
+            setDefaultFragment();
+        }
+
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {

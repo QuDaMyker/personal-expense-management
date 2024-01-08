@@ -37,16 +37,18 @@
             android:layout_marginRight="30dp"/>
     </com.google.android.material.appbar.MaterialToolbar>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_wallet"
-        android:layout_width="410dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_app_bar"
-        />
-
+        app:layout_constraintTop_toBottomOf="@+id/top_app_bar">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_wallet"
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+             />
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearLayout"
