@@ -166,12 +166,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginWithGoogle() {
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        gsc = GoogleSignIn.getClient(LoginActivity.this, gso);
-        signInWithGoogle();
+//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .requestEmail()
+//                .build();
+//        gsc = GoogleSignIn.getClient(LoginActivity.this, gso);
+//        signInWithGoogle();
     }
 
     private void signInWithGoogle() {

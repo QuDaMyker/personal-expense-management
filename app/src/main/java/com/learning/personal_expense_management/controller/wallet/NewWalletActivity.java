@@ -29,6 +29,7 @@ import com.learning.personal_expense_management.databinding.ActivityNewWalletBin
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,6 +46,7 @@ public class NewWalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewWalletBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         Intent intent = getIntent();
         isEdit = (boolean) intent.getBooleanExtra("isEdit",false);
 
@@ -97,6 +99,7 @@ public class NewWalletActivity extends AppCompatActivity {
         if(isEdit){
             editWallet = (Wallet) intent.getSerializableExtra("selectedWallet");
 
+            binding.tvTitle.setText("Cập nhật ví tiền");
             binding.btnNewWallet.setText("Cập nhật ví tiền");
             binding.etNameWallet.setText(editWallet.getWalletName());
             binding.etDeadline.setText(editWallet.getSavingsDeadline());
@@ -263,11 +266,12 @@ public class NewWalletActivity extends AppCompatActivity {
         }
     }
     private void NewWallet(){
-       GetInputWallet();
+        GetInputWallet();
         try {
             String res = FireStoreService.addWallet(inputWallet);
             Toast.makeText(this, "Thêm ví tiền thành công!",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, WalletActivity.class);
+            Intent intent = new Intent(this, WalletDetailActivity.class);
+            intent.putExtra("selectedWallet",(Serializable) inputWallet);
             startActivity(intent);
         }
         catch (Exception e){}
@@ -276,11 +280,11 @@ public class NewWalletActivity extends AppCompatActivity {
 
     private void EditWallet(){
         GetInputWallet();
-        inputWallet.setId(editWallet.getId());
         try {
             String res = FireStoreService.editWallet(inputWallet);
             Toast.makeText(this, "Cập nhật ví tiền thành công!",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, WalletActivity.class);
+            Intent intent = new Intent(this, WalletDetailActivity.class);
+            intent.putExtra("selectedWallet",(Serializable) inputWallet);
             startActivity(intent);
         }
         catch (Exception e){}
@@ -321,6 +325,7 @@ public class NewWalletActivity extends AppCompatActivity {
                 },
                 year, month, day);
 
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
         datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
         datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
