@@ -19,6 +19,8 @@ import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.OneCategoryListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.ViewHolder> {
@@ -66,7 +68,7 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.View
                 @Override
                 public void getCategory(Category category) {
                     Category categoryItem = category;
-
+                    NumberFormat formatter = new DecimalFormat("#,###");
                     binding.imgTransaction.setImageResource(categoryItem.getIcon());
 
                     int colorIcon =  context.getResources().getColor(categoryItem.getColorIcon());
@@ -81,10 +83,11 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.View
                         binding.timeTransaction.setVisibility(View.VISIBLE);
                         binding.timeTransaction.setText(transaction.getTransactionTime() + "");
                     }
-                    Log.d("tostring",categoryItem.toString());
+                    int backgroundColor = context.getResources().getColor(category.getBackGround());
+                    binding.backGround.setCardBackgroundColor(backgroundColor);
                     binding.categoryTransaction.setText(category.getName());
                     binding.subTitleTransaction.setText(transaction.getNote());
-                    binding.priceTransaction.setText(transaction.getAmount() + "");
+                    binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
 
                     binding.getRoot().setOnClickListener(v -> {
                         objectListener.onClick(transaction);

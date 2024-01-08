@@ -676,13 +676,16 @@ public class FireStoreService {
     public static void getOneCategory(String categoryId, OneCategoryListener listener) {
         Log.d("getOneCategory", categoryId);
         try {
-            db.collection(Constants.KEY_CATEGORY).whereEqualTo("categoryId", categoryId).get().addOnCompleteListener(task -> {
+            db.collection(Constants.KEY_CATEGORY)
+                    .whereEqualTo("id", categoryId)
+                    .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                         Category category = new Category((QueryDocumentSnapshot) documentSnapshot);
                         Log.d("getOneCategory", category.toString());
                         listener.getCategory(category);
                     }
+                    Log.e("result", "success");
                 } else {
                     Log.d("rs", "Error getting document: " + task.getException());
 
