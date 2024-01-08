@@ -37,6 +37,7 @@ public class WalletActivity extends AppCompatActivity implements OnItemClickList
         progressDialog = new ProgressDialog(WalletActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Đang xử lý dữ liệu...");
+        progressDialog.show();
 
         walletList = new ArrayList<>();
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +69,8 @@ public class WalletActivity extends AppCompatActivity implements OnItemClickList
                 Log.e("VIEWHOLDER", "JOIN");
             }
         });
+
+        progressDialog.dismiss();
     }
 
     @Override

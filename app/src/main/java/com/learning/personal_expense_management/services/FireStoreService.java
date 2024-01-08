@@ -394,6 +394,28 @@ public class FireStoreService {
         }
     }
 
+    public static void getTransactionWallet(String ownerId, String walletName, TransactionListener listener) {
+        List<Transaction> transactionList = new ArrayList<>();
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("sourceAccount", walletName)
+                    .get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        Transaction transaction = new Transaction(documentSnapshot);
+                        transactionList.add(transaction);
+                        Log.d("parentTransactionWallet", documentSnapshot.getData().toString());
+                    }
+                    listener.onTransactionsLoaded(transactionList);
+                } else {
+                    listener.onError("Failed to fetch transactions");
+                }
+            });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
     public static void deleteTransaction(String ownerId, String transactionId) {
         db.collection(Constants.KEY_TRANSACTION).document(transactionId)
                 .delete()
