@@ -60,38 +60,53 @@ public class HomeRecentlyActivityAdapter extends RecyclerView.Adapter<HomeRecent
         }
 
         private void setData(Transaction transaction) {
+            NumberFormat formatter = new DecimalFormat("#,###");
+            if (transaction.getCategoryId().contains("getId")) {
+                binding.imgTransaction.setImageResource(R.drawable.ic_cash);
+                binding.timeTransaction.setVisibility(View.VISIBLE);
+                binding.timeTransaction.setText(transaction.getTransactionTime() + " " + transaction.getTransactionDate());
+                binding.categoryTransaction.setText("Chuyển khoản");
+                binding.subTitleTransaction.setText(transaction.getNote());
+                binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
 
+                binding.getRoot().setOnClickListener(v -> {
+                    objectListener.onClick(transaction);
+                });
+            } else {
+                FireStoreService.getOneCategory(transaction.getCategoryId(), new OneCategoryListener() {
+                    @Override
+                    public void getCategory(Category category) {
+                        Category categoryItem = category;
 
-            FireStoreService.getOneCategory(transaction.getCategoryId(), new OneCategoryListener() {
-                @Override
-                public void getCategory(Category category) {
-                    Category categoryItem = category;
-                    NumberFormat formatter = new DecimalFormat("#,###");
-                    binding.imgTransaction.setImageResource(categoryItem.getIcon());
+                        binding.imgTransaction.setImageResource(categoryItem.getIcon());
 
-                    int colorIcon = context.getResources().getColor(categoryItem.getColorIcon());
-                    binding.imgTransaction.setColorFilter(categoryItem.getColorIcon());
+                        int colorIcon = context.getResources().getColor(categoryItem.getColorIcon());
+                        binding.imgTransaction.setColorFilter(categoryItem.getColorIcon());
 
-                    if (transaction.isFuture()) {
-                        binding.timeTransaction.setVisibility(View.GONE);
-                        binding.cvFuture.setVisibility(View.VISIBLE);
+                        if (transaction.isFuture()) {
+                            binding.clLayout.setBackgroundResource(R.drawable.background_primary40_gradient);
+                            binding.timeTransaction.setVisibility(View.GONE);
+                            binding.cvFuture.setVisibility(View.VISIBLE);
 
-                    } else {
-                        binding.cvFuture.setVisibility(View.GONE);
-                        binding.timeTransaction.setVisibility(View.VISIBLE);
-                        binding.timeTransaction.setText(transaction.getTransactionTime() + " " + transaction.getTransactionDate());
+                        } else {
+                            binding.cvFuture.setVisibility(View.GONE);
+                            binding.timeTransaction.setVisibility(View.VISIBLE);
+                            binding.timeTransaction.setText(transaction.getTransactionTime() + " " + transaction.getTransactionDate());
+                        }
+                        int backgroundColor = context.getResources().getColor(category.getBackGround());
+                        binding.backGround.setCardBackgroundColor(backgroundColor);
+                        binding.categoryTransaction.setText(category.getName());
+                        binding.subTitleTransaction.setText(transaction.getNote());
+                        binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
+
+                        binding.getRoot().setOnClickListener(v -> {
+                            objectListener.onClick(transaction);
+                        });
                     }
-                    int backgroundColor = context.getResources().getColor(category.getBackGround());
-                    binding.backGround.setCardBackgroundColor(backgroundColor);
-                    binding.categoryTransaction.setText(category.getName());
-                    binding.subTitleTransaction.setText(transaction.getNote());
-                    binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
+                });
+            }
 
-                    binding.getRoot().setOnClickListener(v -> {
-                        objectListener.onClick(transaction);
-                    });
-                }
-            });
+
         }
     }
 }

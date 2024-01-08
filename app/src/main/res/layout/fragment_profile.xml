@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".controller.fragment.ProfileFragment">
+    tools:context=".controller.profile.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -58,7 +58,6 @@
                 android:id="@+id/tv_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nguyễn Hồng Anh"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
                 android:textSize="18sp" />
@@ -68,7 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="anhnh12@gamil.com"
                 android:textColor="#91919F"
                 android:textFontWeight="500"
                 android:textSize="14sp" />
@@ -76,7 +74,7 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/btn_update"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"

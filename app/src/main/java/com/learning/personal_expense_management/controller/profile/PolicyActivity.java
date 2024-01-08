@@ -8,16 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.databinding.ActivityPolicyProfileBinding;
 
 public class PolicyActivity extends AppCompatActivity {
-    ImageButton btnBack;
+    ActivityPolicyProfileBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_policy_profile);
-
-        btnBack = findViewById(R.id.btn_Back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        binding = ActivityPolicyProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

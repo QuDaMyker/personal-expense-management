@@ -185,6 +185,22 @@ public class Transaction implements Serializable {
         this.isFuture = isFuture;
     }
 
+    public Transaction(int amount, String note, String categoryId) {
+        this.ownerId = "ownerId";
+        this.id = "id";
+        this.transactionType = 2;
+        this.amount = amount;
+        this.note = note;
+        this.transactionDate = null;
+        this.transactionTime = null;
+        this.sourceAccount = null;
+        this.destinationAccount = null;
+        this.categoryId = categoryId;
+        this.timeStamp =null;
+        this.month = null;
+        this.year = null;
+        this.isFuture = false;
+    }
 
 }
 
