@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color_main"
     tools:context=".controller.fragment.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.appbar.MaterialToolbar
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/top_app_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIconTint="@color/secondary40">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
             android:text="Hồ sơ"
-            android:textColor="@color/primary40"
-            android:textSize="24sp"
-            android:textFontWeight="700"
             android:textAlignment="center"
-            android:layout_marginRight="30dp"/>
+            android:textColor="@color/primary40"
+            android:textFontWeight="700"
+            android:textSize="24sp" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <LinearLayout
@@ -95,16 +96,16 @@
             android:id="@+id/line_night_mode"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:orientation="horizontal"
-            android:background="@drawable/background_color_white_outline">
+            android:background="@drawable/background_color_white_outline"
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -114,18 +115,18 @@
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_night_mode"
+                style="@style/Theme.Switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Chế độ tối"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
-                android:textSize="18sp"
-                android:checked="true"
-                style="@style/Theme.Switch"/>
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -186,17 +187,17 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
+            android:background="@drawable/background_color_white_outline"
             android:clickable="true"
-            android:background="@drawable/background_color_white_outline">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -207,8 +208,8 @@
             <TextView
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Ngôn ngữ"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
@@ -238,17 +239,17 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
+            android:background="@drawable/background_color_white_outline"
             android:clickable="true"
-            android:background="@drawable/background_color_white_outline">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -259,8 +260,8 @@
             <TextView
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Bảo mật"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
@@ -290,17 +291,17 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
+            android:background="@drawable/background_color_white_outline"
             android:clickable="true"
-            android:background="@drawable/background_color_white_outline">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -311,8 +312,8 @@
             <TextView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Thông báo"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
@@ -331,17 +332,17 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
+            android:background="@drawable/background_color_white_outline"
             android:clickable="true"
-            android:background="@drawable/background_color_white_outline">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -352,8 +353,8 @@
             <TextView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Chính sách"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
@@ -372,17 +373,17 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
+            android:background="@drawable/background_color_white_outline"
             android:clickable="true"
-            android:background="@drawable/background_color_white_outline">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:padding="8dp"
                 android:layout_gravity="center"
-                android:background="@drawable/background_color_primary90_outline">
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -393,8 +394,8 @@
             <TextView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Đăng xuất"
                 android:textColor="@color/black"
                 android:textFontWeight="600"

@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(LoginActivity.this);
 
         if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
+
             Log.d("checkstatus", "key, true");
         } else if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN) == false || preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN) == null) {
             Log.d("checkstatus", "key, false");
@@ -106,7 +107,8 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-
+                                Toast.makeText(LoginActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
+                                Log.e("uid", user.getUid());
                                 UserProfile userProfile = new UserProfile(
                                         user.getUid(),
                                         user.getDisplayName(),
@@ -130,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 FireStoreService.addCategory(categoryList.get(i), new FirestoreCallback() {
                                                     @Override
                                                     public void onCallback(String result) {
-                                                        if(result.equals("success")) {
+                                                        if (result.equals("success")) {
 
                                                         }
                                                     }
@@ -144,10 +146,12 @@ public class LoginActivity extends AppCompatActivity {
                                             finish();
                                         }
                                     }
+
                                     @Override
                                     public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
 
                                     }
+
                                     @Override
                                     public void onError(String errorMessage) {
                                         Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
@@ -227,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                                                             FireStoreService.addCategory(categoryList.get(i), new FirestoreCallback() {
                                                                 @Override
                                                                 public void onCallback(String result) {
-                                                                    if(result.equals("success")) {
+                                                                    if (result.equals("success")) {
 
                                                                     }
                                                                 }
@@ -241,10 +245,12 @@ public class LoginActivity extends AppCompatActivity {
                                                         finish();
                                                     }
                                                 }
+
                                                 @Override
                                                 public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
 
                                                 }
+
                                                 @Override
                                                 public void onError(String errorMessage) {
                                                     Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();

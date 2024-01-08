@@ -11,13 +11,13 @@
     app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="24dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/backGround"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorItem2"
@@ -91,7 +91,6 @@
             android:id="@+id/time_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/quicksand_bold"
             android:text="22:00"
@@ -99,6 +98,7 @@
             android:textColor="@color/secondary50"
             android:textSize="16sp"
             android:textStyle="normal"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -107,7 +107,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="0dp"
             android:visibility="gone"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="16dp"
@@ -119,7 +118,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
                 android:text="Dự đoán"
