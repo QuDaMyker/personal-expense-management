@@ -77,12 +77,12 @@
                     app:tabSelectedTextColor="@color/black"
                     app:tabTextColor="@color/secondary60"
                     >
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Tuần"
-                        android:id="@+id/itemWeek"
-                        />
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:text="Tuần"-->
+<!--                        android:id="@+id/itemWeek"-->
+<!--                        />-->
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
@@ -286,6 +286,7 @@
 
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:id="@+id/lyTotalDiagram"
                     android:layout_width="match_parent"
@@ -293,12 +294,11 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/background_color_white_outline"
                     android:orientation="vertical"
-                    android:paddingVertical="20dp"
-                    android:paddingHorizontal="15dp">
+                    android:paddingHorizontal="5dp">
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/barChartToTal"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="200dp"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toBottomOf="@+id/textViewAmount"
                         android:background="@drawable/background_color_white_outline"
@@ -309,7 +309,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/background_color_white_outline"
                     android:orientation="vertical">
@@ -334,8 +334,8 @@
                         android:layout_marginRight="10dp"
                         android:fontFamily="@font/quicksand_bold"
                         android:text="Tổng cộng"
-                        android:textSize="14sp"
                         android:textFontWeight="600"
+                        android:textSize="14sp"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -351,12 +351,22 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvTongCong"
                         />
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChartIncome"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTotalIncomeMoney"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:background="@drawable/background_color_white_outline"
+                        >
 
+                    </com.github.mikephil.charting.charts.PieChart>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/background_color_white_outline"
                     android:orientation="vertical">
@@ -396,14 +406,22 @@
                         android:textSize="20sp"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvTongCongChi" />
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChartOutcome"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTotalOutcomeMoney"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:background="@drawable/background_color_white_outline"
+                        >
+                    </com.github.mikephil.charting.charts.PieChart>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
         </ScrollView>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

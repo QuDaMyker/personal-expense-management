@@ -24,6 +24,7 @@ import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.utilities.Constants;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -406,6 +407,69 @@ public class FireStoreService {
        {
 
        }
+    }
+    public static void getTranSactionInMoth (String ownerId, Date startDate, TransactionListener listener )
+    {
+        List<Transaction> transactionList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR) ;
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("month", month+"")
+                    .whereEqualTo("year",year+"")
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                                Log.d("rs - trasaction", document.getData().toString());
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+
+        } catch (Exception ex) {
+            Log.d("lỗi", "Không lấy được giao dịch");
+            ex.printStackTrace();
+        }
+
+    }
+    public static void getTranSactionInYear (String ownerId, Date startDate, TransactionListener listener )
+    {
+        List<Transaction> transactionList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        int year = calendar.get(Calendar.YEAR) ;
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("year",year+"")
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d("result fetch", "successful");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                                Log.d("rs - trasaction", document.getData().toString());
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+
+        } catch (Exception ex) {
+            Log.d("lỗi", "Không lấy được giao dịch");
+            ex.printStackTrace();
+        }
+
     }
 
     public static void getParentTransaction(String ownerId, String date, TransactionListener listener) {
