@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onClick(Object o) {
                                 Transaction transaction = (Transaction) o;
-                                Toast.makeText(getContext(), transaction.getId(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), transaction.getTransactionTime(), Toast.LENGTH_SHORT).show();
                             }
                         });
 

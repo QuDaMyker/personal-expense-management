@@ -79,7 +79,7 @@ public class HomeRecentlyActivityAdapter extends RecyclerView.Adapter<HomeRecent
                     } else {
                         binding.cvFuture.setVisibility(View.GONE);
                         binding.timeTransaction.setVisibility(View.VISIBLE);
-                        binding.timeTransaction.setText(transaction.getTransactionTime() + "");
+                        binding.timeTransaction.setText(transaction.getTransactionTime() + " " + transaction.getTransactionDate());
                     }
                     int backgroundColor = context.getResources().getColor(category.getBackGround());
                     binding.backGround.setCardBackgroundColor(backgroundColor);
