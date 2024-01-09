@@ -37,7 +37,7 @@ import java.util.Map;
 public class FireStoreService {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public static void isExistAccount(UserProfile userProfile, UserProfileListener listener) {
+    public static void isExistProfile(UserProfile userProfile, UserProfileListener listener) {
         db.collection(Constants.KEY_USER_PROFILE).whereEqualTo("id", userProfile.getId()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 boolean exists = !task.getResult().isEmpty();
@@ -776,7 +776,13 @@ public class FireStoreService {
         }
         return result[0];
     }
-
+public static void getSumAmountAllAccountByUserId(String uid, FirestoreCallback callback) {
+        try {
+            db.collection(Constants.KEY_ACCOUNT).whereEqualTo("ownerId", uid);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+}
     public static void editAccount(Account account, FirestoreCallback callback) {
         try {
             Map<String, Object> accountMap = new HashMap<>();

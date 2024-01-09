@@ -613,7 +613,6 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 public void getWallet(Wallet wallet) {
                                     currentWallet = wallet;
                                     binding.titleWallet.setText(currentWallet.getWalletName());
-                                    Toast.makeText(TransactionAddActivity.this, "", Toast.LENGTH_SHORT).show();
                                     binding.subTitleWallet.setText(String.format("Số dư: %s₫", formatter.format(currentWallet.getCurrentMoney())));
                                 }
                             });
@@ -890,7 +889,8 @@ public class TransactionAddActivity extends AppCompatActivity {
                 FireStoreService.updateTransaction(newTransaction, new FirestoreCallback() {
                     @Override
                     public void onCallback(String result) {
-                        if (!result.equals("error")) {
+                        if (result.equals("success")) {
+                            Log.e("isEdit - transaction - thu chi", "thanh cong");
                             finish();
                         }
                     }
@@ -912,7 +912,8 @@ public class TransactionAddActivity extends AppCompatActivity {
                 FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                     @Override
                     public void onCallback(String result) {
-                        if (result.equals("success")) {
+                        Toast.makeText(TransactionAddActivity.this, "result" + result, Toast.LENGTH_SHORT).show();
+                        if (!result.equals("error")) {
                             finish();
                         }
                     }
@@ -1027,7 +1028,7 @@ public class TransactionAddActivity extends AppCompatActivity {
             FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                 @Override
                 public void onCallback(String result) {
-                    if (result.equals("success")) {
+                    if (!result.equals("error")) {
                         finish();
                     }
                 }
