@@ -88,6 +88,9 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
     public int getItemCount() {
         return wallets == null ? 0 : wallets.size();
     }
+    public void setList(List<Wallet> list) {
+        this.wallets = list;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // private final ImageView imageView;
