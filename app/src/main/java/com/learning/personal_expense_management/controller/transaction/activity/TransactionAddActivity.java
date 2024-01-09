@@ -113,6 +113,8 @@ public class TransactionAddActivity extends AppCompatActivity {
 //            transactionEdit = (Transaction) intent.getSerializableExtra("transactionEdit");
 //            isEdit = true;
 //        }
+
+
         addWalletLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -517,31 +519,35 @@ public class TransactionAddActivity extends AppCompatActivity {
             } else if (isNotEmptyInputWithoutDateTime()) {
                 progressDialog.show();
                 try {
-                    if (currentWallet.getCurrentMoney() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
-                        openDialog(Gravity.CENTER, "Số dư ví không đủ");
-                    } else if (currentAccount.getCurrentBalance() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
-                        openDialog(Gravity.CENTER, "Số dư tài khoản không đủ");
-                    } else {
-                        boolean isEnableAlert = currentWallet.isLowBalanceAlert();
-                        boolean isAlert = (currentWallet.getCurrentMoney() - Integer.parseInt(binding.editAmount.getText().toString().trim())) < currentWallet.getMinimumBalance();
-                        if (isEnableAlert) {
-                            if (isAlert) {
-                                openDialogListener(Gravity.CENTER, "Sau khi thực hiện giao dịch này, số dư ví sẽ dưới mức tối thiểu", new HandleDialogNoti() {
-                                    @Override
-                                    public void pressOK(String message) throws ParseException {
-                                        if (message.equals("close")) {
-                                            handleThuChi();
+                    if (binding.chipChi.isChecked()) {
+                        if (currentWallet.getCurrentMoney() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
+                            openDialog(Gravity.CENTER, "Số dư ví không đủ");
+                        } else if (currentAccount.getCurrentBalance() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
+                            openDialog(Gravity.CENTER, "Số dư tài khoản không đủ");
+                        } else {
+                            boolean isEnableAlert = currentWallet.isLowBalanceAlert();
+                            boolean isAlert = (currentWallet.getCurrentMoney() - Integer.parseInt(binding.editAmount.getText().toString().trim())) < currentWallet.getMinimumBalance();
+                            if (isEnableAlert) {
+                                if (isAlert) {
+                                    openDialogListener(Gravity.CENTER, "Sau khi thực hiện giao dịch này, số dư ví sẽ dưới mức tối thiểu", new HandleDialogNoti() {
+                                        @Override
+                                        public void pressOK(String message) throws ParseException {
+                                            if (message.equals("close")) {
+                                                handleThuChi();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                } else {
+                                    handleThuChi();
+                                }
                             } else {
                                 handleThuChi();
                             }
-                        } else {
-                            handleThuChi();
                         }
-
+                    } else if (binding.chipThu.isChecked()) {
+                        handleThuChi();
                     }
+
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -812,6 +818,10 @@ public class TransactionAddActivity extends AppCompatActivity {
                     }
                 });
             }
+        } else {
+            binding.chipThu.setChecked(true);
+            binding.clRootThuchi.setVisibility(View.VISIBLE);
+            binding.clRootChuyentien.setVisibility(View.GONE);
         }
 
     }
