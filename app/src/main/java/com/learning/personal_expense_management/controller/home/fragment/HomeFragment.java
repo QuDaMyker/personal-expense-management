@@ -29,6 +29,7 @@ import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.services.TransactionListener;
+import com.learning.personal_expense_management.services.WalletListener;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private List<Wallet> listTarget;
+    private List<Wallet> listTarget = new ArrayList<>();
     private List<Transaction> listRecently;
     private HomeTargetAdapter homeTargetAdapter;
     private HomeRecentlyActivityAdapter homeRecentlyActivityAdapter;
@@ -54,6 +55,40 @@ public class HomeFragment extends Fragment {
 
         init();
         setListeners();
+
+        homeTargetAdapter = new HomeTargetAdapter(getContext(), listTarget, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+
+            }
+        });
+        binding.revMuctieu.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL, false));
+        binding.revMuctieu.setAdapter(homeTargetAdapter);
+
+        FireStoreService.getWallet(FirebaseAuth.getInstance().getUid(), new WalletListener() {
+            @Override
+            public void onWalletsLoaded(List<Wallet> wallets) {
+                for (Wallet item : wallets ){
+                    if(item.isGoalSavingsEnabled()){
+                        listTarget.add(item);
+                    }
+                }
+                homeTargetAdapter = new HomeTargetAdapter(getContext(), listTarget, new ObjectListener() {
+                    @Override
+                    public void onClick(Object o) {
+
+                    }
+                });
+
+                binding.revMuctieu.setAdapter(homeTargetAdapter);
+                homeTargetAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
         return view;
     }
 
@@ -74,13 +109,6 @@ public class HomeFragment extends Fragment {
         listTarget = new ArrayList<>();
         listRecently = new ArrayList<>();
         getListRecentlyActivity();
-
-        homeTargetAdapter = new HomeTargetAdapter(getContext(), listTarget, new ObjectListener() {
-            @Override
-            public void onClick(Object o) {
-                Wallet wallet = (Wallet) o;
-            }
-        });
 
         Picasso.get().load(preferenceManager.getString("imageProfile")).into(binding.profileImage);
         NumberFormat formatter = new DecimalFormat("#,###");
