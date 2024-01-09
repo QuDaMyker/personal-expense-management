@@ -397,7 +397,6 @@ public class NewCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String test = txTitle.getText().toString();
-
                 if (!test.isEmpty()
                         && selectedColorBtn != null
                         && selectedIconBtn != null
@@ -422,30 +421,29 @@ public class NewCategoryActivity extends AppCompatActivity {
                             newCat.setOwnerId(userCurrent);
                             newCat.setName(txTitle.getText().toString());
                             setUpColorForCat(newCat, selectedColorBtn, selectedIconBtn);
-
                             Log.d("newCat", newCat.toString());
 
                             //check trùng ở đêy
-                            try {
-                                FirebaseFirestore.getInstance().collection(Constants.KEY_CATEGORY).whereEqualTo("ownerId", newCat.getOwnerId())
-                                        .whereEqualTo("categoryName", newCat.getName())
-                                        .whereEqualTo("background", newCat.getBackGround())
-                                        .whereEqualTo("colorIcon", newCat.getColorIcon())
-                                        .whereEqualTo("icon", newCat.getIcon())
-                                        .whereEqualTo("isIncome", newCat.getIsIncome())
-                                        .get()
-                                        .addOnCompleteListener(task -> {
-                                            if (task.isSuccessful()) {
-                                                isDuplicate = true;
-                                            }
-                                        })
-                                         .addOnFailureListener(e -> {
-                                            Log.e("TAG", "Error in onComplete: " + e.getMessage());
-                                        });
-                            } catch (Exception ex)
-                            {
-                                Log.d("TAG", "onClick: lỗi");
-                            }
+//                            try {
+//                                FirebaseFirestore.getInstance().collection(Constants.KEY_CATEGORY).whereEqualTo("ownerId", newCat.getOwnerId())
+//                                        .whereEqualTo("categoryName", newCat.getName())
+//                                        .whereEqualTo("background", newCat.getBackGround())
+//                                        .whereEqualTo("colorIcon", newCat.getColorIcon())
+//                                        .whereEqualTo("icon", newCat.getIcon())
+//                                        .whereEqualTo("isIncome", newCat.getIsIncome())
+//                                        .get()
+//                                        .addOnCompleteListener(task -> {
+//                                            if (task.isSuccessful()) {
+//                                                isDuplicate = true;
+//                                            }
+//                                        })
+//                                         .addOnFailureListener(e -> {
+//                                            Log.e("TAG", "Error in onComplete: " + e.getMessage());
+//                                        });
+//                            } catch (Exception ex)
+//                            {
+//                                Log.d("TAG", "onClick: lỗi");
+//                            }
 
                             if(!isDuplicate)
                             {
@@ -453,7 +451,6 @@ public class NewCategoryActivity extends AppCompatActivity {
                                 FireStoreService.addCategory(newCat, new FirestoreCallback() {
                                     @Override
                                     public void onCallback(String result) {
-                                        Log.d("isUpdate", "false");
                                         Log.d("result-push", result);
                                         if ("success".equals(result)) {
                                             Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);

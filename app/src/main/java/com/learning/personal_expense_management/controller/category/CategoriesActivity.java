@@ -87,7 +87,6 @@ public class CategoriesActivity extends AppCompatActivity {
 
         rcvCats.setAdapter(categoryAdapter);
 
-
         getData();
         tabInOut.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -186,7 +185,6 @@ public class CategoriesActivity extends AppCompatActivity {
         listCats.add(new Category(userID, "Nước uống", R.color.colorItem6, R.drawable.ic_coffee_bistro, R.color.colorIcon4, 0));
         listCats.add(new Category(userID, "Thời gian chờ", R.color.colorItem3, R.drawable.ic_pending_time_wait_transaction_clock, R.color.colorIcon3, 0));
         listCats.add(new Category(userID, "Nước", R.color.colorItem1, R.drawable.ic_water_tap, R.color.colorIcon1, 0));
-        listCats.add(new Category(userID, "Lãi", R.color.colorItem8, R.drawable.ic_interest, R.color.green, 1));
         listCats.add(new Category(userID, "Em bé", R.color.colorItem7, R.drawable.ic_kid_care_stroller, R.color.colorIcon7, 0));
         listCats.add(new Category(userID, "Bảo hiểm", R.color.colorItem5, R.drawable.ic_insurance_shield, R.color.colorIcon5, 0));
         listCats.add(new Category(userID, "Nhà", R.color.colorItem4, R.drawable.ic_home, R.color.colorIcon6, 0));

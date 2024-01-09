@@ -886,7 +886,7 @@ public static void getSumAmountAllAccountByUserId(String uid, FirestoreCallback 
             categoryMap.put("icon", category.getIcon());
             categoryMap.put("colorIcon", category.getColorIcon());
             categoryMap.put("isIncome", category.getIsIncome());
-
+            Log.d("TAG", "addCategory: " + categoryMap);
 
             db.collection(Constants.KEY_CATEGORY).document(category.getId()).set(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -894,9 +894,11 @@ public static void getSumAmountAllAccountByUserId(String uid, FirestoreCallback 
                     if (task.isSuccessful()) {
                         callback.onCallback("success");
                         result[0] = "success";
+                        Log.d("TAG", "onComplete: success");
                     } else {
                         callback.onCallback("error");
                         result[0] = "error";
+                        Log.d("TAG", "onComplete: erro");
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
