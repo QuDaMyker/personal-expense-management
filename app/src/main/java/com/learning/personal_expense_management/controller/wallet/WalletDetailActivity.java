@@ -52,20 +52,19 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WalletDetailActivity.this,WalletActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
         binding.tvNameWallet.setText(selectedWallet.getWalletName());
         binding.tvMoneyWallet.setText(String.valueOf(selectedWallet.getCurrentMoney())+" đ");
 
-        String[] deadlineSaving = selectedWallet.getSavingsDeadline().split("-");
-        binding.monthYearDeadline.setText(deadlineSaving[1] +" - " + deadlineSaving[0]);
-        binding.dateDeadline.setText(deadlineSaving[2]);
 
         int goalAmount = selectedWallet.getGoalAmount();
         if(goalAmount>0){
+            String[] deadlineSaving = selectedWallet.getSavingsDeadline().split("-");
+            binding.monthYearDeadline.setText(deadlineSaving[1] +" - " + deadlineSaving[0]);
+            binding.dateDeadline.setText(deadlineSaving[2]);
             int currentMoney = selectedWallet.getCurrentMoney();
             int valueProgress;
             if(currentMoney<goalAmount) {
@@ -77,6 +76,9 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
             int months = Integer.valueOf(deadlineSaving[1]) - LocalDate.now().getMonthValue();
 
             binding.tvPretensionWallet.setText(String.valueOf(goalAmount)+" đ");
+            if(months == 0){
+                months = 1;
+            }
             binding.tvSavingPerMonth.setText(String.valueOf(goalAmount-currentMoney/months) + " đ");
             binding.progressBar.setProgress(valueProgress);
         }

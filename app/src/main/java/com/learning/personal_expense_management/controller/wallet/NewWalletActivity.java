@@ -84,11 +84,7 @@ public class NewWalletActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkInfor()) {
-                    if (isEdit) {
-                        EditWallet();
-                    } else {
-                        NewWallet();
-                    }
+                    NewWallet();
                 }
                 else{
                     showDialog();
@@ -103,7 +99,6 @@ public class NewWalletActivity extends AppCompatActivity {
             binding.btnNewWallet.setText("Cập nhật ví tiền");
             binding.etNameWallet.setText(editWallet.getWalletName());
             binding.etDeadline.setText(editWallet.getSavingsDeadline());
-            binding.etPeriod.setText(String.valueOf(editWallet.getFrequency()));
 
             boolean isGoal = editWallet.isGoalSavingsEnabled();
             binding.switchPretension.setChecked(isGoal);
@@ -119,7 +114,6 @@ public class NewWalletActivity extends AppCompatActivity {
 
             if (binding.switchWarning.isChecked()){
                 binding.tvRemindWarning.setVisibility(View.GONE);}
-            binding.tvRemindPeriod.setVisibility(View.GONE);
             binding.tvRemindDeadline.setVisibility(View.GONE);
             if (binding.switchPretension.isChecked()){
                 binding.tvRemindPretension.setVisibility(View.GONE);}
@@ -197,44 +191,31 @@ public class NewWalletActivity extends AppCompatActivity {
                 }
             }
         });
-
-        binding.etPeriod.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String stringEditable = editable.toString();
-                if(stringEditable.trim().isEmpty()){
-                    binding.tvRemindPeriod.setVisibility(View.VISIBLE);
-                }
-                else {
-                    if (Integer.valueOf(stringEditable)==0 || Integer.valueOf(stringEditable)>12) {
-                        binding.tvRemindPeriod.setVisibility(View.VISIBLE);
-                        binding.tvRemindPeriod.setText("Vui lòng nhập từ 1 đến 12");
-                    }
-                    else {
-                        binding.tvRemindPeriod.setVisibility(View.GONE);
-                    }
-                }
-
-            }
-        });
     }
 
     private boolean checkInfor(){
-        if (binding.tvRemindDeadline.getVisibility() == View.GONE
-                && binding.tvRemindNameWallet.getVisibility() == View.GONE
-                && binding.tvRemindPeriod.getVisibility() == View.GONE
-                && (binding.tvRemindPretension.getVisibility() == View.GONE
-                        || binding.linePretensionWallet.getVisibility() == View.GONE)
-                && (binding.tvRemindWarning.getVisibility() == View.GONE
-                    || binding.lineWarningWallet.getVisibility() == View.GONE)) {
-            return true;
+        boolean flag = true;
+        if(binding.tvRemindNameWallet.getVisibility() == View.GONE){
+            if(binding.switchWarning.isChecked()){
+                if(binding.tvRemindWarning.getVisibility() != View.GONE){
+                    flag = false;
+                }
+            }
+            if(binding.switchPretension.isChecked()){
+                if(binding.tvRemindPretension.getVisibility() == View.GONE && binding.tvRemindDeadline.getVisibility() == View.GONE){
+
+                }
+                else{
+                    flag = false;
+                }
+            }
         }
-        return false;
+        else {
+            flag = false;
+        }
+        return flag;
     }
+
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -247,7 +228,7 @@ public class NewWalletActivity extends AppCompatActivity {
         inputWallet.setOwnerId(FirebaseAuth.getInstance().getUid());
         inputWallet.setWalletName(binding.etNameWallet.getText().toString());
         inputWallet.setSavingsDeadline(binding.etDeadline.getText().toString());
-        inputWallet.setFrequency(Integer.parseInt(binding.etPeriod.getText().toString()));
+        inputWallet.setFrequency(0);
 
         if(binding.switchWarning.isChecked()){
             inputWallet.setLowBalanceAlert(true);
@@ -270,6 +251,7 @@ public class NewWalletActivity extends AppCompatActivity {
         try {
             String res = FireStoreService.addWallet(inputWallet);
             Toast.makeText(this, "Thêm ví tiền thành công!",Toast.LENGTH_SHORT).show();
+            finish();
             Intent intent = new Intent(this, WalletDetailActivity.class);
             intent.putExtra("selectedWallet",(Serializable) inputWallet);
             startActivity(intent);
