@@ -27,10 +27,13 @@ import com.learning.personal_expense_management.databinding.FragmentHomeBinding;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.services.TransactionListener;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,11 +83,18 @@ public class HomeFragment extends Fragment {
         });
 
         Picasso.get().load(preferenceManager.getString("imageProfile")).into(binding.profileImage);
+        NumberFormat formatter = new DecimalFormat("#,###");
+        FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
+            @Override
+            public void onCallback(String result) {
+                binding.tvSoDuHienTai.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
+            }
+        });
 
     }
 
     private void setListeners() {
-        binding.btnWalletaccount.setOnClickListener(new View.OnClickListener() {
+        binding.walletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WalletActivity.class);

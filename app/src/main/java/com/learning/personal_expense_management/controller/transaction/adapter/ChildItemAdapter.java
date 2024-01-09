@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,8 +69,15 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.View
                 binding.timeTransaction.setText(transaction.getTransactionTime() + "");
                 binding.categoryTransaction.setText("Chuyển khoản");
                 binding.subTitleTransaction.setText(transaction.getNote());
-                binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
-
+                if(transaction.getTransactionType() == 0){
+                    binding.priceTransaction.setText(String.format("+ %sđ", formatter.format(transaction.getAmount())));
+                }
+                else if(transaction.getTransactionType() == 1){
+                    binding.priceTransaction.setText(String.format("- %sđ", formatter.format(transaction.getAmount())));
+                }
+                else {
+                    binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
+                }
                 binding.getRoot().setOnClickListener(v -> {
                     objectListener.onClick(transaction);
                 });
@@ -84,21 +92,40 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.View
                         binding.imgTransaction.setColorFilter(categoryItem.getColorIcon());
 
                         if (transaction.isFuture()) {
-                            binding.clLayout.setBackgroundResource(R.drawable.background_primary40_gradient);
+                            binding.clLayout.setBackgroundResource(R.drawable.bg_primary_gradient);
 //                            binding.rootView.setCardBackgroundColor(R.drawable.background_primary40_gradient);
                             binding.timeTransaction.setVisibility(View.GONE);
                             binding.cvFuture.setVisibility(View.VISIBLE);
+                            binding.categoryTransaction.setTextColor(ContextCompat.getColor(context, R.color.white));
+                            binding.subTitleTransaction.setTextColor(ContextCompat.getColor(context, R.color.white));
+                            binding.priceTransaction.setTextColor(ContextCompat.getColor(context, R.color.white));
                         } else {
                             binding.cvFuture.setVisibility(View.GONE);
+                            binding.clLayout.setBackgroundResource(R.drawable.background_color_white_outline);
                             binding.timeTransaction.setVisibility(View.VISIBLE);
                             binding.timeTransaction.setText(transaction.getTransactionTime() + "");
+                            binding.categoryTransaction.setTextColor(ContextCompat.getColor(context, R.color.black));
+                            binding.subTitleTransaction.setTextColor(ContextCompat.getColor(context, R.color.secondary50));
+                            if(transaction.getTransactionType() == 1){
+                                binding.priceTransaction.setTextColor(ContextCompat.getColor(context, R.color.primary40));
+                            }
+                            else {
+                                binding.priceTransaction.setTextColor(ContextCompat.getColor(context, R.color.green));
+                            }
                         }
                         int backgroundColor = context.getResources().getColor(category.getBackGround());
                         binding.backGround.setCardBackgroundColor(backgroundColor);
                         binding.categoryTransaction.setText(category.getName());
                         binding.subTitleTransaction.setText(transaction.getNote());
-                        binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
-
+                        if(transaction.getTransactionType() == 0){
+                            binding.priceTransaction.setText(String.format("+ %sđ", formatter.format(transaction.getAmount())));
+                        }
+                        else if(transaction.getTransactionType() == 1){
+                            binding.priceTransaction.setText(String.format("- %sđ", formatter.format(transaction.getAmount())));
+                        }
+                        else {
+                            binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
+                        }
                         binding.getRoot().setOnClickListener(v -> {
                             objectListener.onClick(transaction);
                         });

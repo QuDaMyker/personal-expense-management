@@ -309,7 +309,7 @@ public class NewLoanActivity extends AppCompatActivity {
                 Transaction newTransaction = new Transaction(
                         FirebaseAuth.getInstance().getUid(),
                         "idLater",
-                        inputLoan.isLend() ? 1 : 0,
+                        inputLoan.isLend() ? 0 : 1,
                         (int) monthlyAmount,
                         loan.isLend() ? "Nhận lãi cho vay " + loan.getBorrowerName() : "Trả lãi vay " + loan.getBorrowerName(),
                         date,
@@ -344,7 +344,7 @@ public class NewLoanActivity extends AppCompatActivity {
                 Transaction newTransaction = new Transaction(
                         FirebaseAuth.getInstance().getUid(),
                         "idLater",
-                        inputLoan.isLend() ? 1 : 0,
+                        inputLoan.isLend() ? 0 : 1,
                         (int) monthlyAmount,
                         loan.isLend() ? "Nhận lãi cho vay " + loan.getBorrowerName()  : "Trả lãi vay " + loan.getBorrowerName(),
                         date,

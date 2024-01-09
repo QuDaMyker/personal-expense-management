@@ -1,5 +1,6 @@
 package com.learning.personal_expense_management.controller.home.adapter.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.learning.personal_expense_management.R;
@@ -67,13 +69,21 @@ public class HomeRecentlyActivityAdapter extends RecyclerView.Adapter<HomeRecent
                 binding.timeTransaction.setText(transaction.getTransactionTime() + " " + transaction.getTransactionDate());
                 binding.categoryTransaction.setText("Chuyển khoản");
                 binding.subTitleTransaction.setText(transaction.getNote());
-                binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
-
+                if(transaction.getTransactionType() == 0){
+                    binding.priceTransaction.setText(String.format("+ %sđ", formatter.format(transaction.getAmount())));
+                }
+                else if(transaction.getTransactionType() == 1){
+                    binding.priceTransaction.setText(String.format("- %sđ", formatter.format(transaction.getAmount())));
+                }
+                else {
+                    binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
+                }
                 binding.getRoot().setOnClickListener(v -> {
                     objectListener.onClick(transaction);
                 });
             } else {
                 FireStoreService.getOneCategory(transaction.getCategoryId(), new OneCategoryListener() {
+                    @SuppressLint("ResourceAsColor")
                     @Override
                     public void getCategory(Category category) {
                         Category categoryItem = category;
@@ -84,21 +94,38 @@ public class HomeRecentlyActivityAdapter extends RecyclerView.Adapter<HomeRecent
                         binding.imgTransaction.setColorFilter(categoryItem.getColorIcon());
 
                         if (transaction.isFuture()) {
-                            binding.clLayout.setBackgroundResource(R.drawable.background_primary40_gradient);
+                            binding.clLayout.setBackgroundResource(R.drawable.bg_primary_gradient);
                             binding.timeTransaction.setVisibility(View.GONE);
                             binding.cvFuture.setVisibility(View.VISIBLE);
-
+                            binding.categoryTransaction.setTextColor(ContextCompat.getColor(context, R.color.white));
+                            binding.subTitleTransaction.setTextColor(ContextCompat.getColor(context, R.color.white));
+                            binding.priceTransaction.setTextColor(ContextCompat.getColor(context, R.color.white));
                         } else {
                             binding.cvFuture.setVisibility(View.GONE);
                             binding.timeTransaction.setVisibility(View.VISIBLE);
                             binding.timeTransaction.setText(transaction.getTransactionTime() + " " + transaction.getTransactionDate());
+                            binding.categoryTransaction.setTextColor(ContextCompat.getColor(context, R.color.black));
+                            binding.subTitleTransaction.setTextColor(ContextCompat.getColor(context, R.color.secondary50));
+                            if(transaction.getTransactionType() == 1){
+                                binding.priceTransaction.setTextColor(ContextCompat.getColor(context, R.color.primary40));
+                            }
+                            else {
+                                binding.priceTransaction.setTextColor(ContextCompat.getColor(context, R.color.green));
+                            }
                         }
                         int backgroundColor = context.getResources().getColor(category.getBackGround());
                         binding.backGround.setCardBackgroundColor(backgroundColor);
                         binding.categoryTransaction.setText(category.getName());
                         binding.subTitleTransaction.setText(transaction.getNote());
-                        binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
-
+                        if(transaction.getTransactionType() == 0){
+                            binding.priceTransaction.setText(String.format("+ %sđ", formatter.format(transaction.getAmount())));
+                        }
+                        else if(transaction.getTransactionType() == 1){
+                            binding.priceTransaction.setText(String.format("- %sđ", formatter.format(transaction.getAmount())));
+                        }
+                        else {
+                            binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
+                        }
                         binding.getRoot().setOnClickListener(v -> {
                             objectListener.onClick(transaction);
                         });
