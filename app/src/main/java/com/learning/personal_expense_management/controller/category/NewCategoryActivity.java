@@ -124,7 +124,6 @@ public class NewCategoryActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         setupRadioButtonGRIcon(grIcon1);
         setupRadioButtonGRIcon(grIcon2);
         setupRadioButtonGRIcon(grIcon3);

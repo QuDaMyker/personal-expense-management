@@ -5,12 +5,15 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -26,6 +29,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -35,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.model.CatStatistic;
 import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
@@ -81,6 +87,7 @@ public class StatisticFragment extends Fragment {
     private Date firstDay ;
     private Date lastDay ;
 
+    private Button btnBack;
     private TabLayout tabTime;
 
     private TextView tvBalanceMoney;
@@ -94,10 +101,14 @@ public class StatisticFragment extends Fragment {
     private PieChart pieChartIncome;
     private PieChart pieChartOutcome;
 
+    private RecyclerView rcvCategoriesOutcome;
+    private RecyclerView rcvCategoriesIncome;
 
+    private StatisticAdapter statisticIncomeAdapter;
+    private StatisticAdapter statisticOutcomeAdapter;
 
-
-
+    private List<CatStatistic> catStatisticListOutCome;
+    private List<CatStatistic> catStatisticListInCome;
 
     public StatisticFragment() {
         // Required empty public constructor
@@ -151,10 +162,25 @@ public class StatisticFragment extends Fragment {
         pieChartIncome = view.findViewById(R.id.pieChartIncome);
         pieChartOutcome = view.findViewById(R.id.pieChartOutcome);
 
+        rcvCategoriesOutcome = view.findViewById(R.id.rcvCategoriesOutcome);
+        rcvCategoriesIncome = view.findViewById(R.id.rcvCategoriesIncome);
+
         lístTransactions  = new ArrayList<Transaction>();
         inCome  = new ArrayList<Transaction>();
         outCome  = new ArrayList<Transaction>();
 
+        catStatisticListOutCome  = new ArrayList<>();
+        catStatisticListInCome = new ArrayList<>();
+
+        inComeNunm = 0;
+        outComeNum = 0;
+        lístTransactions.clear();
+        inCome.clear();;
+        outCome.clear();
+        catStatisticListInCome.clear();
+        catStatisticListOutCome.clear();
+        getFistDateLastDate(1);
+        getTransactionMonth(firstDay, lastDay);
 
         tabTime.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -173,9 +199,10 @@ public class StatisticFragment extends Fragment {
                         lístTransactions.clear();
                         inCome.clear();;
                         outCome.clear();
+                        catStatisticListInCome.clear();
+                        catStatisticListOutCome.clear();
                         getFistDateLastDate(1);
                         getTransactionMonth(firstDay, lastDay);
-
 
                         break;
                     case 1:
@@ -185,16 +212,10 @@ public class StatisticFragment extends Fragment {
                         lístTransactions.clear();
                         inCome.clear();;
                         outCome.clear();
+                        catStatisticListInCome.clear();
+                        catStatisticListOutCome.clear();
                         getFistDateLastDate(2);
                         getTransactionYear(firstDay, lastDay);
-
-                        ArrayList<Entry> yvalues = new ArrayList<>();
-                        yvalues.add(new Entry(25f, 0));
-                        yvalues.add(new Entry(50f, 1));
-                        yvalues.add(new Entry(75f, 2));
-
-
-
                         break;
                     default:
                         break;
@@ -292,8 +313,10 @@ public class StatisticFragment extends Fragment {
                         outCome.add(tran);
                     }
                 }
-                //vẽ bieieur đồ
-                //setupBarChartMonth(fist);
+                setupBarChartMonth(fist);
+                setUpPieChartInCome(inCome);
+                setUpPieChartOutCome(outCome);
+
             }
 
             @Override
@@ -325,16 +348,15 @@ public class StatisticFragment extends Fragment {
                 Log.e("lengthOutYearCbi", outCome.size()+"");
                 Log.e("lengthInYearCbi", inCome.size()+"");
                 //set số liệu vào các textView
-                tvIncomeNum.setText("+" +formatNumberWithDot(inComeNunm) + "d");
-                tvOutcomeNum.setText("-"+formatNumberWithDot(outComeNum) + "d");
+                tvIncomeNum.setText("+" +formatNumberWithDot(inComeNunm) + "đ");
+                tvOutcomeNum.setText("-"+formatNumberWithDot(outComeNum) + "đ");
 
-                tvTotalIncomeMoney.setText(formatNumberWithDot(inComeNunm) + " d");
-                tvTotalOutcomeMoney.setText(formatNumberWithDot(outComeNum) + " d");
+                tvTotalIncomeMoney.setText(formatNumberWithDot(inComeNunm) + " đ");
+                tvTotalOutcomeMoney.setText(formatNumberWithDot(outComeNum) + " đ");
 
                 setupBarChartYear();
                 setUpPieChartInCome(inCome);
                 setUpPieChartOutCome(outCome);
-
             }
 
             @Override
@@ -342,8 +364,6 @@ public class StatisticFragment extends Fragment {
 
             }
         });
-
-
     }
 
     private static void resetTimeToMidnight(Calendar calendar) {
@@ -373,6 +393,7 @@ public class StatisticFragment extends Fragment {
         List<BarEntry> outcomeEntries = processTransactionsForMonth(outCome,daysInMonth);
         List<BarEntry> incomeEntries = processTransactionsForMonth(inCome,daysInMonth);
 
+
         // Tạo BarDataSet cho chi tiêu và thu nhập
         BarDataSet expenseDataSet = new BarDataSet(outcomeEntries, "Chi Tiêu");
         int primary40Color = ContextCompat.getColor(getContext(), R.color.primary40);
@@ -382,28 +403,36 @@ public class StatisticFragment extends Fragment {
         int green = ContextCompat.getColor(getContext(), R.color.green);
         incomeDataSet.setColor(green);
 
+        expenseDataSet.setDrawValues(false);
+        incomeDataSet.setDrawValues(false);
+
         // Tạo BarData và thiết lập nó cho biểu đồ
         BarData barData = new BarData(expenseDataSet,incomeDataSet);
         barData.setValueTextSize(11f);
-        barData.setBarWidth(1f);
+        barData.setBarWidth(0.3f);
 
         XAxis xAxis = barChartToTal.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f); // Đặt giá trị này để chỉ hiển thị một thanh cho mỗi nhóm
 
         barChartToTal.setDrawBarShadow(false);
         barChartToTal.setDrawGridBackground(false);
         barChartToTal.getDescription().setEnabled(false);
-        barChartToTal.groupBars(0.5f, 1f, 0f);
-        barChartToTal.setDragEnabled(true);
         barChartToTal.setData(barData);
+        barChartToTal.setDragEnabled(true);
+        //nhóm cột
+        barChartToTal.groupBars(0.5f, 0.4f, 0f);
 
-        barChartToTal.getXAxis().setValueFormatter(new ValueFormatter() {
+        barChartToTal.getAxisLeft().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                String text = String.valueOf(value) + "k";
-                return text;
+                String value1 = String.valueOf(value) + "K";
+                return value1;
             }
         });
+
+        barChartToTal.setDrawValueAboveBar(false);
+        barChartToTal.getAxisRight().setDrawLabels(false);
         barChartToTal.invalidate();
 
     }
@@ -415,6 +444,7 @@ public class StatisticFragment extends Fragment {
          //Xử lý dữ liệu để tạo dữ liệu cho biểu đồ
         List<BarEntry> outcomeEntries = processTransactionsForYear(outCome);
         List<BarEntry> incomeEntries = processTransactionsForYear(inCome);
+        Log.d("TAG", "outcomeEntries: " + outcomeEntries);
 
         // Tạo BarDataSet cho chi tiêu và thu nhập
         BarDataSet expenseDataSet = new BarDataSet(outcomeEntries, "Chi Tiêu");
@@ -425,6 +455,9 @@ public class StatisticFragment extends Fragment {
         int green = ContextCompat.getColor(getContext(), R.color.green);
         incomeDataSet.setColor(green);
 
+        expenseDataSet.setDrawValues(false);
+        incomeDataSet.setDrawValues(false);
+
         // Tạo BarData và thiết lập nó cho biểu đồ
         BarData barData = new BarData(expenseDataSet,incomeDataSet);
         barData.setValueTextSize(11f);
@@ -432,15 +465,17 @@ public class StatisticFragment extends Fragment {
 
         XAxis xAxis = barChartToTal.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(0.5f);
+        xAxis.setGranularity(1f); // Đặt giá trị này để chỉ hiển thị một thanh cho mỗi nhóm
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         barChartToTal.setDrawBarShadow(false);
         barChartToTal.setDrawGridBackground(false);
         barChartToTal.getDescription().setEnabled(false);
-
         barChartToTal.setData(barData);
-        barChartToTal.groupBars(0.5f, 1f, 0f);
         barChartToTal.setDragEnabled(true);
+        //nhóm cột
+        barChartToTal.groupBars(0.5f, 0.4f, 0f);
+
         barChartToTal.getAxisLeft().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -448,6 +483,7 @@ public class StatisticFragment extends Fragment {
                 return value1;
             }
         });
+
         barChartToTal.getAxisRight().setDrawLabels(false);
         barChartToTal.invalidate();
     }
@@ -493,8 +529,7 @@ public class StatisticFragment extends Fragment {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            monthlySums[day] += transaction.getAmount();
+            monthlySums[day-1] += transaction.getAmount();
         }
 
         List<BarEntry> barEntryList = new ArrayList<>();
@@ -527,7 +562,7 @@ public class StatisticFragment extends Fragment {
 
     private void setUpPieChartInCome(List<Transaction> transactions)
     {
-        Map<String, Float> categoryTotals = new HashMap<>();
+        Map<String, Float> categoryTotals = new HashMap<>();//id: toonge ti
 
         // Tính tổng của từng danh mục từ danh sách giao dịch
         for (Transaction transaction : transactions) {
@@ -543,41 +578,53 @@ public class StatisticFragment extends Fragment {
                 categoryTotals.put(categoryId, amount);
             }
         }
-        // In tổng của từng danh mục
+
+        //đưa từ map vô id: tiền
         for (Map.Entry<String, Float> entry : categoryTotals.entrySet()) {
-            Log.e("Danh mục", entry.getKey() + ", Tổng: " + entry.getValue());
+            CatStatistic catStatistic = new CatStatistic();
+            catStatistic.setCatId(entry.getKey());
+            catStatistic.setPrice(entry.getValue());
+            catStatisticListInCome.add(catStatistic);
         }
 
-        //lấy thông tin danh mục : Danh mục : tiền
-        HashMap<Category, Float> listCat = new HashMap<>();
-        for (Map.Entry<String, Float> entry : categoryTotals.entrySet()) {
-            FireStoreService.getOneCategory(entry.getKey(), new OneCategoryListener() {
-                @Override
-                public void getCategory(Category category) {
-                    listCat.put(category, entry.getValue());
-                }
-            });
-        }
         //set dữ liệu vẽ hình tròn
-        double total = 0.0;
-        for (Float value : categoryTotals.values()) {
-            total += value;
+        float total = 0;
+
+        for (CatStatistic cat : catStatisticListInCome) {
+            total += cat.getPrice();
+        }
+        Log.d("TAG", "setUpPieChartOutCome: start");
+
+        //set dữ liệu thànnh cho biểu đò
+        ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
+        for (CatStatistic cat : catStatisticListInCome) {
+            float percent = (cat.getPrice()/total)*100;
+            cat.setPercent(percent);
+            pieEntries.add(new PieEntry(percent, cat.getNameCat()));
+            Log.d("TAG", "engtry:" + pieEntries);
         }
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        for (Map.Entry<String, Float> entry : categoryTotals.entrySet()) {
-            float percentage = (float) (entry.getValue() / total) * 100;
-            entries.add(new PieEntry(percentage, entry.getKey()));
-        }
-
-        PieDataSet dataSet = new PieDataSet(entries, "Chi tiêu");
-        Log.d("TAG", "setUpPieChartInCome: " + dataSet );
+        statisticIncomeAdapter = new StatisticAdapter(getContext(), catStatisticListInCome);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext());
+        layoutManager2.setOrientation(RecyclerView.VERTICAL);
+        rcvCategoriesIncome.setLayoutManager(layoutManager2);
+        rcvCategoriesIncome.setAdapter(statisticIncomeAdapter);
+        statisticIncomeAdapter.notifyDataSetChanged();
+        ArrayList<Integer> colors = new ArrayList<>();
+//        for(CatStatistic cat: catStatisticListInCome)
+//        {
+//            int color = cat.getBackground();
+//            Log.d("TAG", "color: "+ cat.getBackground());
+//            int backgroundColor = getContext().getResources().getColor(cat.getBackground());
+//            colors.add(backgroundColor);
+//        }
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Thu nhập");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(colors);
 
         PieData pieData = new PieData(dataSet);
         pieData.setValueFormatter(new PercentFormatter(pieChartIncome));
         pieData.setValueTextSize(12f);
-
         pieChartIncome.setData(pieData);
         pieChartIncome.setUsePercentValues(true);
         pieChartIncome.getDescription().setEnabled(false);
@@ -585,7 +632,7 @@ public class StatisticFragment extends Fragment {
     }
     private void setUpPieChartOutCome(List<Transaction> transactions)
     {
-        Map<String, Float> categoryTotals = new HashMap<>();
+        Map<String, Float> categoryTotals = new HashMap<>();//id: toonge ti
 
         // Tính tổng của từng danh mục từ danh sách giao dịch
         for (Transaction transaction : transactions) {
@@ -602,12 +649,54 @@ public class StatisticFragment extends Fragment {
             }
         }
         // In tổng của từng danh mục
+
         for (Map.Entry<String, Float> entry : categoryTotals.entrySet()) {
             Log.e("Danh mục Out", entry.getKey() + ", Tổng: " + entry.getValue());
         }
+        //đưa từ map vô id: tiền
+        for (Map.Entry<String, Float> entry : categoryTotals.entrySet()) {
+            CatStatistic catStatistic = new CatStatistic();
+            catStatistic.setCatId(entry.getKey());
+            catStatistic.setPrice(entry.getValue());
+            catStatisticListOutCome.add(catStatistic);
+        }
+
+        //set dữ liệu vẽ hình tròn
+        float total = 0;
+
+        for (CatStatistic cat : catStatisticListOutCome) {
+            total += cat.getPrice();
+        }
+        Log.d("TAG", "setUpPieChartOutCome: start");
+
+        //set dữ liệu thànnh cho biểu đò
+        ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
+        for (CatStatistic cat : catStatisticListOutCome) {
+            float percent = (cat.getPrice()/total)*100;
+            cat.setPercent(percent);
+            pieEntries.add(new PieEntry(percent, cat.getNameCat()));
+            Log.d("TAG", "engtry:" + pieEntries);
+        }
+
+        statisticOutcomeAdapter = new StatisticAdapter(getContext(), catStatisticListOutCome);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext());
+        layoutManager1.setOrientation(RecyclerView.VERTICAL);
+        rcvCategoriesOutcome.setLayoutManager(layoutManager1);
+        rcvCategoriesOutcome.setAdapter(statisticOutcomeAdapter);
+        statisticOutcomeAdapter.notifyDataSetChanged();
+
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Chi tiêu");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData pieData = new PieData(dataSet);
+        pieData.setValueFormatter(new PercentFormatter(pieChartOutcome));
+        pieData.setValueTextSize(12f);
+        pieChartOutcome.setData(pieData);
+        pieChartOutcome.setUsePercentValues(true);
+        pieChartOutcome.getDescription().setEnabled(false);
+        pieChartOutcome.invalidate();
     }
-
-
-
 
 }
