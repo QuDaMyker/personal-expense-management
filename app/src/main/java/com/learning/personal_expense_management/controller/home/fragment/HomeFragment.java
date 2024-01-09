@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setListeners() {
-        binding.btnWalletaccount.setOnClickListener(new View.OnClickListener() {
+        binding.walletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WalletActivity.class);
