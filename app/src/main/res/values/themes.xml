@@ -3,7 +3,37 @@
     <style name="Base.Theme.Personalexpensemanagement" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary40</item>
+        <item name="android:fontFamily">@font/font</item>
+        <item name="fontFamily">@font/font</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
     </style>
 
     <style name="Theme.Personalexpensemanagement" parent="Base.Theme.Personalexpensemanagement" />
+    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+    </style>
+    <style name="Widget.Button" parent="android:Widget">
+        <item name="android:background">@color/primary40</item>
+    </style>
+    <style name="CustomChipStyle" parent="Widget.Material3.Chip.Filter">
+
+    </style>
+    <style name="Spinner.DropDown" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/background_spinner</item>
+    </style>
+    <style name="Theme.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/background_radio_button</item>
+        <item name="android:button">@drawable/button_radio</item>
+    </style>
+    <style name="Theme.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="colorPrimary">@color/primary60</item>
+    </style>
+    <style name="Theme.DatePickerDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/primary40</item>
+    </style>
+
 </resources>

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.account.AccountActivity">
+    <com.google.android.material.appbar.MaterialToolbar
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/top_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:navigationIconTint="@color/secondary40">
+
+        <ImageButton
+            android:id="@+id/btn_Back"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/secondary40" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tài khoản"
+            android:textColor="@color/primary40"
+            android:textSize="24sp"
+            android:textFontWeight="700"
+            android:textAlignment="center"
+            android:layout_marginRight="30dp"/>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar"
+        app:layout_constraintBottom_toTopOf="@id/add_account_btn">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/account_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/background_color_primary90_outline"
+                android:clickable="true">
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@drawable/visa_logo"/>
+                <TextView
+                    android:id="@+id/accountName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/logo"
+                    android:textFontWeight="600"
+                    android:textColor="@color/secondary20"
+                    android:textSize="16sp"
+                    android:text="Thẻ Visa 1"
+                    android:layout_marginStart="20dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_circle_down"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/btn_edit_wallet"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/background_color_secondary80_outline"
+                    android:icon="@drawable/ic_pen"
+                    android:text="Sửa"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="13sp"
+                    app:icon="@drawable/ic_pen"
+                    app:iconGravity="textTop"
+                    app:iconSize="28dp"
+                    app:iconTint="@color/primary40"  />
+
+                <Button
+                    android:id="@+id/btn_delete_wallet"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/background_color_secondary80_outline"
+                    android:textFontWeight="600"
+                    android:text="Xóa"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    app:icon="@drawable/ic_trash"
+                    app:iconGravity="textTop"
+                    app:iconSize="28dp"
+                    app:iconTint="@color/primary40" />
+
+                <Button
+                    android:id="@+id/btn_transaction_wallet"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/background_color_secondary80_outline"
+                    android:textFontWeight="600"
+                    android:text="Chuyển tiền"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    app:icon="@drawable/ic_arrow_switch"
+                    app:iconGravity="textTop"
+                    app:iconSize="28dp"
+                    app:iconTint="@color/primary40" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/wallet_layout"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginBottom="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wallet_bg"
+                    android:scaleType="centerCrop"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="30dp">
+                    <TextView
+                        android:id="@+id/tvBalanceWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="32sp"
+                        android:textColor="@color/white"
+                        android:text="18,000,000₫"/>
+
+                    <TextView
+                        android:id="@+id/labelBalanceWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toTopOf="@id/tvBalanceWallet"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:text="Số dư tài khoản"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/card_layout"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/card_bg"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="30dp">
+                    <TextView
+                        android:id="@+id/labelBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:text="Số dư tài khoản"/>
+                    <TextView
+                        android:id="@+id/tvBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/labelBalance"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="32sp"
+                        android:textColor="@color/white"
+                        android:text="18,000,000₫"/>
+
+                    <TextView
+                        android:id="@+id/tvExpiryDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        android:text="01/25"/>
+
+                    <TextView
+                        android:id="@+id/tvCardNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toTopOf="@id/tvExpiryDate"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textFontWeight="700"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="**** **** **** 1268"/>
+
+                    <ImageView
+                        android:id="@+id/cardLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/visa_logo"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/secondary80_bg">
+                    <ImageView
+                        android:id="@+id/icIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/ic_income"/>
+                    <TextView
+                        android:id="@+id/labelIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/icIncome"
+                        android:layout_marginStart="8dp"
+                        android:textFontWeight="500"
+                        android:textSize="12sp"
+                        android:textColor="@color/secondary40"
+                        android:text="Thu nhập"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/icIncome"
+                        app:layout_constraintTop_toBottomOf="@id/labelIncome"
+                        android:layout_marginStart="8dp"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary40"
+                        android:text="+20,000,000₫"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:background="@drawable/secondary80_bg"
+                    android:layout_marginBottom="20dp">
+                    <ImageView
+                        android:id="@+id/icOutcome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/ic_outcome"/>
+                    <TextView
+                        android:id="@+id/labelOutcome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/icOutcome"
+                        android:layout_marginStart="8dp"
+                        android:textFontWeight="500"
+                        android:textSize="12sp"
+                        android:textColor="@color/secondary40"
+                        android:text="Chi tiêu"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/icOutcome"
+                        app:layout_constraintTop_toBottomOf="@id/labelOutcome"
+                        android:layout_marginStart="8dp"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary40"
+                        android:text="-2,000,000₫"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="700"
+                android:textColor="@color/secondary40"
+                android:textSize="16sp"
+                android:text="Hoạt động gần đây"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_account_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Tạo tài khoản mới"
+        android:textSize="20sp"
+        android:textFontWeight="700"
+        app:icon="@drawable/ic_plus_square"
+        app:iconGravity="textStart"
+        app:backgroundTint="@null"
+        android:background="@drawable/custom_button_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

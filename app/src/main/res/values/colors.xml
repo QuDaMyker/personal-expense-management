@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gradient">#EAFBFF</color>
+    <color name="primary40">#ef244a</color>
+    <color name="primary60">#fc7256</color>
+    <color name="primary80">#fcdde5</color>
+    <color name="primary90">#fde8ed</color>
+
+    <color name="secondary20">#1d1b15</color>
+    <color name="secondary40">#3c3c3c</color>
+    <color name="secondary50">#5E5E5E</color>
+    <color name="secondary60">#dadadb</color>
+    <color name="secondary80">#f4f4f4</color>
+
+    <color name="green">#00a86b</color>
+    <color name="colorItem1">#BDDCFF</color>
+    <color name="colorItem2">#FDD4D7</color>
+    <color name="colorItem3">#FDDED4</color>
+    <color name="colorItem4">#FCEED4</color>
+    <color name="colorItem5">#EEE5FF</color>
+    <color name="colorItem6">#DEFCD4</color>
+    <color name="colorItem7">#FCD4E5</color>
+    <color name="colorItem8">#CFFAEA</color>
+
+    <color name="colorIcon1">#0077FF</color>
+    <color name="colorIcon2">#FD3C4A</color>
+    <color name="colorIcon3">#FDA43C</color>
+    <color name="colorIcon4">#00FFB2</color>
+    <color name="colorIcon5">#7F3DFF</color>
+    <color name="colorIcon6">#FFCF24</color>
+    <color name="colorIcon7">#FF00A8</color>
+
+
+
+
+
+
+
+
+
+
 </resources>
