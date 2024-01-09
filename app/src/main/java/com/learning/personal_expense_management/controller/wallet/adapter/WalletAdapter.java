@@ -176,7 +176,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
         Date currentDate = new Date();
         long date = (deadlineDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000);
         double monthlyAmount = totalAmount / (date / 30.0);
-        return (int) monthlyAmount;
+        return monthlyAmount > totalAmount ? totalAmount : (int) monthlyAmount;
     }
 
     public String convertCurrency(int amount) {

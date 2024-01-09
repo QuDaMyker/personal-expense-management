@@ -1,5 +1,7 @@
 package com.learning.personal_expense_management.controller.wallet;
 
+import static android.view.View.GONE;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,6 +30,8 @@ import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.TransactionListener;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +67,7 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
         int goalAmount = selectedWallet.getGoalAmount();
         if(goalAmount>0){
             String[] deadlineSaving = selectedWallet.getSavingsDeadline().split("-");
-            binding.monthYearDeadline.setText(deadlineSaving[1] +" - " + deadlineSaving[0]);
+            binding.monthYearDeadline.setText("Th" + deadlineSaving[1] +", " + deadlineSaving[0]);
             binding.dateDeadline.setText(deadlineSaving[2]);
             int currentMoney = selectedWallet.getCurrentMoney();
             int valueProgress;
@@ -79,13 +83,14 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
             if(months == 0){
                 months = 1;
             }
-            binding.tvSavingPerMonth.setText(String.valueOf(goalAmount-currentMoney/months) + " đ");
+            binding.tvSavingPerMonth.setText(monthlyAmount(selectedWallet.getSavingsDeadline(), selectedWallet.getGoalAmount()) + "đ");
             binding.progressBar.setProgress(valueProgress);
         }
         else{
-            binding.tvPretensionWallet.setVisibility(View.GONE);
-            binding.tvSavingPerMonth.setVisibility(View.GONE);
-            binding.lineMonthSavingMoney.setVisibility(View.GONE);
+            binding.tvPretensionWallet.setVisibility(GONE);
+            binding.tvSavingPerMonth.setVisibility(GONE);
+            binding.lineMonthSavingMoney.setVisibility(GONE);
+            binding.lineDeadline.setVisibility(GONE);
                     
             if (selectedWallet.getCurrentMoney()==0){
                 binding.progressBar.setProgress(0);
@@ -174,6 +179,21 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public int monthlyAmount(String deadline, int totalAmount) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+        Date deadlineDate;
+        try {
+            deadlineDate = formatter.parse(deadline);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        Date currentDate = new Date();
+        long date = (deadlineDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000);
+        double monthlyAmount = totalAmount / (date / 30.0);
+        return monthlyAmount > totalAmount ? totalAmount : (int) monthlyAmount;
     }
 
     @Override
