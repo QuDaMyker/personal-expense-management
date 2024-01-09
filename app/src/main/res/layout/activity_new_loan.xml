@@ -56,13 +56,14 @@
                 android:text="Loại giao dịch"
                 android:layout_marginBottom="10dp"/>
             <RadioGroup
+                android:id="@+id/typeRG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:checkedButton="@id/vay"
+                android:checkedButton="@id/borrowRadioBtn"
                 android:layout_marginBottom="30dp">
                 <RadioButton
-                    android:id="@+id/vay"
+                    android:id="@+id/borrowRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@android:color/transparent"
@@ -74,7 +75,7 @@
                     android:paddingHorizontal="24dp"
                     android:layout_marginRight="10dp"/>
                 <RadioButton
-                    android:id="@+id/chovay"
+                    android:id="@+id/lendRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@android:color/transparent"
@@ -103,6 +104,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/borrowerNameEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textFontWeight="400"/>
@@ -126,9 +128,11 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/amountEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textFontWeight="400"/>
+                    android:textFontWeight="400"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -148,6 +152,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/noteEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textFontWeight="400"/>
@@ -170,6 +175,7 @@
                 app:endIconMode="custom"
                 app:hintEnabled="false">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dateEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -194,11 +200,12 @@
                 app:endIconMode="custom"
                 app:hintEnabled="false">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/timeEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:inputType="none"
-                    android:hint="Bấm để chọn thời gian giao dịch"/>
+                    android:hint="Bấm để chọn thời gian"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -207,25 +214,132 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Thời hạn thanh toán"
+                android:text="Thời hạn vay"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                app:endIconDrawable="@drawable/ic_date_picker"
+                app:endIconDrawable="@drawable/ic_arrow_down"
                 app:endIconMode="custom"
                 app:hintEnabled="false">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/periodEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:inputType="none"
-                    android:hint="Bấm để chọn thời hạn thanh toán"/>
+                    android:hint="Bấm để chọn thời hạn vay"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:id="@+id/deadlineLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đến hạn thanh toán vào "/>
+                <TextView
+                    android:id="@+id/deadlineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20/11/2024"
+                    android:textColor="@color/primary40"/>
+            </LinearLayout>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/interestRateSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
+                android:padding="20dp"
+                android:background="@drawable/background_color_secondary80_outline"
+                android:text="Có lãi suất"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textFontWeight="600"
+                android:textSize="16sp"
+                android:checked="false"
+                style="@style/Theme.Switch"/>
+
+            <LinearLayout
+                android:id="@+id/interestRateLayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary20"
+                    android:text="Cách tính"
+                    android:layout_marginBottom="10dp"/>
+                <RadioGroup
+                    android:id="@+id/interestRateTypeRG"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:checkedButton="@id/principalRadioBtn"
+                    android:layout_marginBottom="30dp">
+                    <RadioButton
+                        android:id="@+id/principalRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@android:color/transparent"
+                        android:textAlignment="center"
+                        android:text="Dư nợ gốc"
+                        android:textFontWeight="600"
+                        android:textColor="@drawable/radio_button_text_selector"
+                        android:background="@drawable/radio_button_bg_selector"
+                        android:paddingHorizontal="24dp"
+                        android:layout_marginRight="10dp"/>
+                    <RadioButton
+                        android:id="@+id/amortizedRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@android:color/transparent"
+                        android:textAlignment="center"
+                        android:text="Dư nợ giảm dần"
+                        android:textFontWeight="600"
+                        android:textColor="@drawable/radio_button_text_selector"
+                        android:background="@drawable/radio_button_bg_selector"
+                        android:paddingHorizontal="24dp"/>
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary20"
+                    android:text="Lãi suất"
+                    android:layout_marginBottom="10dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Nhập lãi suất khoản vay"
+                    app:suffixText="%/năm"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/interestRateEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textFontWeight="400"
+                        android:inputType="numberDecimal"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"

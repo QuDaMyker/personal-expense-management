@@ -10,8 +10,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -23,6 +26,7 @@ import com.learning.personal_expense_management.model.UserProfile;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.utilities.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -158,7 +162,7 @@ public class FireStoreService {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        callback.onCallback("success");
+                        callback.onCallback(id);
                         result[0] = "success";
                         Log.d("addTransaction - rs", "success");
                     } else {
@@ -568,6 +572,37 @@ public class FireStoreService {
             }
         });
     }
+
+    public static void getTransactionsById(List<String> ids, TransactionListener listener) {
+        List<Transaction> transactionList = new ArrayList<>();
+
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereIn("id", ids)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            //listener.onError("Failed to fetch transactions");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("ERRORRRRRR", e.getMessage());
+                            listener.onError(e.getMessage());
+                        }
+                    });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
 
     public static String addWallet(Wallet wallet) {
         String[] result = {"Some thing went wrong"};
@@ -994,7 +1029,7 @@ public class FireStoreService {
         }
     }
 
-    public static String addLoan(Loan loan) {
+    public static String addLoan(Loan loan, FirestoreCallback callback) {
         String[] result = {"Some thing went wrong"};
 
         try {
@@ -1007,18 +1042,28 @@ public class FireStoreService {
             loanMap.put("borrowerName", loan.getBorrowerName());
             loanMap.put("amount", loan.getAmount());
             loanMap.put("note", loan.getNote());
-            loanMap.put("transactionDate", loan.getTransactionDate());
-            loanMap.put("transactionTime", loan.getTransactionTime());
+            loanMap.put("timestamp", loan.getTimestamp());
             loanMap.put("repaymentPeriod", loan.getRepaymentPeriod());
+            loanMap.put("hasInterestRate", loan.isHasInterestRate());
+            loanMap.put("interestRate", loan.getInterestRate());
+            loanMap.put("interestRateType", loan.isInterestRateType());
+            loanMap.put("isLend", loan.isLend());
+            loanMap.put("deadline", loan.getDeadline());
+            loanMap.put("interest", loan.getInterest());
+            loanMap.put("paid", loan.getPaid());
+            loanMap.put("predictTransactions", loan.getPredictTransactions());
+            loanMap.put("returnTransactions", loan.getReturnTransactions());
+            loanMap.put("initialTransaction", loan.getInitialTransaction());
 
-
-            db.collection(Constants.KEY_LOAN).document(loan.getId()).set(loanMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            docRef.set(loanMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        callback.onCallback(id);
                         result[0] = "success";
                         Log.d("rs", result[0]);
                     } else {
+                        callback.onCallback("error");
                         result[0] = "error";
                         Log.d("rs", result[0]);
                     }
@@ -1034,23 +1079,47 @@ public class FireStoreService {
         }
         return result[0];
     }
-
-    public static void getLoan(String ownerId, LoanListener listener) {
+    public static void getBorrowLoan(String ownerId, LoanListener listener) {
         List<Loan> loanList = new ArrayList<>();
 
         try {
-            db.collection(Constants.KEY_LOAN).whereEqualTo("ownerId", ownerId).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Loan loan = new Loan(document);
-                        loanList.add(loan);
-                        Log.d("rs", document.getData().toString());
-                    }
-                    listener.onLoanLoaded(loanList);
-                } else {
-                    listener.onError("Failed to fetch transactions");
-                }
-            });
+            db.collection(Constants.KEY_LOAN).whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("isLend", false)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Loan loan = new Loan(document);
+                                loanList.add(loan);
+                                Log.d("rs", document.getData().toString());
+                            }
+                            listener.onLoanLoaded(loanList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
+    public static void getLendLoan(String ownerId, LoanListener listener) {
+        List<Loan> loanList = new ArrayList<>();
+
+        try {
+            db.collection(Constants.KEY_LOAN).whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("isLend", true)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Loan loan = new Loan(document);
+                                loanList.add(loan);
+                                Log.d("rs", document.getData().toString());
+                            }
+                            listener.onLoanLoaded(loanList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }
@@ -1070,4 +1139,69 @@ public class FireStoreService {
         });
     }
 
+    public static void paidLoan(String loanId, long paid, boolean isAll) {
+        db.collection(Constants.KEY_LOAN).document(loanId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        int currentPaid= Integer.valueOf(Math.toIntExact(document.getLong("paid")));
+                        boolean isLend = Boolean.TRUE.equals(document.getBoolean("isLend"));
+                        int totalAmount = (int) (document.getDouble("interest") + Integer.parseInt(String.valueOf(document.getLong("amount"))));
+                        if(isAll){
+                            db.collection(Constants.KEY_LOAN).document(loanId).update("paid", totalAmount);
+                        }else{
+                            db.collection(Constants.KEY_LOAN).document(loanId).update("paid", currentPaid + paid);
+                        }
+
+                        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+                        Date c = Calendar.getInstance().getTime();
+                        String date = formatDate.format(c);
+                        String time = formatTime.format(c);
+
+                        Transaction newTransaction = new Transaction(
+                                FirebaseAuth.getInstance().getUid(),
+                                "idLater",
+                                isLend ? 1 : 0,
+                                Integer.parseInt(String.valueOf(paid)),
+                                "Trả tiền khoản vay " + document.get("borrowerName"),
+                                date,
+                                time,
+                                "",
+                                "",
+                                "c1r3RCrV1Mzj8C5jvQIb",
+                                new com.google.firebase.Timestamp(c),
+                                false
+                        );
+                        FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
+                            @Override
+                            public void onCallback(String result) {
+                                if (!result.equals("error")) {
+                                    List<String> returnTransactions = (List<String>) document.get("returnTransactions");
+                                    returnTransactions.add(result);
+                                    FireStoreService.updateLoan(loanId, "returnTransactions", returnTransactions);
+                                }
+                            }
+                        });
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        });
+
+    }
+    public static void updateLoan(String loanId, String field, Object value){
+        db.collection(Constants.KEY_LOAN).document(loanId).update(field, value).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.e("Update " + field, value.toString()) ;
+            }
+        });
+    }
 }
