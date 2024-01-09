@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                         false
                                 );
 
-                                FireStoreService.isExistAccount(userProfile, new UserProfileListener() {
+                                FireStoreService.isExistProfile(userProfile, new UserProfileListener() {
                                     @Override
                                     public void onExist(boolean isExist) {
                                         if (!isExist) {
@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     false
                                             );
 
-                                            FireStoreService.isExistAccount(userProfile, new UserProfileListener() {
+                                            FireStoreService.isExistProfile(userProfile, new UserProfileListener() {
                                                 @Override
                                                 public void onExist(boolean isExist) {
                                                     if (!isExist) {
