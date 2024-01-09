@@ -308,10 +308,6 @@ public class LoginActivity extends AppCompatActivity {
         listCats.add(new Category(userID, "Xăng dầu", R.color.colorItem4, R.drawable.ic_station_fuel, R.color.colorIcon6, 0));
         listCats.add(new Category(userID, "Thiết bi", R.color.colorItem1, R.drawable.ic_computer, R.color.colorIcon1, 0));
         listCats.add(new Category(userID, "Từ thiện", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
-        listCats.add(new Category(userID, "Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
-        listCats.add(new Category(userID, "Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
-        listCats.add(new Category(userID, "Từ thiện", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
         return listCats;
-
     }
 }
