@@ -44,10 +44,13 @@ import com.learning.personal_expense_management.model.CatStatistic;
 import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.services.OneCategoryListener;
 import com.learning.personal_expense_management.services.TransactionListener;
 import com.learning.personal_expense_management.utilities.Constants;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -182,6 +185,14 @@ public class StatisticFragment extends Fragment {
         getFistDateLastDate(1);
         getTransactionMonth(firstDay, lastDay);
 
+        NumberFormat formatter = new DecimalFormat("#,###");
+        FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
+            @Override
+            public void onCallback(String result) {
+                tvBalanceMoney.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
+            }
+        });
+
         tabTime.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -313,6 +324,12 @@ public class StatisticFragment extends Fragment {
                         outCome.add(tran);
                     }
                 }
+                tvIncomeNum.setText("+" +formatNumberWithDot(inComeNunm) + "đ");
+                tvOutcomeNum.setText("-"+formatNumberWithDot(outComeNum) + "đ");
+
+                tvTotalIncomeMoney.setText(formatNumberWithDot(inComeNunm) + " đ");
+                tvTotalOutcomeMoney.setText(formatNumberWithDot(outComeNum) + " đ");
+
                 setupBarChartMonth(fist);
                 setUpPieChartInCome(inCome);
                 setUpPieChartOutCome(outCome);
@@ -611,16 +628,9 @@ public class StatisticFragment extends Fragment {
         rcvCategoriesIncome.setAdapter(statisticIncomeAdapter);
         statisticIncomeAdapter.notifyDataSetChanged();
         ArrayList<Integer> colors = new ArrayList<>();
-//        for(CatStatistic cat: catStatisticListInCome)
-//        {
-//            int color = cat.getBackground();
-//            Log.d("TAG", "color: "+ cat.getBackground());
-//            int backgroundColor = getContext().getResources().getColor(cat.getBackground());
-//            colors.add(backgroundColor);
-//        }
+
         PieDataSet dataSet = new PieDataSet(pieEntries, "Thu nhập");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        dataSet.setColors(colors);
 
         PieData pieData = new PieData(dataSet);
         pieData.setValueFormatter(new PercentFormatter(pieChartIncome));
@@ -698,5 +708,6 @@ public class StatisticFragment extends Fragment {
         pieChartOutcome.getDescription().setEnabled(false);
         pieChartOutcome.invalidate();
     }
+
 
 }
