@@ -87,6 +87,7 @@
                         android:text="Thu"
                         android:textColor="@color/chip_text"
                         app:checkedIconEnabled="false"
+                        android:checked="true"
                         app:chipBackgroundColor="@color/chip_background"
                         app:chipCornerRadius="20dp" />
 
@@ -129,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -166,10 +168,10 @@
                                 android:id="@+id/img_wallet"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/ic_money"
+                                android:src="@drawable/ic_your_wallet"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <TextView
                                 android:id="@+id/title_wallet"
@@ -178,9 +180,10 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/quicksand_bold"
-                                android:text="Tên ví"
+                                android:text="Chọn ví tiền giao dịch"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/black"
+                                android:textFontWeight="600"
                                 android:textSize="16sp"
                                 android:textStyle="normal"
                                 app:layout_constraintStart_toEndOf="@id/img_wallet"
@@ -191,12 +194,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/quicksand_bold"
                                 android:text="Số dư ví"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/secondary50"
-                                android:textSize="16sp"
+                                android:textSize="12sp"
                                 android:textStyle="normal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/img_wallet" />
@@ -258,10 +260,10 @@
                                 android:id="@+id/img_taikhoan"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/ic_your_wallet"
+                                android:src="@drawable/ic_your_account"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <TextView
                                 android:id="@+id/title_taikhoan"
@@ -270,7 +272,8 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/quicksand_bold"
-                                android:text="Tên loại tài khoản"
+                                android:text="Chọn tài khoản giao dịch"
+                                android:textFontWeight="600"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
@@ -283,12 +286,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/quicksand_bold"
                                 android:text="Số dư hiện tại"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/secondary50"
-                                android:textSize="16sp"
+                                android:textSize="12sp"
                                 android:textStyle="normal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/img_taikhoan" />
@@ -347,14 +349,24 @@
                             android:background="@color/secondary80"
                             android:padding="12dp">
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/img_danhmuc"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/ic_stactictis"
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/danhmuc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/colorItem1"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/img_danhmuc"
+                                    android:layout_width="60dp"
+                                    android:padding="16dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/icon_shopping" />
+                            </androidx.cardview.widget.CardView>
 
                             <TextView
                                 android:id="@+id/title_danhmuc"
@@ -363,28 +375,15 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/quicksand_bold"
-                                android:text="Tên Danh Mục"
+                                android:text="Chọn danh mục giao dịch"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
+                                android:textFontWeight="600"
                                 android:textStyle="normal"
-                                app:layout_constraintStart_toEndOf="@id/img_danhmuc"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sub_title_danhmuc"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginBottom="5dp"
-                                android:fontFamily="@font/quicksand_bold"
-                                android:text="Hãy Chọn Danh Mục"
-                                android:textAlignment="textStart"
-                                android:textColor="@color/secondary50"
-                                android:textSize="16sp"
-                                android:textStyle="normal"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/img_danhmuc" />
+                                app:layout_constraintStart_toEndOf="@id/danhmuc"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
 
                             <ImageButton
                                 android:id="@+id/btn_danhmuc"
@@ -418,6 +417,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:layout_marginTop="20dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="@id/cl_info" />
 
@@ -521,7 +521,7 @@
                             android:maxLines="2"
                             android:paddingEnd="20dp"
                             android:text="Giao dịch thanh toán trong tương lai"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             android:textStyle="italic" />
 
                         <com.google.android.material.materialswitch.MaterialSwitch
@@ -657,7 +657,8 @@
                     android:paddingRight="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="20dp">
 
                     <TextView
                         android:id="@+id/tv_chuyentien_taikhoannguon"
@@ -692,7 +693,7 @@
                                 android:id="@+id/img_taikhoannguon"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/ic_cash"
+                                android:src="@drawable/ic_your_account"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -704,10 +705,11 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/quicksand_bold"
-                                android:text="Tên tài khoản nguồn"
+                                android:text="Chọn tài khoản nguồn"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
+                                android:textFontWeight="600"
                                 android:textStyle="normal"
                                 app:layout_constraintStart_toEndOf="@id/img_taikhoannguon"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -717,12 +719,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/quicksand_bold"
                                 android:text="Số dư tài khoản nguồn"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/secondary50"
-                                android:textSize="16sp"
+                                android:textSize="12sp"
                                 android:textStyle="normal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/img_taikhoannguon" />
@@ -784,10 +785,10 @@
                                 android:id="@+id/img_taikhoandich"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/ic_your_wallet"
+                                android:src="@drawable/ic_your_account"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <TextView
                                 android:id="@+id/title_taikhoandich"
@@ -796,7 +797,8 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/quicksand_bold"
-                                android:text="Tên tài khoản đích"
+                                android:text="Chọn tài khoản đích"
+                                android:textFontWeight="600"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
@@ -809,12 +811,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/quicksand_bold"
                                 android:text="Số dư tài khoản đích: "
                                 android:textAlignment="textStart"
                                 android:textColor="@color/secondary50"
-                                android:textSize="16sp"
+                                android:textSize="12sp"
                                 android:textStyle="normal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/img_taikhoandich" />
@@ -839,6 +840,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_chuyentien_taikhoandich">
@@ -957,7 +959,7 @@
                             android:maxLines="2"
                             android:paddingEnd="20dp"
                             android:text="Giao dịch thanh toán trong tương lai"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             android:textStyle="italic" />
 
                         <com.google.android.material.materialswitch.MaterialSwitch

@@ -14,6 +14,8 @@ import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.RootActivity;
 import com.learning.personal_expense_management.controller.transaction.adapter.ChoseWalletAdapter;
 import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
+import com.learning.personal_expense_management.controller.wallet.adapter.OnItemClickListener;
+import com.learning.personal_expense_management.controller.wallet.adapter.WalletAdapter;
 import com.learning.personal_expense_management.databinding.ActivityTransactionAddSelectionWalletBinding;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
@@ -26,7 +28,7 @@ import java.util.List;
 public class TransactionAddActivity_SelectionWallet extends AppCompatActivity {
     private ActivityTransactionAddSelectionWalletBinding binding;
     private List<Wallet> listWallet;
-    private ChoseWalletAdapter choseWalletAdapter;
+    private WalletAdapter choseWalletAdapter;
 
     @Override
     protected void onResume() {
@@ -48,10 +50,10 @@ public class TransactionAddActivity_SelectionWallet extends AppCompatActivity {
 
     private void init() {
         listWallet = new ArrayList<>();
-        choseWalletAdapter = new ChoseWalletAdapter(getApplicationContext(), listWallet, new ObjectListener() {
+        choseWalletAdapter = new WalletAdapter(listWallet, new OnItemClickListener() {
             @Override
-            public void onClick(Object o) {
-                Wallet wallet = (Wallet) o;
+            public void onItemClick(int position) {
+                Wallet wallet = (Wallet) listWallet.get(position);
                 Log.e("wallet", wallet.toString());
                 Intent intent = new Intent(TransactionAddActivity_SelectionWallet.this, RootActivity.class);
                 intent.putExtra("ownerId", wallet.getOwnerId());

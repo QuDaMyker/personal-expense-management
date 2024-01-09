@@ -19,6 +19,12 @@ import com.learning.personal_expense_management.databinding.ActivityWalletDetail
 import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.model.Wallet;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder> {
@@ -44,15 +50,15 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         Wallet wallet = wallets.get(position);
         holder.getTv_title().setText(wallet.getWalletName());
-        holder.getTv_current_money().setText(String.valueOf(wallet.getCurrentMoney())+" đ");
-        holder.getTv_date_wallet().setText(wallet.getSavingsDeadline());
+        holder.getTv_current_money().setText(convertCurrency(wallet.getCurrentMoney()));
         holder.getCheckBox().setVisibility(View.GONE);
 
         int max_money = wallet.getGoalAmount();
         int current_money = wallet.getCurrentMoney();
         if (max_money>0) {
-            holder.getTv_max_money().setText(String.valueOf(max_money) +" đ");
-            holder.getTv_saving_per_month().setText(String.valueOf(max_money/wallet.getFrequency())+ "đ mỗi tháng");
+            holder.getTv_date_wallet().setText(dateFormat(wallet.getSavingsDeadline()));
+            holder.getTv_max_money().setText(convertCurrency(max_money));
+            holder.getTv_saving_per_month().setText(monthlyAmount(wallet.getSavingsDeadline(), max_money) + "đ mỗi tháng");
             if(current_money<max_money) {
                 holder.progressBar.setProgress((int) ((float) current_money / max_money * 100));
             }
@@ -61,8 +67,14 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
             }
         }
         else {
+            holder.getTv_date_wallet().setText("");
             holder.getTv_max_money().setText("");
-            holder.getTv_saving_per_month().setText("");
+            if(wallet.isLowBalanceAlert()){
+                holder.getTv_saving_per_month().setText("Không dưới " + wallet.getMinimumBalance() + "đ");
+            }
+            else{
+                holder.getTv_saving_per_month().setText("");
+            }
             if (current_money==0){
                 holder.progressBar.setProgress(0);
             }
@@ -75,6 +87,9 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return wallets == null ? 0 : wallets.size();
+    }
+    public void setList(List<Wallet> list) {
+        this.wallets = list;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -134,6 +149,45 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
             if (itemClickListener != null) {
                 itemClickListener.onItemClick(getAdapterPosition());
             }
+        }
+    }
+
+    private static String dateFormat(String input) {
+        try {
+            SimpleDateFormat sdfInput = new SimpleDateFormat("yyyy-M-d");
+            Date date = sdfInput.parse(input);
+
+            SimpleDateFormat sdfOutput = new SimpleDateFormat("dd/MM/yyyy");
+            return sdfOutput.format(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int monthlyAmount(String deadline, int totalAmount) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+        Date deadlineDate;
+        try {
+            deadlineDate = formatter.parse(deadline);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        Date currentDate = new Date();
+        long date = (deadlineDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000);
+        double monthlyAmount = totalAmount / (date / 30.0);
+        return monthlyAmount > totalAmount ? totalAmount : (int) monthlyAmount;
+    }
+
+    public String convertCurrency(int amount) {
+        if (amount < 1000000) {
+            return String.valueOf(amount) + "đ";
+        } else {
+            double convertedAmount = amount / 1000000.0;
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            symbols.setGroupingSeparator('.');
+            DecimalFormat decimalFormat = new DecimalFormat("#,##0.##", symbols);
+            return decimalFormat.format(convertedAmount) + " triệu";
         }
     }
 }

@@ -1194,7 +1194,7 @@ public class FireStoreService {
                         Transaction newTransaction = new Transaction(
                                 FirebaseAuth.getInstance().getUid(),
                                 "idLater",
-                                isLend ? 1 : 0,
+                                isLend ? 0 : 1,
                                 Integer.parseInt(String.valueOf(paid)),
                                 "Trả tiền khoản vay " + document.get("borrowerName"),
                                 date,
