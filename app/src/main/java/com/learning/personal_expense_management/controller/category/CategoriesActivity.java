@@ -87,7 +87,6 @@ public class CategoriesActivity extends AppCompatActivity {
 
         rcvCats.setAdapter(categoryAdapter);
 
-
         getData();
         tabInOut.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

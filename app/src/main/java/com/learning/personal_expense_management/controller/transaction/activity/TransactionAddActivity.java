@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -112,6 +113,8 @@ public class TransactionAddActivity extends AppCompatActivity {
 //            transactionEdit = (Transaction) intent.getSerializableExtra("transactionEdit");
 //            isEdit = true;
 //        }
+
+
         addWalletLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -517,31 +520,35 @@ public class TransactionAddActivity extends AppCompatActivity {
             } else if (isNotEmptyInputWithoutDateTime()) {
                 progressDialog.show();
                 try {
-                    if (currentWallet.getCurrentMoney() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
-                        openDialog(Gravity.CENTER, "Số dư ví không đủ");
-                    } else if (currentAccount.getCurrentBalance() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
-                        openDialog(Gravity.CENTER, "Số dư tài khoản không đủ");
-                    } else {
-                        boolean isEnableAlert = currentWallet.isLowBalanceAlert();
-                        boolean isAlert = (currentWallet.getCurrentMoney() - Integer.parseInt(binding.editAmount.getText().toString().trim())) < currentWallet.getMinimumBalance();
-                        if (isEnableAlert) {
-                            if (isAlert) {
-                                openDialogListener(Gravity.CENTER, "Sau khi thực hiện giao dịch này, số dư ví sẽ dưới mức tối thiểu", new HandleDialogNoti() {
-                                    @Override
-                                    public void pressOK(String message) throws ParseException {
-                                        if (message.equals("close")) {
-                                            handleThuChi();
+                    if (binding.chipChi.isChecked()) {
+                        if (currentWallet.getCurrentMoney() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
+                            openDialog(Gravity.CENTER, "Số dư ví không đủ");
+                        } else if (currentAccount.getCurrentBalance() < Integer.parseInt(binding.editAmount.getText().toString().trim())) {
+                            openDialog(Gravity.CENTER, "Số dư tài khoản không đủ");
+                        } else {
+                            boolean isEnableAlert = currentWallet.isLowBalanceAlert();
+                            boolean isAlert = (currentWallet.getCurrentMoney() - Integer.parseInt(binding.editAmount.getText().toString().trim())) < currentWallet.getMinimumBalance();
+                            if (isEnableAlert) {
+                                if (isAlert) {
+                                    openDialogListener(Gravity.CENTER, "Sau khi thực hiện giao dịch này, số dư ví sẽ dưới mức tối thiểu", new HandleDialogNoti() {
+                                        @Override
+                                        public void pressOK(String message) throws ParseException {
+                                            if (message.equals("close")) {
+                                                handleThuChi();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                } else {
+                                    handleThuChi();
+                                }
                             } else {
                                 handleThuChi();
                             }
-                        } else {
-                            handleThuChi();
                         }
-
+                    } else if (binding.chipThu.isChecked()) {
+                        handleThuChi();
                     }
+
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -613,7 +620,6 @@ public class TransactionAddActivity extends AppCompatActivity {
                                 public void getWallet(Wallet wallet) {
                                     currentWallet = wallet;
                                     binding.titleWallet.setText(currentWallet.getWalletName());
-                                    Toast.makeText(TransactionAddActivity.this, "", Toast.LENGTH_SHORT).show();
                                     binding.subTitleWallet.setText(String.format("Số dư: %s₫", formatter.format(currentWallet.getCurrentMoney())));
                                 }
                             });
@@ -813,6 +819,10 @@ public class TransactionAddActivity extends AppCompatActivity {
                     }
                 });
             }
+        } else {
+            binding.chipThu.setChecked(true);
+            binding.clRootThuchi.setVisibility(View.VISIBLE);
+            binding.clRootChuyentien.setVisibility(View.GONE);
         }
 
     }
@@ -890,7 +900,8 @@ public class TransactionAddActivity extends AppCompatActivity {
                 FireStoreService.updateTransaction(newTransaction, new FirestoreCallback() {
                     @Override
                     public void onCallback(String result) {
-                        if (!result.equals("error")) {
+                        if (result.equals("success")) {
+                            Log.e("isEdit - transaction - thu chi", "thanh cong");
                             finish();
                         }
                     }
@@ -912,7 +923,8 @@ public class TransactionAddActivity extends AppCompatActivity {
                 FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                     @Override
                     public void onCallback(String result) {
-                        if (result.equals("success")) {
+                        Toast.makeText(TransactionAddActivity.this, "result" + result, Toast.LENGTH_SHORT).show();
+                        if (!result.equals("error")) {
                             finish();
                         }
                     }
@@ -1027,7 +1039,7 @@ public class TransactionAddActivity extends AppCompatActivity {
             FireStoreService.addTransaction(newTransaction, new FirestoreCallback() {
                 @Override
                 public void onCallback(String result) {
-                    if (result.equals("success")) {
+                    if (!result.equals("error")) {
                         finish();
                     }
                 }
@@ -1196,12 +1208,14 @@ public class TransactionAddActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @NonNull
     public static String getCurrentTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         Date currentTime = new Date(System.currentTimeMillis());
         return timeFormat.format(currentTime);
     }
 
+    @NonNull
     public static String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis());
