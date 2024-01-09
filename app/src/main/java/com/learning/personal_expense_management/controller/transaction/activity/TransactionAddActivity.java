@@ -890,7 +890,7 @@ public class TransactionAddActivity extends AppCompatActivity {
                 FireStoreService.updateTransaction(newTransaction, new FirestoreCallback() {
                     @Override
                     public void onCallback(String result) {
-                        if (result.equals("success")) {
+                        if (!result.equals("error")) {
                             finish();
                         }
                     }
@@ -973,7 +973,7 @@ public class TransactionAddActivity extends AppCompatActivity {
             FireStoreService.editAccount(currentAccountResource, new FirestoreCallback() {
                 @Override
                 public void onCallback(String result) {
-                    if (result.equals("success")) {
+                    if (!result.equals("error")) {
                         Log.e("editAccount - rs", "currentAccountResource: " + currentAccountResource.getCurrentBalance() + "");
                     } else {
                         Log.e("editAccount - rs", "currentAccountResource: Error");
@@ -985,7 +985,7 @@ public class TransactionAddActivity extends AppCompatActivity {
             FireStoreService.editAccount(currentAccountTarget, new FirestoreCallback() {
                 @Override
                 public void onCallback(String result) {
-                    if (result.equals("success")) {
+                    if (!result.equals("error")) {
                         Log.e("editAccount - rs", "currentAccountTarget: " + currentAccountTarget.getCurrentBalance() + "");
                     } else {
                         Log.e("editAccount - rs", "currentAccountTarget: Error");

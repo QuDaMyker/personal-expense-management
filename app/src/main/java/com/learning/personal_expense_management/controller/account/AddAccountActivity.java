@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -181,13 +182,14 @@ public class AddAccountActivity extends AppCompatActivity {
                     inputAccount.setCardNumber(binding.accountIdEdt.getText().toString());
                     inputAccount.setExpirationDate(binding.expiryDateEdt.getText().toString());
                     inputAccount.setOwnerId(FirebaseAuth.getInstance().getUid());
-                    String res = FireStoreService.addAccount(inputAccount);
                 }
                 else{
                     inputAccount.setCurrentBalance(Integer.parseInt(binding.balanceEdt.getText().toString()));
                     inputAccount.setOwnerId(FirebaseAuth.getInstance().getUid());
-                    String res = FireStoreService.addAccount(inputAccount);
                 }
+                String res = FireStoreService.addAccount(inputAccount);
+                Toast.makeText(AddAccountActivity.this, "Thêm tài khoản thành công!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

@@ -1,7 +1,9 @@
 package com.learning.personal_expense_management.controller.category;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,22 +23,27 @@ import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.model.Category;
+import com.learning.personal_expense_management.services.CategoryListener;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.FirestoreCallback;
+import com.learning.personal_expense_management.utilities.Constants;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class NewCategoryActivity extends AppCompatActivity {
 
     private boolean isEdit = false;
     private Category updateCat;
-    
-
     private String userCurrent;
+    private boolean isDuplicate = false;
     private ImageButton btnBack;
     private TextInputEditText txTitle;
     private RadioGroup grColor;
@@ -114,9 +121,7 @@ public class NewCategoryActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
-                startActivity(intent);
-
+                finish();
             }
         });
 
@@ -420,22 +425,49 @@ public class NewCategoryActivity extends AppCompatActivity {
 
                             Log.d("newCat", newCat.toString());
 
-                            //đổi thành json ròi gửi lên firebase
-                            FireStoreService.addCategory(newCat, new FirestoreCallback() {
-                                @Override
-                                public void onCallback(String result) {
-                                    Log.d("isUpdate", "false");
-                                    Log.d("result-push", result);
-                                    if ("success".equals(result)) {
-                                        Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(NewCategoryActivity.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+                            //check trùng ở đêy
+                            try {
+                                FirebaseFirestore.getInstance().collection(Constants.KEY_CATEGORY).whereEqualTo("ownerId", newCat.getOwnerId())
+                                        .whereEqualTo("categoryName", newCat.getName())
+                                        .whereEqualTo("background", newCat.getBackGround())
+                                        .whereEqualTo("colorIcon", newCat.getColorIcon())
+                                        .whereEqualTo("icon", newCat.getIcon())
+                                        .whereEqualTo("isIncome", newCat.getIsIncome())
+                                        .get()
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                isDuplicate = true;
+                                            }
+                                        })
+                                         .addOnFailureListener(e -> {
+                                            Log.e("TAG", "Error in onComplete: " + e.getMessage());
+                                        });
+                            } catch (Exception ex)
+                            {
+                                Log.d("TAG", "onClick: lỗi");
+                            }
+
+                            if(!isDuplicate)
+                            {
+                                //đổi thành json ròi gửi lên firebase
+                                FireStoreService.addCategory(newCat, new FirestoreCallback() {
+                                    @Override
+                                    public void onCallback(String result) {
+                                        Log.d("isUpdate", "false");
+                                        Log.d("result-push", result);
+                                        if ("success".equals(result)) {
+                                            Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(NewCategoryActivity.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
-
-
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(NewCategoryActivity.this, "Danh mục đã tồn tại", Toast.LENGTH_SHORT).show();
+                            }
                         } catch (Exception e) {
                             Log.d("er", e.getMessage());
                         }
@@ -458,18 +490,64 @@ public class NewCategoryActivity extends AppCompatActivity {
                                     break;
                             }
 
-                            FireStoreService.updateCategory(updateCat, new FirestoreCallback() {
-                                @Override
-                                public void onCallback(String result) {
-                                    Log.d("isUpdate", "true");
-                                    if ("success".equals(result)) {
-                                        Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(NewCategoryActivity.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+
+                            if (!isDuplicate)
+                            {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NewCategoryActivity.this);
+                                builder.setTitle("Xác nhận cập nhật");
+                                builder.setMessage("Việc cập nhật sẽ ảnh hưởng lịch sử giao dịch.\nBạn có chắc muốn cập nhật danh mục không?");
+
+                                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Người dùng chọn Có, tiến hành cập nhật danh mục
+                                        if (!isDuplicate) {
+                                            FireStoreService.updateCategory(updateCat, new FirestoreCallback() {
+                                                @Override
+                                                public void onCallback(String result) {
+                                                    Log.d("isUpdate", "true");
+                                                    if ("success".equals(result)) {
+                                                        Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(NewCategoryActivity.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        dialog.dismiss();
                                     }
-                                }
-                            });
+                                });
+
+                                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Người dùng chọn Không, không thực hiện cập nhật
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
+
+//                                FireStoreService.updateCategory(updateCat, new FirestoreCallback() {
+//                                    @Override
+//                                    public void onCallback(String result) {
+//                                        Log.d("isUpdate", "true");
+//                                        if ("success".equals(result)) {
+//                                            Intent intent = new Intent(NewCategoryActivity.this, CategoriesActivity.class);
+//                                            startActivity(intent);
+//                                        } else {
+//                                            Toast.makeText(NewCategoryActivity.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }
+//                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(NewCategoryActivity.this, "Danh mục đã tồn tại", Toast.LENGTH_SHORT).show();
+                            }
+
                         } catch (Exception e) {
                             Log.d("er", e.getMessage());
                         }
@@ -482,6 +560,7 @@ public class NewCategoryActivity extends AppCompatActivity {
         grColor1.setOnCheckedChangeListener(listener1);
         grColor2.setOnCheckedChangeListener(listener2);
     }
+
 
     private RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
 
@@ -712,5 +791,36 @@ public class NewCategoryActivity extends AppCompatActivity {
         
         cat.setIcon(icon);
     }
+
+    public CompletableFuture<Boolean> categoryIsDuplicate(Category cat)
+    {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        try
+        {
+            FireStoreService.checkCategoryIsDuplicate(cat, new CategoryListener() {
+                @Override
+                public void onCategoryLoaded(List<Category> categories) {
+                    if(!categories.isEmpty())
+                    {
+                        isDuplicate = true;
+                        future.complete(isDuplicate);
+                    }
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    future.completeExceptionally(new RuntimeException(errorMessage));
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            Log.d("er", "categoryIsDuplicate: "+ ex.getMessage().toString());
+            future.completeExceptionally(ex);
+        }
+        return future;
+    }
+
+
 
 }
