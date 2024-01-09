@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -1195,12 +1196,14 @@ public class TransactionAddActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @NonNull
     public static String getCurrentTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         Date currentTime = new Date(System.currentTimeMillis());
         return timeFormat.format(currentTime);
     }
 
+    @NonNull
     public static String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis());
