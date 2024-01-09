@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,6 +24,8 @@ import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.utilities.Constants;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,7 +191,7 @@ public class FireStoreService {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Transaction transaction = new Transaction(document);
                                 transactionList.add(transaction);
-                                Log.d("getAllTransaction", document.getData().toString());
+                                Log.d("rs", document.getData().toString());
                             }
                             listener.onTransactionsLoaded(transactionList);
                         } else {
@@ -371,6 +374,103 @@ public class FireStoreService {
         } catch (Exception e) {
 
         }
+    }
+
+    public static  void getTransactionForTimePeriod(String ownerId, Date startDate, Date endDate, TransactionListener listener)
+    {
+        List<Transaction> transactionList = new ArrayList<>();
+        Timestamp startTimestamp = new Timestamp(startDate);
+        Timestamp endTimestamp = new Timestamp(endDate);
+
+       try {
+           db.collection(Constants.KEY_TRANSACTION)
+                   .whereEqualTo("ownerId", ownerId)
+                   .get()
+                   .addOnCompleteListener( task -> {
+                       if (task.isSuccessful()) {
+                           for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                               Transaction transaction = new Transaction(documentSnapshot);
+                               transactionList.add(transaction);
+                               Log.d("listTransaction", documentSnapshot.getData().toString());
+                           }
+                           listener.onTransactionsLoaded(transactionList);
+                       } else {
+                           listener.onError("Failed to fetch transactions");
+                       }
+                   })
+                   .addOnFailureListener(e -> {
+                       // Xử lý lỗi ở đây
+                       Log.d("Lỗi", "Khoogn lấy dc");
+
+                   });
+            }
+       catch (Exception ex)
+       {
+
+       }
+    }
+    public static void getTranSactionInMoth (String ownerId, Date startDate, TransactionListener listener )
+    {
+        List<Transaction> transactionList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR) ;
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("month", month+"")
+                    .whereEqualTo("year",year+"")
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                                Log.d("rs - trasaction", document.getData().toString());
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+
+        } catch (Exception ex) {
+            Log.d("lỗi", "Không lấy được giao dịch");
+            ex.printStackTrace();
+        }
+
+    }
+    public static void getTranSactionInYear (String ownerId, Date startDate, TransactionListener listener )
+    {
+        List<Transaction> transactionList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        int year = calendar.get(Calendar.YEAR) ;
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereEqualTo("ownerId", ownerId)
+                    .whereEqualTo("year",year+"")
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d("result fetch", "successful");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                                Log.d("rs - trasaction", document.getData().toString());
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+
+        } catch (Exception ex) {
+            Log.d("lỗi", "Không lấy được giao dịch");
+            ex.printStackTrace();
+        }
+
     }
 
     public static void getParentTransaction(String ownerId, String date, TransactionListener listener) {
@@ -571,18 +671,19 @@ public class FireStoreService {
         List<Wallet> walletList = new ArrayList<>();
 
         try {
-            db.collection(Constants.KEY_WALLET).whereEqualTo("ownerId", ownerId).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Wallet wallet = new Wallet(document);
-                        walletList.add(wallet);
-                        Log.d("rs", document.getData().toString());
-                    }
-                    listener.onWalletsLoaded(walletList);
-                } else {
-                    listener.onError("Failed to fetch wallets");
-                }
-            });
+            db.collection(Constants.KEY_WALLET).whereEqualTo("ownerId", ownerId)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Wallet wallet = new Wallet(document);
+                                walletList.add(wallet);
+                                Log.d("rs", document.getData().toString());
+                            }
+                            listener.onWalletsLoaded(walletList);
+                        } else {
+                            listener.onError("Failed to fetch wallets");
+                        }
+                    });
         } catch (Exception e) {
             listener.onError(e.getMessage());
         }
@@ -863,6 +964,34 @@ public class FireStoreService {
 
             }
         });
+    }
+
+    public static void checkCategoryIsDuplicate( Category cat, CategoryListener listener)
+    {
+        List<Category> categoryList = new ArrayList<>();
+        try {
+            db.collection(Constants.KEY_CATEGORY).whereEqualTo("ownerId", cat.getOwnerId())
+                    .whereEqualTo("categoryName", cat.getName())
+                    .whereEqualTo("background", cat.getBackGround())
+                    .whereEqualTo("colorIcon", cat.getColorIcon())
+                    .whereEqualTo("icon", cat.getIcon())
+                    .whereEqualTo("isIncome", cat.getIsIncome())
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Category category = new Category(document);
+                                categoryList.add(category);
+                                Log.d("rs", document.getData().toString());
+                            }
+                            listener.onCategoryLoaded(categoryList);
+                        } else {
+                            listener.onError("Failed to fetch transactions");
+                        }
+                    });
+        } catch (Exception ex)
+        {
+            listener.onError(ex.getMessage());
+        }
     }
 
     public static String addLoan(Loan loan) {
