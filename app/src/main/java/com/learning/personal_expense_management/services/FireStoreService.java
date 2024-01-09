@@ -417,6 +417,37 @@ public class FireStoreService {
                 });
     }
 
+    public static void getTransactionsById(List<String> ids, TransactionListener listener) {
+        List<Transaction> transactionList = new ArrayList<>();
+
+        try {
+            db.collection(Constants.KEY_TRANSACTION)
+                    .whereIn("id", ids)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Transaction transaction = new Transaction(document);
+                                transactionList.add(transaction);
+                            }
+                            listener.onTransactionsLoaded(transactionList);
+                        } else {
+                            //listener.onError("Failed to fetch transactions");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("ERRORRRRRR", e.getMessage());
+                            listener.onError(e.getMessage());
+                        }
+                    });
+        } catch (Exception e) {
+            listener.onError(e.getMessage());
+        }
+    }
+
+
     public static String addWallet(Wallet wallet) {
         String[] result = {"Some thing went wrong"};
 

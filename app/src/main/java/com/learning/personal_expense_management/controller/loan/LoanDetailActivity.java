@@ -3,8 +3,10 @@ package com.learning.personal_expense_management.controller.loan;
 import static com.learning.personal_expense_management.controller.loan.adapter.LoanAdapter.roundDouble;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,11 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.controller.transaction.adapter.ChildItemAdapter;
+import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
+import com.learning.personal_expense_management.controller.transaction.adapter.ParentItemAdapter;
+import com.learning.personal_expense_management.controller.transaction.adapter.TransactionAdapter;
 import com.learning.personal_expense_management.databinding.ActivityLoanDetailBinding;
 import com.learning.personal_expense_management.model.Loan;
+import com.learning.personal_expense_management.model.Transaction;
+import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.TransactionListener;
 import com.learning.personal_expense_management.utilities.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoanDetailActivity extends AppCompatActivity {
@@ -24,6 +35,9 @@ public class LoanDetailActivity extends AppCompatActivity {
     private ActivityLoanDetailBinding binding;
     private Loan loan;
     Map<Integer, String> periodMap = new HashMap<>();
+
+    ChildItemAdapter childItemAdapter;
+    List<Transaction> transactionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +60,19 @@ public class LoanDetailActivity extends AppCompatActivity {
         periodMap.put(24, "2 năm");
 
         loan = (Loan) getIntent().getSerializableExtra("selected_item");
+
+        childItemAdapter = new ChildItemAdapter(transactionList, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+
+            }
+        }, getBaseContext());
+
+        binding.rvTransaction.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        binding.rvTransaction.setAdapter(childItemAdapter);
+
+        getTransactions();
+
         initData();
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +81,7 @@ public class LoanDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
     void initData(){
@@ -85,5 +113,30 @@ public class LoanDetailActivity extends AppCompatActivity {
         binding.interestRateTv.setText(loan.getInterestRate() + "%/năm");
         binding.interestRateTypeTv.setText(loan.isInterestRateType() ? "Theo dư nợ gốc" : "Theo dư nợ giảm dần");
         binding.periodTv.setText(periodMap.get(loan.getRepaymentPeriod()));
+    }
+
+    void getTransactions(){
+        Toast.makeText(this, "getTransactions " + loan.getPredictTransactions().size(), Toast.LENGTH_SHORT).show();
+        FireStoreService.getTransactionsById(loan.getPredictTransactions(), new TransactionListener() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+                childItemAdapter = new ChildItemAdapter(transactions, new ObjectListener() {
+                    @Override
+                    public void onClick(Object o) {
+
+                    }
+                }, getBaseContext());
+
+                binding.rvTransaction.setAdapter(childItemAdapter);
+                childItemAdapter.notifyDataSetChanged();
+                Toast.makeText(LoanDetailActivity.this, "DONEEEEEEEE", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(LoanDetailActivity.this, "ERROR: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
