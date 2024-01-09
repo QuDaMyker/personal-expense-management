@@ -33,6 +33,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -50,11 +51,15 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.airbnb.android:lottie:6.0.0")
+    implementation("com.sun.mail:javax.mail:1.6.2")
 
 
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-firestore:24.9.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-functions:20.4.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 
 }

@@ -19,6 +19,8 @@ import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.OneCategoryListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.ViewHolder> {
@@ -41,7 +43,6 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ChildItemAdapter.ViewHolder holder, int position) {
         Transaction transaction = list.get(position);
-        Log.d("infotmation transaction", transaction.toString());
         holder.setData(list.get(position));
 
     }
@@ -60,39 +61,50 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.View
         }
 
         private void setData(Transaction transaction) {
-            Log.d("transaction", transaction.getCategoryId().toString());
+            NumberFormat formatter = new DecimalFormat("#,###");
+            if (transaction.getCategoryId().contains("getId")) {
+                binding.imgTransaction.setImageResource(R.drawable.ic_cash);
+                binding.timeTransaction.setVisibility(View.VISIBLE);
+                binding.timeTransaction.setText(transaction.getTransactionTime() + "");
+                binding.categoryTransaction.setText("Chuyển khoản");
+                binding.subTitleTransaction.setText(transaction.getNote());
+                binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
 
-            FireStoreService.getOneCategory(transaction.getCategoryId(), new OneCategoryListener() {
-                @Override
-                public void getCategory(Category category) {
-                    Category categoryItem = category;
+                binding.getRoot().setOnClickListener(v -> {
+                    objectListener.onClick(transaction);
+                });
+            } else {
+                FireStoreService.getOneCategory(transaction.getCategoryId(), new OneCategoryListener() {
+                    @Override
+                    public void getCategory(Category category) {
+                        Category categoryItem = category;
+                        binding.imgTransaction.setImageResource(categoryItem.getIcon());
 
-                    binding.imgTransaction.setImageResource(categoryItem.getIcon());
+                        int colorIcon = context.getResources().getColor(categoryItem.getColorIcon());
+                        binding.imgTransaction.setColorFilter(categoryItem.getColorIcon());
 
-                    int colorIcon =  context.getResources().getColor(categoryItem.getColorIcon());
-                    binding.imgTransaction.setColorFilter(categoryItem.getColorIcon());
+                        if (transaction.isFuture()) {
+                            binding.clLayout.setBackgroundResource(R.drawable.background_primary40_gradient);
+//                            binding.rootView.setCardBackgroundColor(R.drawable.background_primary40_gradient);
+                            binding.timeTransaction.setVisibility(View.GONE);
+                            binding.cvFuture.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.cvFuture.setVisibility(View.GONE);
+                            binding.timeTransaction.setVisibility(View.VISIBLE);
+                            binding.timeTransaction.setText(transaction.getTransactionTime() + "");
+                        }
+                        int backgroundColor = context.getResources().getColor(category.getBackGround());
+                        binding.backGround.setCardBackgroundColor(backgroundColor);
+                        binding.categoryTransaction.setText(category.getName());
+                        binding.subTitleTransaction.setText(transaction.getNote());
+                        binding.priceTransaction.setText(String.format("%sđ", formatter.format(transaction.getAmount())));
 
-                    if (transaction.isFuture()) {
-                        binding.rootView.setCardBackgroundColor(R.drawable.background_primary40_gradient);
-                        binding.timeTransaction.setVisibility(View.GONE);
-                        binding.cvFuture.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.cvFuture.setVisibility(View.GONE);
-                        binding.timeTransaction.setVisibility(View.VISIBLE);
-                        binding.timeTransaction.setText(transaction.getTransactionTime() + "");
+                        binding.getRoot().setOnClickListener(v -> {
+                            objectListener.onClick(transaction);
+                        });
                     }
-                    Log.d("tostring",categoryItem.toString());
-                    binding.categoryTransaction.setText(category.getName());
-                    binding.subTitleTransaction.setText(transaction.getNote());
-                    binding.priceTransaction.setText(transaction.getAmount() + "");
-
-                    binding.getRoot().setOnClickListener(v -> {
-                        objectListener.onClick(transaction);
-                    });
-                }
-            });
-
-
+                });
+            }
         }
     }
 }

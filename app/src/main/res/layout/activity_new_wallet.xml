@@ -28,6 +28,7 @@
             app:tint="@color/secondary40" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thêm ví tiền"
@@ -38,182 +39,298 @@
             android:layout_marginRight="30dp"/>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_app_bar">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên ví tiền"
             android:textColor="@color/black"
+            android:textFontWeight="600"
             android:textSize="16sp"
-            android:textFontWeight="600"/>
+            android:paddingLeft="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_name_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nhập tên ví tiền" />
+                android:hint="Nhập tên ví tiền"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:minLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switch_warning"
+            style="@style/Theme.Switch"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:padding="20dp"
             android:background="@drawable/background_color_secondary80_outline"
+            android:checked="false"
+            android:padding="20dp"
             android:text="Bật cảnh báo ví tiền"
             android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textFontWeight="600"
             android:textSize="16sp"
-            android:checked="false"
-            style="@style/Theme.Switch"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-        <LinearLayout
-            android:id="@+id/line_warning"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/line_warning_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_warning"
             android:visibility="gone">
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:text="Số tiền tối thiểu"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:paddingLeft="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/line_warning_wallet"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_minimun_money_wallet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nhập số tiền tối thiểu ví tiền phải có"
-                    android:inputType="number"/>
-
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:minLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_remind_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vui lòng nhập số tiền"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/primary40"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switch_pretension"
+            style="@style/Theme.Switch"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:padding="20dp"
             android:background="@drawable/background_color_secondary80_outline"
+            android:checked="false"
+            android:padding="20dp"
             android:text="Đặt kỳ vọng tiết kiệm"
             android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textFontWeight="600"
             android:textSize="16sp"
-            android:checked="false"
-            style="@style/Theme.Switch"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_warning_wallet" />
 
-        <LinearLayout
-            android:id="@+id/line_pretension"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/line_pretension_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_pretension"
             android:visibility="gone">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Số tiền kỳ vọng"
-                android:textColor="@color/black"
-                android:textFontWeight="600"
-                android:textSize="16sp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_pretension_money_wallet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nhập số tiền kỳ vọng"
-                    android:inputType="number"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:text="Số tiền kỳ vọng"
+            android:textColor="@color/black"
+            android:textFontWeight="600"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/line_pretension_wallet" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_pretension_money_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập số tiền kỳ vọng"
+                android:inputType="number"
+                android:maxLines="1"
+                android:minLines="1"
+                android:maxLength="10"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_remind_pretension"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vui lòng nhập số tiền"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/primary40"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Hạn chót tiết kiệm"
             android:textColor="@color/black"
+            android:textFontWeight="600"
             android:textSize="16sp"
-            android:textFontWeight="600"/>
+            android:paddingLeft="20dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_pretension_wallet" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_deadline"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="65dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_deadline"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_date_picker"
                 android:hint="Ngày"
-                android:inputType="none"
-                android:textAlignment="textStart"
-                android:drawableRight="@drawable/ic_calendar"/>
+                android:inputType="datetime"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:minLines="1"
+                android:textAlignment="textStart" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="Chu kỳ"
             android:textColor="@color/black"
+            android:textFontWeight="600"
             android:textSize="16sp"
-            android:textFontWeight="600"/>
+            android:layout_marginTop="15dp"
+            android:paddingLeft="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_deadline" />
 
-            <Spinner
-                android:id="@+id/spinner_period"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="5dp"
-                android:autofillHints=""
-                style="@style/Spinner.DropDown" />
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_period"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_new_wallet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_period"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:padding="8dp"
-                android:text="Tạo ví tiền mới"
-                android:textSize="20sp"
-                android:textFontWeight="700"
-                app:backgroundTint="@null"
-                android:background="@drawable/custom_button_bg"/>
-        </LinearLayout>
-    </LinearLayout>
+                android:hint="Nhập chu kì tiết kiệm (tháng)"
+                android:inputType="number"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:minLines="1"
+                android:textAlignment="textStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_new_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_bg"
+            android:padding="8dp"
+            android:text="Tạo ví tiền mới"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            app:backgroundTint="@null"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_period" />
+
+        <TextView
+            android:id="@+id/tv_remind_name_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vui lòng nhập tên ví tiền"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/primary40"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_remind_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vui lòng chọn ngày tháng năm"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/primary40"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_deadline"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_remind_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vui lòng nhập số tháng"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/primary40"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_period"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

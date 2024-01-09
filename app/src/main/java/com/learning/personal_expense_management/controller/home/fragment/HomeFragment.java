@@ -14,17 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.learning.personal_expense_management.controller.category.CategoriesActivity;
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.account.AccountActivity;
 import com.learning.personal_expense_management.controller.loan.LoanActivity;
-import com.learning.personal_expense_management.controller.login.LoginActivity;
-import com.learning.personal_expense_management.controller.wallet.WalletActivity;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeRecentlyActivityAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.HomeTargetAdapter;
 import com.learning.personal_expense_management.controller.home.adapter.home.ObjectListener;
+import com.learning.personal_expense_management.controller.wallet.WalletActivity;
 import com.learning.personal_expense_management.databinding.FragmentHomeBinding;
-import com.learning.personal_expense_management.model.Account;
 import com.learning.personal_expense_management.model.Transaction;
 import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
@@ -138,7 +137,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onClick(Object o) {
                                 Transaction transaction = (Transaction) o;
-                                Toast.makeText(getContext(), transaction.getId(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), transaction.getTransactionTime(), Toast.LENGTH_SHORT).show();
                             }
                         });
 

@@ -8,16 +8,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.learning.personal_expense_management.R;
+import com.learning.personal_expense_management.databinding.ActivityLanguageProfileBinding;
 
 public class LanguageActivity extends AppCompatActivity {
-    ImageButton btnBack;
+    ActivityLanguageProfileBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_language_profile);
+        binding = ActivityLanguageProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        btnBack = findViewById(R.id.btn_Back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

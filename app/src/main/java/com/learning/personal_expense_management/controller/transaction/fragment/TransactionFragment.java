@@ -41,9 +41,16 @@ import com.learning.personal_expense_management.controller.transaction.adapter.P
 import com.learning.personal_expense_management.databinding.DialogConfirmDeleteTransactionBinding;
 import com.learning.personal_expense_management.databinding.DialogDetailTransactionBinding;
 import com.learning.personal_expense_management.databinding.FragmentTransactionBinding;
+import com.learning.personal_expense_management.model.Account;
+import com.learning.personal_expense_management.model.Category;
 import com.learning.personal_expense_management.model.ParentItemTransaction;
 import com.learning.personal_expense_management.model.Transaction;
+import com.learning.personal_expense_management.model.Wallet;
+import com.learning.personal_expense_management.services.AccountListener;
 import com.learning.personal_expense_management.services.FireStoreService;
+import com.learning.personal_expense_management.services.OneAccountListener;
+import com.learning.personal_expense_management.services.OneCategoryListener;
+import com.learning.personal_expense_management.services.OneWalletListener;
 import com.learning.personal_expense_management.services.TransactionListener;
 
 import java.io.Serializable;
@@ -103,7 +110,17 @@ public class TransactionFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMonth = calendar.get(Calendar.MONTH) + 1;
-        Toast.makeText(getContext(), currentMonth + "", Toast.LENGTH_SHORT).show();
+        parentItemAdapter = new ParentItemAdapter(getContext(), mainList, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+                Transaction transaction = (Transaction) o;
+                openDialog(Gravity.CENTER, transaction);
+            }
+        });
+
+        binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.parentRecycleView.setAdapter(parentItemAdapter);
+        parentItemAdapter.notifyDataSetChanged();
         setYear(currentYear);
         setMonth(currentMonth);
 
@@ -269,8 +286,33 @@ public class TransactionFragment extends Fragment {
         bindingDialog = DialogDetailTransactionBinding.inflate(getLayoutInflater());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(bindingDialog.getRoot());
-        //dialog.setContentView(R.layout.layout_dialog_detail_transaction);
+        FireStoreService.getOneCategory(transaction.getCategoryId(), new OneCategoryListener() {
+            @Override
+            public void getCategory(Category category) {
+                Category categoryItem = category;
+                bindingDialog.imgTransaction.setImageResource(categoryItem.getIcon());
+                int colorIcon = getContext().getResources().getColor(categoryItem.getColorIcon());
+                bindingDialog.imgTransaction.setColorFilter(categoryItem.getColorIcon());
+                bindingDialog.titleTransaction.setText(categoryItem.getName());
+                int backgroundColor = getContext().getResources().getColor(category.getBackGround());
+                bindingDialog.backGround.setCardBackgroundColor(backgroundColor);
+            }
+        });
 
+        FireStoreService.getOneAccount(transaction.getDestinationAccount(), new OneAccountListener() {
+            @Override
+            public void getAccount(Account account) {
+                Account sourceAccount = account;
+                bindingDialog.tvTaikhoangiaodich.setText(sourceAccount.getCardName());
+            }
+        });
+
+        FireStoreService.getOneWallet(transaction.getSourceAccount(), new OneWalletListener() {
+            @Override
+            public void getWallet(Wallet wallet) {
+                bindingDialog.tvVigiaodich.setText(wallet.getWalletName());
+            }
+        });
 
         bindingDialog.priceTransaction.setText(transaction.getAmount() + "₫");
         bindingDialog.noteTransaction.setText(transaction.getNote());
@@ -303,9 +345,25 @@ public class TransactionFragment extends Fragment {
 
         bindingDialog.imgBtnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), TransactionAddActivity.class);
-            intent.putExtra("transactionEdit", (Serializable) transaction);
-            startActivity(intent);
+            intent.putExtra("ownerId", transaction.getOwnerId());
+            intent.putExtra("id", transaction.getId());
+            intent.putExtra("transactionType", transaction.getTransactionType());
+            intent.putExtra("amount", transaction.getAmount());
+            intent.putExtra("note", transaction.getNote());
+            intent.putExtra("transactionDate", transaction.getTransactionDate());
+            intent.putExtra("transactionTime", transaction.getTransactionTime());
+            intent.putExtra("sourceAccount", transaction.getSourceAccount());
+            intent.putExtra("destinationAccount", transaction.getDestinationAccount());
+            intent.putExtra("categoryId", transaction.getCategoryId());
+            intent.putExtra("timeStamp", transaction.getTimeStamp());
+            intent.putExtra("month", transaction.getMonth());
+            intent.putExtra("year", transaction.getYear());
+            intent.putExtra("isFuture", transaction.getYear());
+            //startActivity(intent);
+
             launcherEdit.launch(intent);
+
+            dialog.dismiss();
         });
 
         bindingDialog.imgBtnDelete.setOnClickListener(v -> {
@@ -353,22 +411,6 @@ public class TransactionFragment extends Fragment {
         bindingDialog.btnOk.setOnClickListener(v -> {
             dialog.dismiss();
         });
-
-//        ImageButton imgBtnEdit = dialog.findViewById(R.id.imgBtn_edit);
-//        ImageButton imgBtnDelete = dialog.findViewById(R.id.imgBtn_delete);
-//        Button btnOK = dialog.findViewById(R.id.btn_ok);
-//
-//        imgBtnEdit.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        imgBtnDelete.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        btnOK.setOnClickListener(v -> {
-//            dialog.dismiss();
-//        });
         dialog.show();
     }
 
@@ -385,17 +427,7 @@ public class TransactionFragment extends Fragment {
             binding.tvNothinghere.setVisibility(View.VISIBLE);
             binding.parentRecycleView.setVisibility(View.GONE);
         } else {
-            parentItemAdapter = new ParentItemAdapter(getContext(), mainList, new ObjectListener() {
-                @Override
-                public void onClick(Object o) {
-                    Transaction transaction = (Transaction) o;
-                    openDialog(Gravity.CENTER, transaction);
-                }
-            });
 
-            binding.parentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-            binding.parentRecycleView.setAdapter(parentItemAdapter);
-            parentItemAdapter.notifyDataSetChanged();
             for (int i = 0; i < mainList.size(); i++) {
                 Log.d("testList", mainList.get(i).toString());
             }
@@ -424,11 +456,11 @@ public class TransactionFragment extends Fragment {
                             getListTransaction();
                         } else {
                             tempList = transactions;
+                            Log.d("tempList", tempList.size() + "");
                             for (int i = 0; i < tempList.size(); i++) {
-                                Log.d("lst", tempList.get(i).toString());
+                                Log.d("tempList", tempList.get(i).toString());
                             }
                             for (int i = 0; i < tempList.size(); i++) {
-
                                 if (!map.containsKey(tempList.get(i).getTransactionDate().toString())) {
                                     List<Transaction> newList = new ArrayList<>();
                                     newList.add(tempList.get(i));
@@ -437,8 +469,8 @@ public class TransactionFragment extends Fragment {
                                 } else {
                                     map.get(tempList.get(i).getTransactionDate().toString()).add(tempList.get(i));
                                     Log.d("result Map", " TRUNG");
-
                                 }
+
                             }
 
                             map.forEach((s, transactions1) -> {
@@ -447,9 +479,9 @@ public class TransactionFragment extends Fragment {
                             });
 
                             mainList = list;
+                            parentItemAdapter.setList(list);
+                            parentItemAdapter.notifyDataSetChanged();
                             getListTransaction();
-
-
                         }
                     }
 
@@ -466,7 +498,6 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //parentItemTransactionList(-1, -1, -1);
+        parentItemTransactionList(-1, -1, -1);
     }
-
 }
