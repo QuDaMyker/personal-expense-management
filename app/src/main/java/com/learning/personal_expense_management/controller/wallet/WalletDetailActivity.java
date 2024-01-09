@@ -21,6 +21,7 @@ import com.google.firebase.Timestamp;
 import com.learning.personal_expense_management.R;
 
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ChildItemAdapter;
 import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
 import com.learning.personal_expense_management.controller.transaction.adapter.TransactionAdapter;
 import com.learning.personal_expense_management.databinding.ActivityWalletDetailBinding;
@@ -42,13 +43,27 @@ import java.util.List;
 public class WalletDetailActivity extends AppCompatActivity implements ObjectListener{
     private ActivityWalletDetailBinding binding;
     private Wallet selectedWallet;
-    private List<Transaction> currentTransactions;
+    private List<Transaction> transactionList = new ArrayList<>();
+    ChildItemAdapter childItemAdapter;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityWalletDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        childItemAdapter = new ChildItemAdapter(transactionList, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+
+            }
+        }, getBaseContext());
+
+        binding.rvRecentActivity.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        binding.rvRecentActivity.setAdapter(childItemAdapter);
+
+
 
         Intent intent = getIntent();
         selectedWallet = (Wallet) intent.getSerializableExtra("selectedWallet");
@@ -130,15 +145,18 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
             }
         });
 
-        FireStoreService.getTransactionWallet(selectedWallet.getOwnerId(), selectedWallet.getWalletName(), new TransactionListener() {
+        FireStoreService.getTransactionWallet(selectedWallet.getOwnerId(), selectedWallet.getId(), new TransactionListener() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
-//                currentTransactions = new ArrayList<>();
-//                currentTransactions.add(temp);
-                binding.rvRecentActivity.setLayoutManager(new LinearLayoutManager(binding.rvRecentActivity.getContext()));
-                TransactionAdapter transactionAdapter = new TransactionAdapter(binding.rvRecentActivity.getContext(), transactions,(ObjectListener) binding.rvRecentActivity.getContext());
-                transactionAdapter.notifyDataSetChanged();
-                binding.rvRecentActivity.setAdapter(transactionAdapter);
+                childItemAdapter = new ChildItemAdapter(transactions, new ObjectListener() {
+                    @Override
+                    public void onClick(Object o) {
+
+                    }
+                }, getBaseContext());
+
+                binding.rvRecentActivity.setAdapter(childItemAdapter);
+                childItemAdapter.notifyDataSetChanged();
             }
 
             @Override
