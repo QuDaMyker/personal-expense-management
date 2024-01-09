@@ -216,8 +216,9 @@ public class TransactionAddActivity extends AppCompatActivity {
 
                     currentCategory = new Category(ownerId, id, name, background, icon, colorIcon, isInCome);
                     binding.imgDanhmuc.setImageResource(icon);
+                    binding.danhmuc.setCardBackgroundColor(ContextCompat.getColor(getBaseContext(), background));
+                    Toast.makeText(TransactionAddActivity.this, background + "", Toast.LENGTH_SHORT).show();
                     binding.titleDanhmuc.setText(name);
-                    binding.subTitleDanhmuc.setVisibility(View.INVISIBLE);
 
 //                    binding.icon.setImageResource(category.getIcon());
 //                    int colorIcon = context.getResources().getColor(category.getColorIcon());
@@ -674,8 +675,8 @@ public class TransactionAddActivity extends AppCompatActivity {
                                     currentCategory = category;
 
                                     binding.imgDanhmuc.setImageResource(currentCategory.getIcon());
+                                    binding.danhmuc.setCardBackgroundColor(ContextCompat.getColor(getBaseContext(), currentCategory.getBackGround()));
                                     binding.titleDanhmuc.setText(currentCategory.getName());
-                                    binding.subTitleDanhmuc.setVisibility(View.INVISIBLE);
                                 }
                             });
                             binding.editAmount.setText(currentTransaction.getAmount() + "");
