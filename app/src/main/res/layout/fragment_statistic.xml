@@ -259,11 +259,6 @@
 
                     </LinearLayout>
 
-
-
-
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
@@ -316,7 +311,6 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/background_color_white_outline"
                     android:orientation="vertical">
-
                     <TextView
                         android:id="@+id/tvThu"
                         android:layout_width="wrap_content"
@@ -365,13 +359,14 @@
                         >
 
                     </com.github.mikephil.charting.charts.PieChart>
+
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcvCategoriesIncome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/rcvCategoriesIncome"
-                        app:layout_constraintTop_toBottomOf="@id/pieChartIncome"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        >
+                        app:layout_constraintTop_toBottomOf="@id/pieChartIncome">
 
                     </androidx.recyclerview.widget.RecyclerView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -430,7 +425,7 @@
                     </com.github.mikephil.charting.charts.PieChart>
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:id="@+id/rcvCategoriesOutcome"
                         app:layout_constraintTop_toBottomOf="@id/pieChartOutcome"
                         app:layout_constraintLeft_toLeftOf="parent"
