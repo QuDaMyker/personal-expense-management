@@ -1195,7 +1195,7 @@ public class FireStoreService {
                             db.collection(Constants.KEY_LOAN).document(loanId).update("paid", currentPaid + paid);
                         }
 
-                        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat formatDate = new SimpleDateFormat("d/M/yyyy");
                         SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
                         Date c = Calendar.getInstance().getTime();

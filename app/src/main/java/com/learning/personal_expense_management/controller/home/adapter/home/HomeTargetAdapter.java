@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.learning.personal_expense_management.databinding.ItemTargetBinding;
 import com.learning.personal_expense_management.model.Wallet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class HomeTargetAdapter extends RecyclerView.Adapter<HomeTargetAdapter.ViewHolder> {
@@ -48,10 +51,20 @@ public class HomeTargetAdapter extends RecyclerView.Adapter<HomeTargetAdapter.Vi
         }
 
         private void setData(Wallet wallet) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+            Date deadlineDate = null;
+            try {
+                deadlineDate = formatter.parse(wallet.getSavingsDeadline());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date currentDate = new Date();
+            long date = (deadlineDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000);
             binding.titleMuctieu.setText(wallet.getWalletName());
-            binding.priceMucTieu.setText(wallet.getMinimumBalance());
-            binding.noteMucTieuPriceConLai.setText(wallet.getGoalAmount());
-            binding.noteMucTieuTimeConlai.setText(wallet.getSavingsDeadline().toString());
+            binding.priceMucTieu.setText(wallet.getGoalAmount() + "đ");
+            binding.noteMucTieuPriceConLai.setText((wallet.getGoalAmount() - wallet.getCurrentMoney()) + " ");
+            binding.noteMucTieuTimeConlai.setText(date + " ngày");
+            binding.percentTv.setText((int) (wallet.getCurrentMoney()*100/wallet.getGoalAmount()) + "%");
 
             // them value cho progressbar
             binding.getRoot().setOnClickListener(v -> {

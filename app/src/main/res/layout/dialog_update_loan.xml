@@ -36,21 +36,22 @@
             android:textFontWeight="400"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/paidAllCb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trả toàn bộ tiền còn lại"
-        android:textSize="14sp"
-        android:textFontWeight="600"
-        android:textColor="@color/secondary40"
-        android:layout_marginBottom="20dp"/>
+<!--    <CheckBox-->
+<!--        android:id="@+id/paidAllCb"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Trả toàn bộ tiền còn lại"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textFontWeight="600"-->
+<!--        android:textColor="@color/secondary40"-->
+<!--        android:layout_marginBottom="20dp"/>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right">
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:backgroundTint="@color/secondary80"

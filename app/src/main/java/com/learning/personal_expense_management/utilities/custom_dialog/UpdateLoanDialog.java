@@ -29,7 +29,7 @@ public class UpdateLoanDialog extends Dialog implements
     public Loan selectedLoan;
     public TextInputEditText paidEdt;
     public Button btnOk;
-    public CheckBox paidAllCb;
+    public Button btnCancel;
 
     public UpdateLoanDialog(Activity a, Loan selectedLoan) {
         super(a);
@@ -45,27 +45,23 @@ public class UpdateLoanDialog extends Dialog implements
 
         paidEdt = findViewById(R.id.paidEdt);
         btnOk = findViewById(R.id.btn_ok);
-        paidAllCb = findViewById(R.id.paidAllCb);
+        btnCancel = findViewById(R.id.btn_cancel);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FireStoreService.paidLoan(selectedLoan.getId(), Long.parseLong(paidEdt.getText().toString()), paidAllCb.isChecked());
+                FireStoreService.paidLoan(selectedLoan.getId(), Long.parseLong(paidEdt.getText().toString()), false);
                 Toast.makeText(c, "Cập nhật trả tiền khoản vay thành công", Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });
 
-        paidAllCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
-                    paidEdt.setEnabled(false);
-                }
-                else{
-                    paidEdt.setEnabled(true);
-                }
+            public void onClick(View view) {
+                dismiss();
             }
         });
+
     }
 
     @Override
