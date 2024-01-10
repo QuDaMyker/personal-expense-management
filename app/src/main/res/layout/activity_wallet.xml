@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".controller.wallet.WalletActivity">
+    tools:context=".controller.wallet.WalletActivity"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.MaterialToolbar
         app:layout_constraintTop_toTopOf="parent"
@@ -37,18 +38,17 @@
             android:layout_marginRight="30dp"/>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_wallet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_app_bar">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list_wallet"
-            android:layout_width="410dp"
-            android:layout_height="wrap_content"
-             />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/top_app_bar"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:background="@color/white">
+    </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:id="@+id/linearLayout"

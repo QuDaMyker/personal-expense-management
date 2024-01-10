@@ -317,7 +317,7 @@ public class LoginActivity extends AppCompatActivity {
         listCats.add(new Category(userID, "Nước uống", R.color.colorItem6, R.drawable.ic_coffee_bistro, R.color.colorIcon4, 0));
         listCats.add(new Category(userID, "Thời gian chờ", R.color.colorItem3, R.drawable.ic_pending_time_wait_transaction_clock, R.color.colorIcon3, 0));
         listCats.add(new Category(userID, "Nước", R.color.colorItem1, R.drawable.ic_water_tap, R.color.colorIcon1, 0));
-        listCats.add(new Category(userID, "Lãi", R.color.colorItem8, R.drawable.ic_interest, R.color.green, 1));
+        listCats.add(new Category(userID, "Khoản vay", R.color.colorItem8, R.drawable.ic_interest, R.color.green, 1));
         listCats.add(new Category(userID, "Em bé", R.color.colorItem7, R.drawable.ic_kid_care_stroller, R.color.colorIcon7, 0));
         listCats.add(new Category(userID, "Bảo hiểm", R.color.colorItem5, R.drawable.ic_insurance_shield, R.color.colorIcon5, 0));
         listCats.add(new Category(userID, "Nhà", R.color.colorItem4, R.drawable.ic_home, R.color.colorIcon6, 0));
@@ -333,10 +333,6 @@ public class LoginActivity extends AppCompatActivity {
         listCats.add(new Category(userID, "Xăng dầu", R.color.colorItem4, R.drawable.ic_station_fuel, R.color.colorIcon6, 0));
         listCats.add(new Category(userID, "Thiết bi", R.color.colorItem1, R.drawable.ic_computer, R.color.colorIcon1, 0));
         listCats.add(new Category(userID, "Từ thiện", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
-        listCats.add(new Category(userID, "Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
-        listCats.add(new Category(userID, "Testtttttttttttttttttttttttttttttttttttttttttttttttttttt", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
-        listCats.add(new Category(userID, "Từ thiện", R.color.colorItem2, R.drawable.ic_social_heart_donation_care_calendar, R.color.colorIcon2, 0));
         return listCats;
-
     }
 }

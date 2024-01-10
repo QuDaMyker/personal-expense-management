@@ -918,7 +918,7 @@ public class FireStoreService {
             categoryMap.put("icon", category.getIcon());
             categoryMap.put("colorIcon", category.getColorIcon());
             categoryMap.put("isIncome", category.getIsIncome());
-
+            Log.d("TAG", "addCategory: " + categoryMap);
 
             db.collection(Constants.KEY_CATEGORY).document(category.getId()).set(categoryMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -926,9 +926,11 @@ public class FireStoreService {
                     if (task.isSuccessful()) {
                         callback.onCallback("success");
                         result[0] = "success";
+                        Log.d("TAG", "onComplete: success");
                     } else {
                         callback.onCallback("error");
                         result[0] = "error";
+                        Log.d("TAG", "onComplete: erro");
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -965,6 +967,7 @@ public class FireStoreService {
 
     public static void getOneCategory(String categoryId, OneCategoryListener listener) {
         try {
+            Log.d("getOneCategory - rs", "Id"+ categoryId);
             db.collection(Constants.KEY_CATEGORY).whereEqualTo("id", categoryId).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
@@ -972,7 +975,7 @@ public class FireStoreService {
                         listener.getCategory(category);
                         break;
                     }
-                    Log.e("getOneCategory - rs", "success");
+                    Log.d("getOneCategory - rs", "success");
                 } else {
                     Log.d("getOneCategory - rs", "Error getting document: " + task.getException());
 
@@ -1202,7 +1205,7 @@ public class FireStoreService {
                         Transaction newTransaction = new Transaction(
                                 FirebaseAuth.getInstance().getUid(),
                                 "idLater",
-                                isLend ? 1 : 0,
+                                isLend ? 0 : 1,
                                 Integer.parseInt(String.valueOf(paid)),
                                 "Trả tiền khoản vay " + document.get("borrowerName"),
                                 date,

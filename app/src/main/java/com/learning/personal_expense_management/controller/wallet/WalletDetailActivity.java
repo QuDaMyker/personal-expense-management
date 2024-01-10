@@ -1,5 +1,7 @@
 package com.learning.personal_expense_management.controller.wallet;
 
+import static android.view.View.GONE;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import com.google.firebase.Timestamp;
 import com.learning.personal_expense_management.R;
 
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
+import com.learning.personal_expense_management.controller.transaction.adapter.ChildItemAdapter;
 import com.learning.personal_expense_management.controller.transaction.adapter.ObjectListener;
 import com.learning.personal_expense_management.controller.transaction.adapter.TransactionAdapter;
 import com.learning.personal_expense_management.databinding.ActivityWalletDetailBinding;
@@ -28,6 +31,8 @@ import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.TransactionListener;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +43,9 @@ import java.util.List;
 public class WalletDetailActivity extends AppCompatActivity implements ObjectListener{
     private ActivityWalletDetailBinding binding;
     private Wallet selectedWallet;
-    private List<Transaction> currentTransactions;
+    private List<Transaction> transactionList = new ArrayList<>();
+    ChildItemAdapter childItemAdapter;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +53,37 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
         binding = ActivityWalletDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        childItemAdapter = new ChildItemAdapter(transactionList, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+
+            }
+        }, getBaseContext());
+
+        binding.rvRecentActivity.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        binding.rvRecentActivity.setAdapter(childItemAdapter);
+
+
+
         Intent intent = getIntent();
         selectedWallet = (Wallet) intent.getSerializableExtra("selectedWallet");
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WalletDetailActivity.this,WalletActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
         binding.tvNameWallet.setText(selectedWallet.getWalletName());
         binding.tvMoneyWallet.setText(String.valueOf(selectedWallet.getCurrentMoney())+" đ");
 
-        String[] deadlineSaving = selectedWallet.getSavingsDeadline().split("-");
-        binding.monthYearDeadline.setText(deadlineSaving[1] +" - " + deadlineSaving[0]);
-        binding.dateDeadline.setText(deadlineSaving[2]);
 
         int goalAmount = selectedWallet.getGoalAmount();
         if(goalAmount>0){
+            String[] deadlineSaving = selectedWallet.getSavingsDeadline().split("-");
+            binding.monthYearDeadline.setText("Th" + deadlineSaving[1] +", " + deadlineSaving[0]);
+            binding.dateDeadline.setText(deadlineSaving[2]);
             int currentMoney = selectedWallet.getCurrentMoney();
             int valueProgress;
             if(currentMoney<goalAmount) {
@@ -77,13 +95,17 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
             int months = Integer.valueOf(deadlineSaving[1]) - LocalDate.now().getMonthValue();
 
             binding.tvPretensionWallet.setText(String.valueOf(goalAmount)+" đ");
-            binding.tvSavingPerMonth.setText(String.valueOf(goalAmount-currentMoney/months) + " đ");
+            if(months == 0){
+                months = 1;
+            }
+            binding.tvSavingPerMonth.setText(monthlyAmount(selectedWallet.getSavingsDeadline(), selectedWallet.getGoalAmount()) + "đ");
             binding.progressBar.setProgress(valueProgress);
         }
         else{
-            binding.tvPretensionWallet.setVisibility(View.GONE);
-            binding.tvSavingPerMonth.setVisibility(View.GONE);
-            binding.lineMonthSavingMoney.setVisibility(View.GONE);
+            binding.tvPretensionWallet.setVisibility(GONE);
+            binding.tvSavingPerMonth.setVisibility(GONE);
+            binding.lineMonthSavingMoney.setVisibility(GONE);
+            binding.lineDeadline.setVisibility(GONE);
                     
             if (selectedWallet.getCurrentMoney()==0){
                 binding.progressBar.setProgress(0);
@@ -123,15 +145,18 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
             }
         });
 
-        FireStoreService.getTransactionWallet(selectedWallet.getOwnerId(), selectedWallet.getWalletName(), new TransactionListener() {
+        FireStoreService.getTransactionWallet(selectedWallet.getOwnerId(), selectedWallet.getId(), new TransactionListener() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
-//                currentTransactions = new ArrayList<>();
-//                currentTransactions.add(temp);
-                binding.rvRecentActivity.setLayoutManager(new LinearLayoutManager(binding.rvRecentActivity.getContext()));
-                TransactionAdapter transactionAdapter = new TransactionAdapter(binding.rvRecentActivity.getContext(), transactions,(ObjectListener) binding.rvRecentActivity.getContext());
-                transactionAdapter.notifyDataSetChanged();
-                binding.rvRecentActivity.setAdapter(transactionAdapter);
+                childItemAdapter = new ChildItemAdapter(transactions, new ObjectListener() {
+                    @Override
+                    public void onClick(Object o) {
+
+                    }
+                }, getBaseContext());
+
+                binding.rvRecentActivity.setAdapter(childItemAdapter);
+                childItemAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -172,6 +197,21 @@ public class WalletDetailActivity extends AppCompatActivity implements ObjectLis
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public int monthlyAmount(String deadline, int totalAmount) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+        Date deadlineDate;
+        try {
+            deadlineDate = formatter.parse(deadline);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        Date currentDate = new Date();
+        long date = (deadlineDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000);
+        double monthlyAmount = totalAmount / (date / 30.0);
+        return monthlyAmount > totalAmount ? totalAmount : (int) monthlyAmount;
     }
 
     @Override
