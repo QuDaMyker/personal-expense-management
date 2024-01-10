@@ -143,7 +143,11 @@ public class StatisticFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -175,24 +179,7 @@ public class StatisticFragment extends Fragment {
         catStatisticListOutCome  = new ArrayList<>();
         catStatisticListInCome = new ArrayList<>();
 
-        inComeNunm = 0;
-        outComeNum = 0;
-        lístTransactions.clear();
-        inCome.clear();;
-        outCome.clear();
-        catStatisticListInCome.clear();
-        catStatisticListOutCome.clear();
-        getFistDateLastDate(1);
-        getTransactionMonth(firstDay, lastDay);
-
-        NumberFormat formatter = new DecimalFormat("#,###");
-        FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
-            @Override
-            public void onCallback(String result) {
-                tvBalanceMoney.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
-            }
-        });
-
+        getData();
         tabTime.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -265,7 +252,6 @@ public class StatisticFragment extends Fragment {
                 lastDay = lastDate0.getTime();
                 Log.d("test", "first: " + firstDay);
                 Log.d("test", "last: " + lastDay);
-
 
                 break;
             case 1:
@@ -709,5 +695,23 @@ public class StatisticFragment extends Fragment {
         pieChartOutcome.invalidate();
     }
 
+    private void getData (){
+        inComeNunm = 0;
+        outComeNum = 0;
+        lístTransactions.clear();
+        inCome.clear();;
+        outCome.clear();
+        catStatisticListInCome.clear();
+        catStatisticListOutCome.clear();
+        getFistDateLastDate(1);
+        getTransactionMonth(firstDay, lastDay);
+        NumberFormat formatter = new DecimalFormat("#,###");
+        FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
+            @Override
+            public void onCallback(String result) {
+                tvBalanceMoney.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
+            }
+        });
+    }
 
 }
