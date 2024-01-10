@@ -40,10 +40,18 @@ import java.util.Map;
 public class FireStoreService {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public static void isExistProfile(UserProfile userProfile, UserProfileListener listener) {
-        db.collection(Constants.KEY_USER_PROFILE).whereEqualTo("id", userProfile.getId()).get().addOnCompleteListener(task -> {
+    public static void isExistProfile(String uid, UserProfileListener listener) {
+        db.collection(Constants.KEY_USER_PROFILE).whereEqualTo("id", uid).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 boolean exists = !task.getResult().isEmpty();
+                if (exists) {
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        UserProfile userProfile = new UserProfile(document);
+                        listener.onUserProfilesLoaded(userProfile);
+                        break;
+                    }
+                }
                 listener.onExist(exists);
             } else {
                 listener.onError("Error checking account existence: " + task.getException().getMessage());
@@ -58,6 +66,7 @@ public class FireStoreService {
             userProfiletMap.put("id", userProfile.getId());
             userProfiletMap.put("name", userProfile.getName());
             userProfiletMap.put("email", userProfile.getEmail());
+            userProfiletMap.put("photoUrl", userProfile.getPhotoUrl());
             userProfiletMap.put("defaultCurrency", userProfile.getDefaultCurrency());
             userProfiletMap.put("language", userProfile.getLanguage());
             userProfiletMap.put("securityMethod", userProfile.getSecurityMethod());
@@ -91,17 +100,18 @@ public class FireStoreService {
     }
 
     public static void getUserProfile(String id, UserProfileListener listener) {
-        List<UserProfile> userProfileList = new ArrayList<>();
 
         try {
             db.collection(Constants.KEY_USER_PROFILE).whereEqualTo("id", id).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProfile userProfile = new UserProfile(document);
-                        userProfileList.add(userProfile);
-                        Log.d("rs", document.getData().toString());
+                        listener.onUserProfilesLoaded(userProfile);
+                        break;
+
                     }
-                    listener.onUserProfilesLoaded(userProfileList);
+
+                    Log.d("getUserProfile - rs", "success");
                 } else {
                     listener.onError("Failed to fetch transactions");
                 }

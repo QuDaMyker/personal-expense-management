@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Khoản vay"
+            android:text="@string/khoanvay"
             android:textColor="@color/primary40"
             android:textSize="24sp"
             android:textFontWeight="700"
@@ -60,7 +60,7 @@
                     app:backgroundTint="@null"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:icon="@drawable/ic_pen"
-                    android:text="Sửa"
+                    android:text="@string/sua"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textFontWeight="600"
@@ -79,7 +79,7 @@
                     app:backgroundTint="@null"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:textFontWeight="600"
-                    android:text="Xóa"
+                    android:text="@string/xoa"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="13sp"
@@ -93,7 +93,7 @@
                 android:id="@+id/noteTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vay tiền mua xe"
+                android:text="@string/vaytienmuaxe"
                 android:textFontWeight="800"
                 android:textSize="24sp"
                 android:textColor="@color/secondary40"
@@ -132,7 +132,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tiền gốc: "
+                    android:text="@string/tiengoc"
                     android:textColor="@color/secondary40"
                     android:textFontWeight="500"
                     android:textSize="14sp"/>
@@ -190,7 +190,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Người vay"
+                        android:text="@string/nguoivay"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -214,7 +214,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Loại khoản vay"
+                        android:text="@string/loaitaikhoan"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -224,7 +224,7 @@
                         android:layout_weight="1"
                         android:textAlignment="viewEnd"
                         android:layout_height="wrap_content"
-                        android:text="Vay"
+                        android:text="@string/vay"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -238,7 +238,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ngày"
+                        android:text="@string/ngay"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -262,7 +262,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Giờ"
+                        android:text="@string/gio"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -285,7 +285,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thời hạn thanh toán"
+                        android:text="@string/thoigianthanhtoan"
                         android:textColor="@color/primary40"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -318,7 +318,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lãi suất"
+                        android:text="@string/laisuat"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -342,7 +342,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cách tính"
+                        android:text="@string/cachtinh"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -352,7 +352,7 @@
                         android:layout_weight="1"
                         android:textAlignment="viewEnd"
                         android:layout_height="wrap_content"
-                        android:text="Theo dư nợ gốc"
+                        android:text="@string/theonogoc"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -365,7 +365,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thời hạn"
+                        android:text="@string/thoihan"
                         android:textColor="@color/secondary20"
                         android:textFontWeight="600"
                         android:textSize="16sp"/>
@@ -384,7 +384,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hoạt động gần đây"
+                android:text="@string/hoatdongganday"
                 android:textSize="16sp"
                 android:textFontWeight="800"
                 android:textColor="@color/secondary40"

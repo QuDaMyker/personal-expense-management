@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thêm khoản vay"
+            android:text="@string/themkhoanvay"
             android:textColor="@color/primary40"
             android:textSize="24sp"
             android:textFontWeight="700"
@@ -53,7 +53,7 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Loại giao dịch"
+                android:text="@string/loaigiaodich"
                 android:layout_marginBottom="10dp"/>
             <RadioGroup
                 android:id="@+id/typeRG"
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:button="@android:color/transparent"
                     android:textAlignment="center"
-                    android:text="Vay"
+                    android:text="@string/vay"
                     android:textFontWeight="600"
                     android:textColor="@drawable/radio_button_text_selector"
                     android:background="@drawable/radio_button_bg_selector"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:button="@android:color/transparent"
                     android:textAlignment="center"
-                    android:text="Cho vay"
+                    android:text="@string/chovay"
                     android:textFontWeight="600"
                     android:textColor="@drawable/radio_button_text_selector"
                     android:background="@drawable/radio_button_bg_selector"
@@ -93,14 +93,14 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Tên người vay"
+                android:text="@string/tennguoivay"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Nhập tên người vay"
+                android:hint="@string/nhaptennguoivay"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -116,14 +116,14 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Số tiền"
+                android:text="@string/sotien"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Nhập số tiền cho vay"
+                android:hint="@string/nhapsotienchovay"
                 app:suffixText="₫"
                 app:errorEnabled="true">
 
@@ -141,14 +141,14 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Ghi chú"
+                android:text="@string/ghichu"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Nhập ghi chú"
+                android:hint="@string/nhapghichu"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -164,7 +164,7 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Ngày giao dịch"
+                android:text="@string/ngaygiaodich"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:inputType="none"
-                    android:hint="Bấm để chọn ngày giao dịch"/>
+                    android:hint="@string/bamdechonngaygiaodich"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -189,7 +189,7 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Thời gian giao dịch"
+                android:text="@string/thoigiangiaodich"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:inputType="none"
-                    android:hint="Bấm để chọn thời gian"/>
+                    android:hint="@string/bamdechonthoigian"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -214,7 +214,7 @@
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 android:textColor="@color/secondary20"
-                android:text="Thời hạn vay"
+                android:text="@string/thoihanvay"
                 android:layout_marginBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -229,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:inputType="none"
-                    android:hint="Bấm để chọn thời hạn vay"/>
+                    android:hint="@string/bamdechonthoihanvay"/>
             </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
                 android:id="@+id/deadlineLayout"
@@ -241,7 +241,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đến hạn thanh toán vào "/>
+                    android:text="@string/denhanthanhtoanvao"/>
                 <TextView
                     android:id="@+id/deadlineTv"
                     android:layout_width="wrap_content"
@@ -258,7 +258,7 @@
                 android:layout_marginTop="30dp"
                 android:padding="20dp"
                 android:background="@drawable/background_color_secondary80_outline"
-                android:text="Có lãi suất"
+                android:text="@string/colaisuat"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textFontWeight="600"
@@ -278,7 +278,7 @@
                     android:textFontWeight="600"
                     android:textSize="16sp"
                     android:textColor="@color/secondary20"
-                    android:text="Cách tính"
+                    android:text="@string/cachtinh"
                     android:layout_marginBottom="10dp"/>
                 <RadioGroup
                     android:id="@+id/interestRateTypeRG"
@@ -293,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:button="@android:color/transparent"
                         android:textAlignment="center"
-                        android:text="Dư nợ gốc"
+                        android:text="@string/dunogoc"
                         android:textFontWeight="600"
                         android:textColor="@drawable/radio_button_text_selector"
                         android:background="@drawable/radio_button_bg_selector"
@@ -305,7 +305,7 @@
                         android:layout_height="wrap_content"
                         android:button="@android:color/transparent"
                         android:textAlignment="center"
-                        android:text="Dư nợ giảm dần"
+                        android:text="@string/dunogiamdan"
                         android:textFontWeight="600"
                         android:textColor="@drawable/radio_button_text_selector"
                         android:background="@drawable/radio_button_bg_selector"
@@ -318,14 +318,14 @@
                     android:textFontWeight="600"
                     android:textSize="16sp"
                     android:textColor="@color/secondary20"
-                    android:text="Lãi suất"
+                    android:text="@string/laisuat"
                     android:layout_marginBottom="10dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:hint="Nhập lãi suất khoản vay"
+                    android:hint="@string/nhaplaisuatkhoanvay"
                     app:suffixText="%/năm"
                     app:errorEnabled="true">
 
@@ -343,7 +343,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Lưu"
+                android:text="@string/luu"
                 android:textSize="20sp"
                 android:textFontWeight="700"
                 app:backgroundTint="@null"

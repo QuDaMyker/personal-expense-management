@@ -584,6 +584,7 @@ public class TransactionAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int transactionType = intent.getIntExtra("transactionType", -1);
         if (transactionType != -1) {
+            isEdit = true;
             String ownerId = intent.getStringExtra("ownerId");
             String id = intent.getStringExtra("id");
 

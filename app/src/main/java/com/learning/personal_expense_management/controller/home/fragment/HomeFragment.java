@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.services.TransactionListener;
+import com.learning.personal_expense_management.utilities.Constants;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 import com.squareup.picasso.Picasso;
 
@@ -46,6 +48,7 @@ public class HomeFragment extends Fragment {
     private PreferenceManager preferenceManager;
 
     private CardView cardCategory;
+    private boolean isHidden = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +85,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Picasso.get().load(preferenceManager.getString("imageProfile")).into(binding.profileImage);
+        if (preferenceManager.getBoolean(Constants.KEY_ANONYMOUS_PROFILE)) {
+            binding.profileImage.setImageResource(R.drawable.ic_example);
+        } else if(preferenceManager.getBoolean(Constants.KEY_GOOGLE_PROFILE)){
+            Picasso.get().load(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE)).into(binding.profileImage);
+//            Log.d("image - profile", FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
+        }
+
         NumberFormat formatter = new DecimalFormat("#,###");
         FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
             @Override
@@ -94,6 +103,22 @@ public class HomeFragment extends Fragment {
     }
 
     private void setListeners() {
+        binding.hiddenCurrentBalance.setOnClickListener(v-> {
+            isHidden = !isHidden;
+            if(isHidden) {
+                binding.hiddenCurrentBalance.setImageResource(R.drawable.ic_visibility_off);
+                binding.tvSoDuHienTai.setText("******");
+            }else {
+                binding.hiddenCurrentBalance.setImageResource(R.drawable.ic_visible_on);
+                NumberFormat formatter = new DecimalFormat("#,###");
+                FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
+                    @Override
+                    public void onCallback(String result) {
+                        binding.tvSoDuHienTai.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
+                    }
+                });
+            }
+        });
         binding.btnWalletaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

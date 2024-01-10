@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/quicksand_bold"
-            android:text="Chọn danh mục"
+            android:text="@string/chondanhmuc"
             android:textColor="@color/primary40"
             android:textFontWeight="700"
             android:textSize="24sp" />
@@ -55,13 +55,13 @@
             android:id="@+id/itemOut"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Chi tiêu" />
+            android:text="@string/chitieu" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/itemIn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Thu nhập" />
+            android:text="@string/thunhap" />
 
     </com.google.android.material.tabs.TabLayout>
 

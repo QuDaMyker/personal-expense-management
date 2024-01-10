@@ -1,4 +1,4 @@
-package com.learning.personal_expense_management.controller.profile;
+package com.learning.personal_expense_management.controller.profile.activity;
 
 import android.os.Bundle;
 import android.view.View;

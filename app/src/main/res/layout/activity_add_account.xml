@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Loại tài khoản"
+                android:text="@string/loaitaikhoan"
                 android:textColor="@color/secondary20"
                 android:textFontWeight="600"
                 android:textSize="16sp" />
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="Tiền mặt"
+                    android:text="@string/tienmat"
                     android:textColor="@color/secondary20"
                     android:textFontWeight="600"
                     android:textSize="16sp"
@@ -131,7 +131,7 @@
                         android:id="@+id/labelBalanceWallet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Số dư tài khoản"
+                        android:text="@string/sodutaikhoan"
                         android:textColor="@color/white"
                         android:textFontWeight="700"
                         android:textSize="14sp"
@@ -163,7 +163,7 @@
                         android:id="@+id/labelBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Số dư tài khoản"
+                        android:text="@string/sodutaikhoan"
                         android:textColor="@color/white"
                         android:textFontWeight="700"
                         android:textSize="14sp"
@@ -224,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Tên thẻ"
+                    android:text="@string/tenthe"
                     android:textColor="@color/secondary20"
                     android:textFontWeight="600"
                     android:textSize="16sp" />
@@ -246,7 +246,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Số thẻ"
+                    android:text="@string/sothe"
                     android:textColor="@color/secondary20"
                     android:textFontWeight="600"
                     android:textSize="16sp" />
@@ -254,7 +254,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nhập số thẻ"
+                    android:hint="@string/nhapsothe"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -268,7 +268,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Ngày hết hạn"
+                    android:text="@string/ngayhethan"
                     android:textColor="@color/secondary20"
                     android:textFontWeight="600"
                     android:textSize="16sp" />
@@ -296,7 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Số tiền hiện có"
+                android:text="@string/sotienhienco"
                 android:textColor="@color/secondary20"
                 android:textFontWeight="600"
                 android:textSize="16sp" />
@@ -304,7 +304,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nhập số tiền hiện có"
+                android:hint="@string/nhapsotienhienco"
                 app:errorEnabled="true"
                 app:suffixText="₫">
 
@@ -322,7 +322,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button_bg"
                 android:padding="8dp"
-                android:text="Tạo tài khoản mới"
+                android:text="@string/taotaikhoanmoi"
                 android:textFontWeight="700"
                 android:textSize="20sp"
                 app:backgroundTint="@null" />
