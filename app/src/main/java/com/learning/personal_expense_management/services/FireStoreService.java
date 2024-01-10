@@ -1185,7 +1185,7 @@ public class FireStoreService {
                             db.collection(Constants.KEY_LOAN).document(loanId).update("paid", currentPaid + paid);
                         }
 
-                        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat formatDate = new SimpleDateFormat("d/M/yyyy");
                         SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
                         Date c = Calendar.getInstance().getTime();
@@ -1202,7 +1202,7 @@ public class FireStoreService {
                                 time,
                                 "",
                                 "",
-                                "c1r3RCrV1Mzj8C5jvQIb",
+                                "1WRc9Z7Fu3bVNcih6EZN",
                                 new com.google.firebase.Timestamp(c),
                                 false
                         );
