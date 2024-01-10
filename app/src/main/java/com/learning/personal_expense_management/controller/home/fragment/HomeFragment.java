@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
                 FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
                     @Override
                     public void onCallback(String result) {
-                        binding.tvSoDuHienTai.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
+                        //binding.tvSoDuHienTai.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
                     }
                 });
             }

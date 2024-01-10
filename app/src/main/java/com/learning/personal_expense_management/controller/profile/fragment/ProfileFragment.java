@@ -158,7 +158,8 @@ public class ProfileFragment extends Fragment {
         } else if (preferenceManager.getBoolean(Constants.KEY_GOOGLE_PROFILE)) {
 //            Picasso.get().load(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE)).into(binding.profileImage);
 //            Log.d("image - profile", FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
-            binding.btnUpdate.setVisibility(View.VISIBLE);
+           // binding.btnUpdate.setVisibility(View.VISIBLE);
+            binding.btnUpdate.setVisibility(View.GONE);
             Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(binding.civUserImage);
             binding.tvUserName.setText(preferenceManager.getString(Constants.KEY_NAME_PROFILE));
             binding.tvUserEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
