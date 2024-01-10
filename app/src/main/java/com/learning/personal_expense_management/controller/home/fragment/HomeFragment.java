@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
 //            Log.d("image - profile", FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
         }
 
-        Picasso.get().load(preferenceManager.getString("imageProfile")).into(binding.profileImage);
+        Picasso.get().load(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE)).into(binding.profileImage);
         NumberFormat formatter = new DecimalFormat("#,###");
         FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
             @Override
