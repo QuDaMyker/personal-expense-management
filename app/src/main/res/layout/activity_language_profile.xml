@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".controller.profile.LanguageActivity">
+    tools:context=".controller.profile.activity.LanguageActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ngôn ngữ"
+            android:text="@string/ngonngu"
             android:textColor="@color/primary40"
             android:textSize="24sp"
             android:textFontWeight="700"

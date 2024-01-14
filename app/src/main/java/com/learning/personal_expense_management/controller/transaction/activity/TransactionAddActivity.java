@@ -103,6 +103,11 @@ public class TransactionAddActivity extends AppCompatActivity {
 
     private void init() {
         handleIntent();
+        // invisible switch Future
+        binding.clTransactionFuture.setVisibility(View.GONE);
+        binding.clChuyentienTransactionFuture.setVisibility(View.GONE);
+
+        //=====================
         progressDialog = new ProgressDialog(TransactionAddActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
@@ -585,6 +590,7 @@ public class TransactionAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int transactionType = intent.getIntExtra("transactionType", -1);
         if (transactionType != -1) {
+            isEdit = true;
             String ownerId = intent.getStringExtra("ownerId");
             String id = intent.getStringExtra("id");
 
@@ -839,7 +845,7 @@ public class TransactionAddActivity extends AppCompatActivity {
 
     private void handleThuChi() throws ParseException {
         Transaction newTransaction = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy HH:mm", Locale.getDefault());
         if (!binding.switchFuture.isChecked() && isNotEmptyDateTime()) {
             String dateStr = binding.editTransactionDay.getText().toString().trim();
             String timeStr = binding.editTransactionTime.getText().toString().trim();
@@ -885,7 +891,11 @@ public class TransactionAddActivity extends AppCompatActivity {
         }
 
         if (isEdit) {
-            currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() + oldTransaction.getAmount() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            if(binding.chipThu.isChecked()) {
+                currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() + oldTransaction.getAmount() + Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            }else if(binding.chipChi.isChecked()){
+                currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() + oldTransaction.getAmount() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            }
             FireStoreService.editAccount(currentAccount, new FirestoreCallback() {
                 @Override
                 public void onCallback(String result) {
@@ -893,7 +903,13 @@ public class TransactionAddActivity extends AppCompatActivity {
                 }
             });
 
-            currentWallet.setCurrentMoney(currentWallet.getCurrentMoney() + oldTransaction.getAmount() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            if(binding.chipThu.isChecked()) {
+                currentWallet.setCurrentMoney(currentWallet.getCurrentMoney() + oldTransaction.getAmount() + Integer.parseInt(binding.editAmount.getText().toString().trim()));
+
+            }else if(binding.chipChi.isChecked()) {
+                currentWallet.setCurrentMoney(currentWallet.getCurrentMoney() + oldTransaction.getAmount() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            }
+
             FireStoreService.editWallet(currentWallet);
 
             if (newTransaction != null) {
@@ -908,15 +924,26 @@ public class TransactionAddActivity extends AppCompatActivity {
                 });
             }
         } else {
-            currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+
+            if(binding.chipThu.isChecked()) {
+                currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() + Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            }else if(binding.chipChi.isChecked()) {
+                currentAccount.setCurrentBalance(currentAccount.getCurrentBalance() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            }
             FireStoreService.editAccount(currentAccount, new FirestoreCallback() {
                 @Override
                 public void onCallback(String result) {
 
                 }
             });
+            if(binding.chipThu.isChecked()) {
+                currentWallet.setCurrentMoney(currentWallet.getCurrentMoney() + Integer.parseInt(binding.editAmount.getText().toString().trim()));
 
-            currentWallet.setCurrentMoney(currentWallet.getCurrentMoney() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+            }else if(binding.chipChi.isChecked()) {
+                currentWallet.setCurrentMoney(currentWallet.getCurrentMoney() - Integer.parseInt(binding.editAmount.getText().toString().trim()));
+
+            }
+
             FireStoreService.editWallet(currentWallet);
 
             if (newTransaction != null) {

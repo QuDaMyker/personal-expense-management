@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tài khoản"
+            android:text="@string/taikhoan"
             android:textColor="@color/primary40"
             android:textSize="24sp"
             android:textFontWeight="700"
@@ -72,7 +72,7 @@
                     android:textFontWeight="600"
                     android:textColor="@color/secondary20"
                     android:textSize="16sp"
-                    android:text="Thẻ Visa 1"
+                    android:text="@string/thevisa1"
                     android:layout_marginStart="20dp"/>
 
                 <ImageView
@@ -97,7 +97,7 @@
                     app:backgroundTint="@null"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:icon="@drawable/ic_pen"
-                    android:text="Sửa"
+                    android:text="@string/sua"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textFontWeight="600"
@@ -116,7 +116,7 @@
                     app:backgroundTint="@null"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:textFontWeight="600"
-                    android:text="Xóa"
+                    android:text="@string/xoa"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="13sp"
@@ -134,7 +134,7 @@
                     app:backgroundTint="@null"
                     android:background="@drawable/background_color_secondary80_outline"
                     android:textFontWeight="600"
-                    android:text="Chuyển tiền"
+                    android:text="@string/chuyentien"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="13sp"
@@ -179,7 +179,7 @@
                         android:textFontWeight="700"
                         android:textSize="14sp"
                         android:textColor="@color/white"
-                        android:text="Số dư tài khoản"/>
+                        android:text="@string/sodutaikhoan"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </FrameLayout>
@@ -208,7 +208,7 @@
                         android:textFontWeight="700"
                         android:textSize="14sp"
                         android:textColor="@color/white"
-                        android:text="Số dư tài khoản"/>
+                        android:text="@string/sodutaikhoan"/>
                     <TextView
                         android:id="@+id/tvBalance"
                         android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         android:textColor="@color/secondary40"
-                        android:text="Thu nhập"/>
+                        android:text="@string/thunhap"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -321,7 +321,7 @@
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         android:textColor="@color/secondary40"
-                        android:text="Chi tiêu"/>
+                        android:text="@string/chitieu"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -342,7 +342,7 @@
                 android:textFontWeight="700"
                 android:textColor="@color/secondary40"
                 android:textSize="16sp"
-                android:text="Hoạt động gần đây"/>
+                android:text="@string/hoatdongganday"/>
 
 
 
@@ -354,7 +354,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Tạo tài khoản mới"
+        android:text="@string/taotaikhoanmoi"
         android:textSize="20sp"
         android:textFontWeight="700"
         app:icon="@drawable/ic_plus_square"

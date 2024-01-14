@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.learning.personal_expense_management.databinding.ItemTargetBinding;
 import com.learning.personal_expense_management.model.Wallet;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,6 +53,8 @@ public class HomeTargetAdapter extends RecyclerView.Adapter<HomeTargetAdapter.Vi
         }
 
         private void setData(Wallet wallet) {
+            NumberFormat formatCurrency = new DecimalFormat("#,###");
+
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
             Date deadlineDate = null;
             try {
@@ -61,8 +65,10 @@ public class HomeTargetAdapter extends RecyclerView.Adapter<HomeTargetAdapter.Vi
             Date currentDate = new Date();
             long date = (deadlineDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000);
             binding.titleMuctieu.setText(wallet.getWalletName());
-            binding.priceMucTieu.setText(wallet.getGoalAmount() + "đ");
-            binding.noteMucTieuPriceConLai.setText((wallet.getGoalAmount() - wallet.getCurrentMoney()) + " ");
+            binding.priceMucTieu.setText(String.format("%sđ", formatCurrency.format(wallet.getGoalAmount())));
+
+            
+            binding.noteMucTieuPriceConLai.setText(String.format("%sđ", formatCurrency.format(wallet.getGoalAmount() - wallet.getCurrentMoney())));
             binding.noteMucTieuTimeConlai.setText(date + " ngày");
             binding.percentTv.setText((int) (wallet.getCurrentMoney()*100/wallet.getGoalAmount()) + "%");
 
