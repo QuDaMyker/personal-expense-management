@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 import com.learning.personal_expense_management.R;
 import com.learning.personal_expense_management.controller.home.fragment.HomeFragment;
-import com.learning.personal_expense_management.controller.profile.ProfileFragment;
+import com.learning.personal_expense_management.controller.profile.fragment.ProfileFragment;
 import com.learning.personal_expense_management.controller.fragment.StatisticFragment;
 import com.learning.personal_expense_management.controller.transaction.activity.TransactionAddActivity;
 import com.learning.personal_expense_management.controller.transaction.fragment.TransactionFragment;

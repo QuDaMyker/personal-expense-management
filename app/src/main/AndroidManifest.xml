@@ -69,22 +69,22 @@
             android:name=".controller.wallet.WalletDetailActivity"
             android:exported="false"/>
         <activity
-            android:name=".controller.profile.UpdateProfileActivity"
+            android:name=".controller.profile.activity.UpdateProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.profile.NotifyActivity"
+            android:name=".controller.profile.activity.NotifyActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.profile.PolicyActivity"
+            android:name=".controller.profile.activity.PolicyActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.profile.SecurityActivity"
+            android:name=".controller.profile.activity.SecurityActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.profile.CurrencyUnitActivity"
+            android:name=".controller.profile.activity.CurrencyUnitActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.profile.LanguageActivity"
+            android:name=".controller.profile.activity.LanguageActivity"
             android:exported="false" />
         <activity
             android:name=".controller.wallet.WalletActivity"

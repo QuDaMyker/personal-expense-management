@@ -76,9 +76,12 @@ public class LoginActivity extends AppCompatActivity {
     private void init() {
 
         preferenceManager = new PreferenceManager(LoginActivity.this);
+        boolean isSigned = preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN);
+        Log.e("checkstatus", isSigned+"");
 
-        if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
-
+        if (isSigned) {
+            startActivity(new Intent(LoginActivity.this, RootActivity.class));
+            finish();
             Log.d("checkstatus", "key, true");
         } else if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN) == false || preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN) == null) {
             Log.d("checkstatus", "key, false");
@@ -107,12 +110,11 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(LoginActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
-                                Log.e("uid", user.getUid());
                                 UserProfile userProfile = new UserProfile(
                                         user.getUid(),
                                         user.getDisplayName(),
                                         user.getEmail(),
+                                         "",
                                         "VND",
                                         "Vietnamese",
                                         "NO",
@@ -120,10 +122,12 @@ public class LoginActivity extends AppCompatActivity {
                                         false,
                                         false
                                 );
+                                Toast.makeText(LoginActivity.this, "user.getUid()" + user.getUid(), Toast.LENGTH_SHORT).show();
 
-                                FireStoreService.isExistProfile(userProfile, new UserProfileListener() {
+                                FireStoreService.isExistProfile(user.getUid(), new UserProfileListener() {
                                     @Override
                                     public void onExist(boolean isExist) {
+                                        Toast.makeText(LoginActivity.this, "isExist: " +isExist, Toast.LENGTH_SHORT).show();
                                         if (!isExist) {
                                             Log.d("noti", "vao day");
                                             FireStoreService.addUserProfile(userProfile);
@@ -133,23 +137,29 @@ public class LoginActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onCallback(String result) {
                                                         if (result.equals("success")) {
-
+                                                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                                                            preferenceManager.putBoolean(Constants.KEY_ANONYMOUS_PROFILE, true);
+                                                            preferenceManager.putBoolean(Constants.KEY_GOOGLE_PROFILE, false);
+                                                            Toast.makeText(LoginActivity.this, "Đã thêm Category mặc định", Toast.LENGTH_SHORT).show();
+                                                            startActivity(new Intent(LoginActivity.this, RootActivity.class));
+                                                            finish();
                                                         }
                                                     }
                                                 });
                                             }
-                                            Toast.makeText(LoginActivity.this, "Đã thêm Category mặc định", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, RootActivity.class));
-                                            finish();
+
                                         } else {
+                                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                                            preferenceManager.putBoolean(Constants.KEY_ANONYMOUS_PROFILE, true);
+                                            preferenceManager.putBoolean(Constants.KEY_GOOGLE_PROFILE, false);
                                             startActivity(new Intent(LoginActivity.this, RootActivity.class));
                                             finish();
                                         }
                                     }
 
                                     @Override
-                                    public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
-
+                                    public void onUserProfilesLoaded(UserProfile userProfiles) {
+                                        Toast.makeText(LoginActivity.this, userProfiles.getId(), Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
@@ -170,12 +180,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginWithGoogle() {
-//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build();
-//        gsc = GoogleSignIn.getClient(LoginActivity.this, gso);
-//        signInWithGoogle();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        gsc = GoogleSignIn.getClient(LoginActivity.this, gso);
+
+        signInWithGoogle();
     }
 
     private void signInWithGoogle() {
@@ -204,14 +215,16 @@ public class LoginActivity extends AppCompatActivity {
                                         progressDialog.show();
                                         // Cập nhật thông tin người dùng lên Firebase Authentication
                                         FirebaseUser user = mAuth.getCurrentUser();
-                                        preferenceManager.putString("imageProfile", user.getPhotoUrl().toString());
-                                        //updateUserInfo(user);
+
+
                                         // them thong tin tai khoan vao realtime
                                         if (user != null) {
+                                            Log.d("onUserProfilesLoaded", user.getPhotoUrl().toString());
                                             UserProfile userProfile = new UserProfile(
                                                     user.getUid(),
                                                     user.getDisplayName(),
                                                     user.getEmail(),
+                                                    user.getPhotoUrl().toString(),
                                                     "VND",
                                                     "Vietnamese",
                                                     "NO",
@@ -220,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     false
                                             );
 
-                                            FireStoreService.isExistProfile(userProfile, new UserProfileListener() {
+                                            FireStoreService.isExistProfile(userProfile.getId(), new UserProfileListener() {
                                                 @Override
                                                 public void onExist(boolean isExist) {
                                                     if (!isExist) {
@@ -232,7 +245,12 @@ public class LoginActivity extends AppCompatActivity {
                                                                 @Override
                                                                 public void onCallback(String result) {
                                                                     if (result.equals("success")) {
-
+                                                                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                                                                        preferenceManager.putBoolean(Constants.KEY_GOOGLE_PROFILE, true);
+                                                                        preferenceManager.putBoolean(Constants.KEY_ANONYMOUS_PROFILE, false);
+                                                                        preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, userProfile.getPhotoUrl().toString());
+                                                                        preferenceManager.putString(Constants.KEY_EMAIL_PROFILE, userProfile.getEmail());
+                                                                        preferenceManager.putString(Constants.KEY_NAME_PROFILE, userProfile.getName());
                                                                     }
                                                                 }
                                                             });
@@ -247,8 +265,14 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
 
                                                 @Override
-                                                public void onUserProfilesLoaded(List<UserProfile> userProfiles) {
-
+                                                public void onUserProfilesLoaded(UserProfile userProfile) {
+                                                    Log.e("onUserProfilesLoaded", userProfile.toString());
+                                                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                                                    preferenceManager.putBoolean(Constants.KEY_GOOGLE_PROFILE, true);
+                                                    preferenceManager.putBoolean(Constants.KEY_ANONYMOUS_PROFILE, false);
+                                                    preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, userProfile.getPhotoUrl().toString());
+                                                    preferenceManager.putString(Constants.KEY_EMAIL_PROFILE, userProfile.getEmail());
+                                                    preferenceManager.putString(Constants.KEY_NAME_PROFILE, userProfile.getName());
                                                 }
 
                                                 @Override
@@ -298,6 +322,7 @@ public class LoginActivity extends AppCompatActivity {
         listCats.add(new Category(userID, "Bảo hiểm", R.color.colorItem5, R.drawable.ic_insurance_shield, R.color.colorIcon5, 0));
         listCats.add(new Category(userID, "Nhà", R.color.colorItem4, R.drawable.ic_home, R.color.colorIcon6, 0));
         listCats.add(new Category(userID, "Sở thích", R.color.colorItem4, R.drawable.ic_kite_hobby, R.color.colorIcon6, 0));
+
         listCats.add(new Category(userID, "Y tế", R.color.colorItem2, R.drawable.ic_hospital, R.color.colorIcon2, 0));
         listCats.add(new Category(userID, "Thể thao", R.color.colorItem1, R.drawable.ic_sport_gym, R.color.colorIcon1, 0));
         listCats.add(new Category(userID, "Quần áo", R.color.colorItem1, R.drawable.ic_tshirt, R.color.colorIcon1, 0));

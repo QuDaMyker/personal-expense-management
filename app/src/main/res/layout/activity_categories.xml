@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.category.CategoriesActivity"
-    android:paddingHorizontal="20dp">
+    android:paddingHorizontal="20dp"
+    tools:context=".controller.category.CategoriesActivity">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageButton
             android:id="@+id/btn_Back"
             android:layout_width="40dp"
@@ -28,48 +29,48 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/quicksand_bold"
-            android:text="Danh mục"
-            android:textFontWeight="700"
+            android:text="@string/danhmuc"
             android:textColor="@color/primary40"
+            android:textFontWeight="700"
             android:textSize="24sp" />
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/btnToTransaction"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_gravity="right"-->
-<!--            app:srcCompat="@drawable/icon_search"-->
-<!--            android:background="@drawable/custom_button_bg"-->
-<!--            app:iconGravity="textTop" />-->
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/btnToTransaction"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_gravity="right"-->
+        <!--            app:srcCompat="@drawable/icon_search"-->
+        <!--            android:background="@drawable/custom_button_bg"-->
+        <!--            app:iconGravity="textTop" />-->
 
     </com.google.android.material.appbar.MaterialToolbar>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/InOut"
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:background="@drawable/background_color_secondary80_outline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar"
         app:tabBackground="@drawable/background_tab_selector"
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
         app:tabRippleColor="@null"
         app:tabSelectedTextColor="@color/black"
-        app:tabTextColor="@color/secondary60"
-        app:layout_constraintTop_toBottomOf="@id/bar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        >
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Chi tiêu"
-            android:id="@+id/itemOut"
-            />
+        app:tabTextColor="@color/secondary60">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/itemOut"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Thu nhập"
-            android:id="@+id/itemIn" />
+            android:text="@string/chitieu" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/itemIn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/thunhap" />
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -84,8 +85,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnCreateNewCat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/InOut"
-    >
+        app:layout_constraintTop_toBottomOf="@id/InOut">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -93,9 +93,10 @@
         android:id="@+id/btnCreateNewCat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/custom_button_bg"
         android:padding="8dp"
-        android:text="Tạo danh mục mới"
+        android:text="@string/taodanhmucmoi"
         android:textFontWeight="700"
         android:textSize="20sp"
         app:backgroundTint="@null"
@@ -105,8 +106,6 @@
         app:iconSize="23dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="20dp"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

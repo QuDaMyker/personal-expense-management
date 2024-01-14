@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UserProfileListener {
     void onExist(boolean isExist);
-    void onUserProfilesLoaded(List<UserProfile> userProfiles);
+    void onUserProfilesLoaded(UserProfile userProfiles);
     void onError(String errorMessage);
 }

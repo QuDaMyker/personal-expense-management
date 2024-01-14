@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.learning.personal_expense_management.model.Wallet;
 import com.learning.personal_expense_management.services.FireStoreService;
 import com.learning.personal_expense_management.services.FirestoreCallback;
 import com.learning.personal_expense_management.services.TransactionListener;
+import com.learning.personal_expense_management.utilities.Constants;
+import com.learning.personal_expense_management.services.WalletListener;
 import com.learning.personal_expense_management.utilities.PreferenceManager;
 import com.squareup.picasso.Picasso;
 
@@ -39,13 +42,14 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private List<Wallet> listTarget;
+    private List<Wallet> listTarget = new ArrayList<>();
     private List<Transaction> listRecently;
     private HomeTargetAdapter homeTargetAdapter;
     private HomeRecentlyActivityAdapter homeRecentlyActivityAdapter;
     private PreferenceManager preferenceManager;
 
     private CardView cardCategory;
+    private boolean isHidden = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +58,40 @@ public class HomeFragment extends Fragment {
 
         init();
         setListeners();
+
+        homeTargetAdapter = new HomeTargetAdapter(getContext(), listTarget, new ObjectListener() {
+            @Override
+            public void onClick(Object o) {
+
+            }
+        });
+        binding.revMuctieu.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL, false));
+        binding.revMuctieu.setAdapter(homeTargetAdapter);
+
+        FireStoreService.getWallet(FirebaseAuth.getInstance().getUid(), new WalletListener() {
+            @Override
+            public void onWalletsLoaded(List<Wallet> wallets) {
+                for (Wallet item : wallets ){
+                    if(item.isGoalSavingsEnabled()){
+                        listTarget.add(item);
+                    }
+                }
+                homeTargetAdapter = new HomeTargetAdapter(getContext(), listTarget, new ObjectListener() {
+                    @Override
+                    public void onClick(Object o) {
+
+                    }
+                });
+
+                binding.revMuctieu.setAdapter(homeTargetAdapter);
+                homeTargetAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
         return view;
     }
 
@@ -75,14 +113,14 @@ public class HomeFragment extends Fragment {
         listRecently = new ArrayList<>();
         getListRecentlyActivity();
 
-        homeTargetAdapter = new HomeTargetAdapter(getContext(), listTarget, new ObjectListener() {
-            @Override
-            public void onClick(Object o) {
-                Wallet wallet = (Wallet) o;
-            }
-        });
+        if (preferenceManager.getBoolean(Constants.KEY_ANONYMOUS_PROFILE)) {
+            binding.profileImage.setImageResource(R.drawable.ic_example);
+        } else if(preferenceManager.getBoolean(Constants.KEY_GOOGLE_PROFILE)){
+            Picasso.get().load(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE)).into(binding.profileImage);
+//            Log.d("image - profile", FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
+        }
 
-        Picasso.get().load(preferenceManager.getString("imageProfile")).into(binding.profileImage);
+        Picasso.get().load(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE)).into(binding.profileImage);
         NumberFormat formatter = new DecimalFormat("#,###");
         FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
             @Override
@@ -94,7 +132,23 @@ public class HomeFragment extends Fragment {
     }
 
     private void setListeners() {
-        binding.walletBtn.setOnClickListener(new View.OnClickListener() {
+        binding.hiddenCurrentBalance.setOnClickListener(v-> {
+            isHidden = !isHidden;
+            if(isHidden) {
+                binding.hiddenCurrentBalance.setImageResource(R.drawable.ic_visibility_off);
+                binding.tvSoDuHienTai.setText("******");
+            }else {
+                binding.hiddenCurrentBalance.setImageResource(R.drawable.ic_visible_on);
+                NumberFormat formatter = new DecimalFormat("#,###");
+                FireStoreService.getSumAmountAllAccountByUserId(FirebaseAuth.getInstance().getUid(), new FirestoreCallback() {
+                    @Override
+                    public void onCallback(String result) {
+                        //binding.tvSoDuHienTai.setText(String.format("%sđ", formatter.format(Integer.parseInt(result))));
+                    }
+                });
+            }
+        });
+        binding.btnWalletaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WalletActivity.class);

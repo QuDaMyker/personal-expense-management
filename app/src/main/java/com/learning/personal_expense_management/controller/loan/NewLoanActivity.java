@@ -237,7 +237,7 @@ public class NewLoanActivity extends AppCompatActivity {
                             try {
                                 interest = calculateInterest(inputLoan);
 
-                                SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                                SimpleDateFormat formatDate = new SimpleDateFormat("d/M/yyyy");
                                 SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
                                 Date c = Calendar.getInstance().getTime();
@@ -254,7 +254,7 @@ public class NewLoanActivity extends AppCompatActivity {
                                         time,
                                         "",
                                         "",
-                                        "c1r3RCrV1Mzj8C5jvQIb",
+                                        "YiLGeaX0u3NmfRAZcrea",
                                         new com.google.firebase.Timestamp(c),
                                         false
                                 );
@@ -282,7 +282,7 @@ public class NewLoanActivity extends AppCompatActivity {
     }
 
     String calculateDeadline(String date, int month) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
         Date ngay = sdf.parse(date);
 
         Calendar calendar = Calendar.getInstance();
@@ -305,7 +305,7 @@ public class NewLoanActivity extends AppCompatActivity {
                 double monthlyAmount = monthlyPrincipal + monthlyInterest;
                 //add predict transaction
                 String date  = calculateDeadline(Utils.convertTimestampToDateString(Long.parseLong(loan.getTimestamp())), i);
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy");
                 Transaction newTransaction = new Transaction(
                         FirebaseAuth.getInstance().getUid(),
                         "idLater",
@@ -316,7 +316,7 @@ public class NewLoanActivity extends AppCompatActivity {
                         "00:00",
                         "",
                         "",
-                        "c1r3RCrV1Mzj8C5jvQIb",
+                        "YiLGeaX0u3NmfRAZcrea",
                         new com.google.firebase.Timestamp(format.parse(date)),
                         true
                 );
@@ -340,7 +340,7 @@ public class NewLoanActivity extends AppCompatActivity {
                 amount -= monthlyPrincipal;
                 //add predict transaction
                 String date  = calculateDeadline(Utils.convertTimestampToDateString(Long.parseLong(loan.getTimestamp())), i);
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy");
                 Transaction newTransaction = new Transaction(
                         FirebaseAuth.getInstance().getUid(),
                         "idLater",
@@ -351,7 +351,7 @@ public class NewLoanActivity extends AppCompatActivity {
                         "00:00",
                         "",
                         "",
-                        "c1r3RCrV1Mzj8C5jvQIb",
+                        "YiLGeaX0u3NmfRAZcrea",
                         new com.google.firebase.Timestamp(format.parse(date)),
                         true
                 );

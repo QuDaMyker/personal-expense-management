@@ -116,8 +116,12 @@ public class LoanDetailActivity extends AppCompatActivity {
     }
 
     void getTransactions(){
-        Toast.makeText(this, "getTransactions " + loan.getPredictTransactions().size(), Toast.LENGTH_SHORT).show();
-        FireStoreService.getTransactionsById(loan.getPredictTransactions(), new TransactionListener() {
+        List<String> ids = new ArrayList<>();
+        ids.addAll(loan.getPredictTransactions());
+        ids.add(loan.getInitialTransaction());
+        ids.addAll(loan.getReturnTransactions());
+
+        FireStoreService.getTransactionsById(ids, new TransactionListener() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
                 childItemAdapter = new ChildItemAdapter(transactions, new ObjectListener() {
@@ -129,7 +133,6 @@ public class LoanDetailActivity extends AppCompatActivity {
 
                 binding.rvTransaction.setAdapter(childItemAdapter);
                 childItemAdapter.notifyDataSetChanged();
-                Toast.makeText(LoanDetailActivity.this, "DONEEEEEEEE", Toast.LENGTH_SHORT).show();
             }
 
             @Override

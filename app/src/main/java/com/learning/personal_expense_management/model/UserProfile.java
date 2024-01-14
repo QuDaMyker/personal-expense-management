@@ -8,6 +8,7 @@ public class UserProfile implements Serializable {
     private String id;
     private String name;
     private String email;
+    private String photoUrl;
     private String defaultCurrency;
     private String language;
     private String securityMethod;
@@ -19,6 +20,7 @@ public class UserProfile implements Serializable {
         this.id = document.getString("id");
         this.name = document.getString("name");
         this.email = document.getString("email");
+        this.photoUrl = document.getString("photoUrl");
         this.defaultCurrency = document.getString("defaultCurrency");
         this.language = document.getString("language");
         this.securityMethod = document.getString("securityMethod");
@@ -26,10 +28,12 @@ public class UserProfile implements Serializable {
         this.lowBalanceAlert = document.getBoolean("lowBalanceAlert");
         this.dailyReminders = document.getBoolean("dailyReminders");
     }
+
     public UserProfile() {
         this.id = "";
         this.name = "";
         this.email = "";
+        this.photoUrl = "";
         this.defaultCurrency = "";
         this.language = "";
         this.securityMethod = "";
@@ -37,16 +41,26 @@ public class UserProfile implements Serializable {
         this.lowBalanceAlert = false;
         this.dailyReminders = false;
     }
-    public UserProfile(String id, String name, String email, String defaultCurrency, String language, String securityMethod, boolean tip, boolean lowBalanceAlert, boolean dailyReminders) {
+
+    public UserProfile(String id, String name, String email, String photoUrl, String defaultCurrency, String language, String securityMethod, boolean tip, boolean lowBalanceAlert, boolean dailyReminders) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.photoUrl = photoUrl;
         this.defaultCurrency = defaultCurrency;
         this.language = language;
         this.securityMethod = securityMethod;
         this.tip = tip;
         this.lowBalanceAlert = lowBalanceAlert;
         this.dailyReminders = dailyReminders;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getId() {
@@ -127,6 +141,7 @@ public class UserProfile implements Serializable {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
                 ", defaultCurrency='" + defaultCurrency + '\'' +
                 ", language='" + language + '\'' +
                 ", securityMethod='" + securityMethod + '\'' +

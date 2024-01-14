@@ -1,4 +1,4 @@
-package com.learning.personal_expense_management.controller.profile;
+package com.learning.personal_expense_management.controller.profile.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,15 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.learning.personal_expense_management.R;
-import com.learning.personal_expense_management.databinding.ActivityPolicyProfileBinding;
+import com.learning.personal_expense_management.databinding.ActivitySecurityProfileBinding;
 
-public class PolicyActivity extends AppCompatActivity {
-    ActivityPolicyProfileBinding binding;
+public class SecurityActivity extends AppCompatActivity {
+    ActivitySecurityProfileBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPolicyProfileBinding.inflate(getLayoutInflater());
+        binding = ActivitySecurityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
