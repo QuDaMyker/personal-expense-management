@@ -67,7 +67,7 @@ public class HomeTargetAdapter extends RecyclerView.Adapter<HomeTargetAdapter.Vi
             binding.titleMuctieu.setText(wallet.getWalletName());
             binding.priceMucTieu.setText(String.format("%sđ", formatCurrency.format(wallet.getGoalAmount())));
 
-            
+
             binding.noteMucTieuPriceConLai.setText(String.format("%sđ", formatCurrency.format(wallet.getGoalAmount() - wallet.getCurrentMoney())));
             binding.noteMucTieuTimeConlai.setText(date + " ngày");
             binding.percentTv.setText((int) (wallet.getCurrentMoney()*100/wallet.getGoalAmount()) + "%");
